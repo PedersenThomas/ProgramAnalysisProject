@@ -12,10 +12,10 @@ grammar TheLang;
 
 options {
   language= Java;  /* Change this to generate parser for some other language. */
-  backtrack = true;
+  /* backtrack = true;
   memoize = true;
   output = AST;
-  /*ASTLabelType = CommonTree;*/
+   ASTLabelType = CommonTree; */
 }
 
 tokens {
@@ -62,6 +62,8 @@ tokens {
 
 @header {
 package thelang;
+
+import ast.*;
 }
 
 @lexer::header {
@@ -69,19 +71,38 @@ package thelang;
 
 }
 
-aexpr : aexpr1 (PLUS aexpr1 | MINUS aexpr1)* ;
+aexpr returns [ArithmeticExpression value]
+	: l=aexpr1 { $value = l; } 
+		(   PLUS  r1=aexpr1 { $value = new ArithmeticOperation($value, ArithmeticOperator.Plus, r1); } 
+		  | MINUS r2=aexpr1 { $value = new ArithmeticOperation($value, ArithmeticOperator.Minus, r2); } 
+		)* 
+	;
 
-aexpr1 : aexpr2 (MUL aexpr2 | DIV aexpr2)* ;
+aexpr1 returns [ArithmeticExpression value]
+	: l=aexpr2 { $value = l; }
+		(   MUL r1=aexpr2 { $value = new ArithmeticOperation($value, ArithmeticOperator.Multiply, r1); } 
+		  | DIV r2=aexpr2 { $value = new ArithmeticOperation($value, ArithmeticOperator.Divide, r2); } 
+		)* 
+	;
 
-aexpr2 : MINUS aexpr3
-       | aexpr3
-       ;
+aexpr2 returns [ArithmeticExpression value]
+	: MINUS a1=aexpr3 { $value = new UnaryMinus(a1); }
+    |       a2=aexpr3 { $value = a2; }
+    ;
 
-aexpr3 : IDENTIFIER (LBRACKET aexpr RBRACKET)?
-       | INTEGER
-       | LPAREN aexpr RPAREN
-       ;
+aexpr3 returns [ArithmeticExpression value] 
+	: IDENTIFIER                     { $value = new Identifier($IDENTIFIER.getText()); }
+		( LBRACKET a1=aexpr RBRACKET { $value = new ArithmeticArray($value, a1); } 
+		)?
+    | INTEGER                        { $value = new Constant(Integer.parseInt( $INTEGER.getText() )); }
+    | LPAREN a2=aexpr RPAREN         { $value = a2; }
+    ;
 
+program returns [ArithmeticExpression value]
+	: a=aexpr { $value = a; }
+	;
+
+/*
 bexpr : bexpr1 (OR bexpr1)*
       ;
 
@@ -103,21 +124,27 @@ opr : GT
     | NEQ
     ;
 
-decl : level? INT IDENTIFIER (LBRACKET INTEGER RBRACKET)? SEMI ;
+decl returns [Declaration value] 
+	: INT IDENTIFIER (LBRACKET INTEGER RBRACKET)? SEMI ;
 
 level : LOW | HIGH ;
 
-stmt : assignStmt
-     | skipStmt
-     | readStmt
-     | writeStmt
-     | ifStmt
-     | whileStmt
-     ;
+stmt returns [Statement value] 
+	: assignStmt
+    | skipStmt
+    | readStmt
+    | writeStmt
+    | ifStmt
+    | whileStmt
+    ;
 
-assignStmt : IDENTIFIER (LBRACKET aexpr RBRACKET)? ASSIGN aexpr SEMI ;
+assignStmt returns [Assignment value]
+	: IDENTIFIER (LBRACKET aexpr RBRACKET)? ASSIGN exp=aexpr SEMI { $value = new Assignment($IDENTIFIER.getText(), exp); }
+	;
 
-skipStmt : SKIP SEMI ;
+skipStmt returns [SkipStatement value]
+	: SKIP SEMI { $value = new SkipStatement(); }
+	;
 
 readStmt : READ IDENTIFIER (LBRACKET aexpr RBRACKET)? SEMI ;
 
@@ -126,11 +153,7 @@ writeStmt : WRITE aexpr SEMI ;
 ifStmt : IF bexpr THEN stmt+ ELSE stmt+ FI ;
 
 whileStmt : WHILE bexpr DO stmt+ OD ;
-
-program returns [Program value]
-	: PROGRAM d=decl* s=stmt+ END {$value = new Program(d, s); }
-	;
-
+*/
 
 COMMENT : '(*' (options {greedy=false;} : .)* '*)' {$channel=HIDDEN;}
      ;

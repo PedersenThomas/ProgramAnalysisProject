@@ -1,9 +1,9 @@
 package ast;
 
 public class UnaryMinus extends ArithmeticExpression {
-	Identifier identifier;
+	ArithmeticExpression expression;
 	
-	public UnaryMinus(Identifier identifier) {
-		this.identifier = identifier;
+	public UnaryMinus(ArithmeticExpression expression) {
+		this.expression = expression;
 	}
 }
