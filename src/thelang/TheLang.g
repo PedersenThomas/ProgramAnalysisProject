@@ -15,7 +15,7 @@ options {
   /* backtrack = true;
   memoize = true;
   output = AST;
-   ASTLabelType = CommonTree; */
+  ASTLabelType = CommonTree; */
 }
 
 tokens {
@@ -71,89 +71,18 @@ package thelang;
 
 }
 
-aexpr returns [ArithmeticExpression value]
-	: l=aexpr1 { $value = l; } 
-		(   PLUS  r1=aexpr1 { $value = new ArithmeticOperation($value, ArithmeticOperator.Plus, r1); } 
-		  | MINUS r2=aexpr1 { $value = new ArithmeticOperation($value, ArithmeticOperator.Minus, r2); } 
-		)* 
-	;
-
-aexpr1 returns [ArithmeticExpression value]
-	: l=aexpr2 { $value = l; }
-		(   MUL r1=aexpr2 { $value = new ArithmeticOperation($value, ArithmeticOperator.Multiply, r1); } 
-		  | DIV r2=aexpr2 { $value = new ArithmeticOperation($value, ArithmeticOperator.Divide, r2); } 
-		)* 
-	;
-
-aexpr2 returns [ArithmeticExpression value]
-	: MINUS a1=aexpr3 { $value = new UnaryMinus(a1); }
-    |       a2=aexpr3 { $value = a2; }
-    ;
-
-aexpr3 returns [ArithmeticExpression value] 
-	: IDENTIFIER                     { $value = new Identifier($IDENTIFIER.getText()); }
-		( LBRACKET a1=aexpr RBRACKET { $value = new ArithmeticArray($value, a1); } 
-		)?
-    | INTEGER                        { $value = new Constant(Integer.parseInt( $INTEGER.getText() )); }
-    | LPAREN a2=aexpr RPAREN         { $value = a2; }
-    ;
-
-program returns [ArithmeticExpression value]
-	: a=aexpr { $value = a; }
-	;
-
-/*
-bexpr : bexpr1 (OR bexpr1)*
-      ;
-
-bexpr1 : bexpr2 (AND bexpr2)*
-       ;
-
-bexpr2 : aexpr opr aexpr
-       | NOT bexpr
-       | TRUE
-       | FALSE
-       | LPAREN bexpr RPAREN
-       ;
-
-opr : GT
-    | GE
-    | LT
-    | LE
-    | EQ
-    | NEQ
-    ;
-
-decl returns [Declaration value] 
-	: INT IDENTIFIER (LBRACKET INTEGER RBRACKET)? SEMI ;
-
-level : LOW | HIGH ;
-
-stmt returns [Statement value] 
-	: assignStmt
-    | skipStmt
-    | readStmt
-    | writeStmt
-    | ifStmt
-    | whileStmt
-    ;
-
-assignStmt returns [Assignment value]
-	: IDENTIFIER (LBRACKET aexpr RBRACKET)? ASSIGN exp=aexpr SEMI { $value = new Assignment($IDENTIFIER.getText(), exp); }
-	;
 
 skipStmt returns [SkipStatement value]
 	: SKIP SEMI { $value = new SkipStatement(); }
 	;
+	
+stmt returns [Statement value] 
+	: s=skipStmt { $value = s}
+	;
 
-readStmt : READ IDENTIFIER (LBRACKET aexpr RBRACKET)? SEMI ;
-
-writeStmt : WRITE aexpr SEMI ;
-
-ifStmt : IF bexpr THEN stmt+ ELSE stmt+ FI ;
-
-whileStmt : WHILE bexpr DO stmt+ OD ;
-*/
+program returns [Program value]
+	: PROGRAM s=stmt END { $value = new Program(null, s); }
+	;
 
 COMMENT : '(*' (options {greedy=false;} : .)* '*)' {$channel=HIDDEN;}
      ;

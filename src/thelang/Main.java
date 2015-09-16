@@ -4,7 +4,6 @@ import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 
 import ast.*;
-import thelang.TheLangParser.program_return;
 
 public class Main {
 
@@ -14,11 +13,12 @@ public class Main {
     TheLangParser parser = new TheLangParser(tokens);
 
     try {
-      program_return parserResult = parser.program();
+      Program parserResult = parser.program();
+      System.out.println(parserResult);
       if (parserResult != null) {
     	  
-        CommonTree tree = (CommonTree) parserResult.tree;
-        System.out.println(tree.toStringTree());
+        //CommonTree tree = (CommonTree) parserResult.tree;
+        //System.out.println(tree.toStringTree());
       }
     } catch (RecognitionException e) {
       e.printStackTrace();
