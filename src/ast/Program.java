@@ -1,10 +1,12 @@
 package ast;
 
+import java.util.List;
+
 public class Program {
 	Declaration declaration;
-	Statement statement;
+	List<Statement> statement;
 	
-	public Program(Declaration declaration, Statement statement) {
+	public Program(Declaration declaration, List<Statement> statement) {
 		this.declaration = declaration;
 		this.statement = statement;
 	}
