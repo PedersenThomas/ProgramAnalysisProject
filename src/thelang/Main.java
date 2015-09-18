@@ -1,9 +1,11 @@
 package thelang;
 
+import java.util.ArrayList;
+
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 
-import ast.*;
+import thelang.TheLangParser.program_return;
 
 public class Main {
 
@@ -13,15 +15,40 @@ public class Main {
     TheLangParser parser = new TheLangParser(tokens);
 
     try {
-      Program parserResult = parser.program();
+      program_return parserResult = parser.program();
       System.out.println(parserResult);
       if (parserResult != null) {
     	  
-        //CommonTree tree = (CommonTree) parserResult.tree;
-        //System.out.println(tree.toStringTree());
+        CommonTree tree = (CommonTree) parserResult.tree;
+        System.out.println(tree.toStringTree());
+        
+        System.out.println("-----------------------------------------");
+        
+        printTree(tree, 0);
       }
     } catch (RecognitionException e) {
       e.printStackTrace();
     }
+  }
+  
+  public static void printTree(CommonTree tree, int indentCount) {
+	  String indent = repeat(indentCount, " ");
+	  System.out.println(indent + tree);
+
+      ArrayList<CommonTree> children = (ArrayList) tree.getChildren();
+      if(children != null) {
+    	  for(CommonTree node: children) {
+    		  printTree(node, indentCount + 5);
+  		}
+      }
+  }
+  
+  public static String repeat(int count, String txt) {
+	  String result = "";
+	  for(int i = 0; i < count; i++) {
+		  result += txt;
+	  }
+	  return result;
+	  
   }
 }

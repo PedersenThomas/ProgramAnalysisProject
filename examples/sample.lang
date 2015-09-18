@@ -1,12 +1,26 @@
 program
-low int a;
-high int x;
+int a;
+int x;
 int z;
+int arrrr[10];
+arrrr[index] := five;
 a:=10;
-x := a+b;
-while (a < 15) (* Comment here *) do
+x := -a+b;
+while (a < 15 & true | false) (* Comment here *) do
 a := a+1;
+skip;
 od
-write(a); 
+write(a);
+write A[a+b];
+write a;
+read arrrr[a];
+read x;
+if a < b then
+a := 1;
+b := 2;
+else
+c := 3;
+d := 4;
+fi
 end
 

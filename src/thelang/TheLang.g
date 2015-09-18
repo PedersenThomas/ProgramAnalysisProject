@@ -12,10 +12,10 @@ grammar TheLang;
 
 options {
   language= Java;  /* Change this to generate parser for some other language. */
-  /* backtrack = true;
+  backtrack = true;
   memoize = true;
   output = AST;
-  ASTLabelType = CommonTree; */
+  ASTLabelType = CommonTree;
 }
 
 tokens {
@@ -56,14 +56,30 @@ tokens {
   TRUE = 'true';
   FALSE = 'false';
   INT = 'int';
-  LOW = 'low';
-  HIGH = 'high';
+  
+  UNARY_MINUS;
+  ARRAY_ACCESS;
+  VARIABLE;
+  CONSTANT;
+  BOOL_CONSTANT;
+  NOT_EXPRESSION;
+  DECLARE_VARIABLE;
+  DECLARE_ARRAY;
+  ASSIGNMENT_VARIABLE;
+  ASSIGNMENT_ARRAY;
+  READ_VARIABLE;
+  READ_ARRAY;
+  WRITE_EXPRESSION;
+  IF_STATEMENT;
+  BLOCK_STATEMENT;
+  BLOCK_DECLARATION;
+  WHILE_STATEMENT;
+  SKIP_STATEMENT;
+  THEPROGRAM;
 }
 
 @header {
 package thelang;
-
-import ast.*;
 }
 
 @lexer::header {
@@ -71,39 +87,70 @@ package thelang;
 
 }
 
-bexpr returns [BooleanExpression value] : 
-	b1=bexpr1      { $value = b1; }
-	 (OR b2=bexpr1 { $value = new BooleanOperation($value, BooleanOperator.Or, b2); } )* 
+aexpr : aexpr1 ((PLUS | MINUS)^ aexpr1)* ;
+
+aexpr1 : aexpr2 ((MUL | DIV)^ aexpr2)* ;
+
+aexpr2 : MINUS aexpr3 -> ^(UNARY_MINUS aexpr3)
+       | aexpr3
+       ;
+
+aexpr3 : IDENTIFIER                         -> ^(VARIABLE IDENTIFIER)
+	   | IDENTIFIER LBRACKET aexpr RBRACKET -> ^(ARRAY_ACCESS IDENTIFIER aexpr)
+       | INTEGER                            -> ^(CONSTANT INTEGER)
+       | LPAREN aexpr RPAREN                -> aexpr
+       ;
+
+bexpr : bexpr1 (OR^ bexpr1)*
       ;
 
-bexpr1 returns [BooleanExpression value] 
-	: b1=bexpr2       { $value = b1; }
-	   (AND b2=bexpr2 { $value = new BooleanOperation($value, BooleanOperator.And, b2); } )*
+bexpr1 : bexpr2 (AND^ bexpr2)*
+       ;
+
+bexpr2 : aexpr opr^ aexpr
+       | NOT bexpr -> ^(NOT_EXPRESSION bexpr)
+       | TRUE -> ^(BOOL_CONSTANT TRUE)
+       | FALSE -> ^(BOOL_CONSTANT FALSE)
+       | LPAREN bexpr RPAREN -> bexpr
+       ;
+
+opr : GT
+    | GE
+    | LT
+    | LE
+    | EQ
+    | NEQ
     ;
 
-bexpr2 returns [BooleanExpression value]
-	: NOT b=bexpr           { $value = new NotBooleanExpression(b); }
-    | TRUE                  { $value = new BooleanConstant(true); }
-    | FALSE                 { $value = new BooleanConstant(false); }
-    | LPAREN c=bexpr RPAREN { $value = c; }
-    ;
+decl : INT IDENTIFIER SEMI -> ^(DECLARE_VARIABLE IDENTIFIER)
+	 | INT IDENTIFIER LBRACKET INTEGER RBRACKET SEMI -> ^(DECLARE_ARRAY ^(VARIABLE IDENTIFIER) ^(CONSTANT INTEGER));
 
-skipStmt returns [SkipStatement value]
-	: SKIP SEMI { $value = new SkipStatement(); }
-	;
+stmts : stmt+ ;
 
-ifStmt returns [IfStatement value] : 
-	IF b=bexpr THEN t=stmt+ ELSE f=stmt+ FI { $value = new IfStatement(b, t, f); }
-	;
-	
-stmt returns [Statement value] 
-	: s=skipStmt { $value = s; }
-    | i=ifStmt { $value = i; }
-	;
+stmt : assignStmt
+     | skipStmt
+     | readStmt
+     | writeStmt
+     | ifStmt
+     | whileStmt
+     ;
 
-program returns [Program value]
-	: PROGRAM s=stmt END { $value = new Program(null, s); }
-	;
+assignStmt : IDENTIFIER ASSIGN aexpr SEMI -> ^(ASSIGNMENT_VARIABLE IDENTIFIER aexpr)
+	       | IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI -> ^(ASSIGNMENT_ARRAY IDENTIFIER aexpr aexpr);
+
+skipStmt : SKIP SEMI -> SKIP_STATEMENT;
+
+readStmt : READ IDENTIFIER SEMI -> ^(READ_VARIABLE ^(VARIABLE IDENTIFIER))
+		 | READ IDENTIFIER LBRACKET aexpr RBRACKET SEMI -> ^(READ_ARRAY ^(VARIABLE IDENTIFIER) aexpr);
+
+writeStmt : WRITE aexpr SEMI -> ^(WRITE_EXPRESSION aexpr);
+
+ifStmt : IF bexpr THEN stmts ELSE stmts FI -> ^(IF_STATEMENT bexpr ^(BLOCK_STATEMENT stmts) ^(BLOCK_STATEMENT stmts));
+
+whileStmt : WHILE bexpr DO stmts OD -> ^(WHILE_STATEMENT bexpr ^(BLOCK_STATEMENT stmts));
+
+program : PROGRAM decl* stmts END -> ^(THEPROGRAM ^(BLOCK_DECLARATION decl*) ^(BLOCK_STATEMENT stmts));
+
 
 COMMENT : '(*' (options {greedy=false;} : .)* '*)' {$channel=HIDDEN;}
      ;

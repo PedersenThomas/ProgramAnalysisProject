@@ -1,4 +1,4 @@
-// $ANTLR 3.4 .\\src\\thelang\\TheLang.g 2015-09-18 13:08:15
+// $ANTLR 3.4 .\\src\\thelang\\TheLang.g 2015-09-18 15:05:58
 
 package thelang;
 
@@ -13,49 +13,66 @@ import java.util.ArrayList;
 public class TheLangLexer extends Lexer {
     public static final int EOF=-1;
     public static final int AND=4;
-    public static final int ASSIGN=5;
-    public static final int COLON=6;
-    public static final int COMMENT=7;
-    public static final int DIV=8;
-    public static final int DO=9;
-    public static final int ELSE=10;
-    public static final int END=11;
-    public static final int EQ=12;
-    public static final int FALSE=13;
-    public static final int FI=14;
-    public static final int GE=15;
-    public static final int GT=16;
-    public static final int HIGH=17;
-    public static final int IDENTIFIER=18;
-    public static final int IF=19;
-    public static final int INT=20;
-    public static final int INTEGER=21;
-    public static final int LBRACE=22;
-    public static final int LBRACKET=23;
-    public static final int LE=24;
-    public static final int LETTER=25;
-    public static final int LOW=26;
-    public static final int LPAREN=27;
-    public static final int LT=28;
-    public static final int MINUS=29;
-    public static final int MUL=30;
-    public static final int NEQ=31;
-    public static final int NOT=32;
-    public static final int OD=33;
-    public static final int OR=34;
-    public static final int PLUS=35;
-    public static final int PROGRAM=36;
-    public static final int RBRACE=37;
-    public static final int RBRACKET=38;
-    public static final int READ=39;
-    public static final int RPAREN=40;
-    public static final int SEMI=41;
-    public static final int SKIP=42;
-    public static final int THEN=43;
-    public static final int TRUE=44;
-    public static final int WHILE=45;
-    public static final int WRITE=46;
-    public static final int WS=47;
+    public static final int ARRAY_ACCESS=5;
+    public static final int ASSIGN=6;
+    public static final int ASSIGNMENT_ARRAY=7;
+    public static final int ASSIGNMENT_VARIABLE=8;
+    public static final int BLOCK_DECLARATION=9;
+    public static final int BLOCK_STATEMENT=10;
+    public static final int BOOL_CONSTANT=11;
+    public static final int COLON=12;
+    public static final int COMMENT=13;
+    public static final int CONSTANT=14;
+    public static final int DECLARE_ARRAY=15;
+    public static final int DECLARE_VARIABLE=16;
+    public static final int DIV=17;
+    public static final int DO=18;
+    public static final int ELSE=19;
+    public static final int END=20;
+    public static final int EQ=21;
+    public static final int FALSE=22;
+    public static final int FI=23;
+    public static final int GE=24;
+    public static final int GT=25;
+    public static final int IDENTIFIER=26;
+    public static final int IF=27;
+    public static final int IF_STATEMENT=28;
+    public static final int INT=29;
+    public static final int INTEGER=30;
+    public static final int LBRACE=31;
+    public static final int LBRACKET=32;
+    public static final int LE=33;
+    public static final int LETTER=34;
+    public static final int LPAREN=35;
+    public static final int LT=36;
+    public static final int MINUS=37;
+    public static final int MUL=38;
+    public static final int NEQ=39;
+    public static final int NOT=40;
+    public static final int NOT_EXPRESSION=41;
+    public static final int OD=42;
+    public static final int OR=43;
+    public static final int PLUS=44;
+    public static final int PROGRAM=45;
+    public static final int RBRACE=46;
+    public static final int RBRACKET=47;
+    public static final int READ=48;
+    public static final int READ_ARRAY=49;
+    public static final int READ_VARIABLE=50;
+    public static final int RPAREN=51;
+    public static final int SEMI=52;
+    public static final int SKIP=53;
+    public static final int SKIP_STATEMENT=54;
+    public static final int THEN=55;
+    public static final int THEPROGRAM=56;
+    public static final int TRUE=57;
+    public static final int UNARY_MINUS=58;
+    public static final int VARIABLE=59;
+    public static final int WHILE=60;
+    public static final int WHILE_STATEMENT=61;
+    public static final int WRITE=62;
+    public static final int WRITE_EXPRESSION=63;
+    public static final int WS=64;
 
     // delegates
     // delegators
@@ -338,36 +355,13 @@ public class TheLangLexer extends Lexer {
     }
     // $ANTLR end "GT"
 
-    // $ANTLR start "HIGH"
-    public final void mHIGH() throws RecognitionException {
-        try {
-            int _type = HIGH;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:24:6: ( 'high' )
-            // .\\src\\thelang\\TheLang.g:24:8: 'high'
-            {
-            match("high"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "HIGH"
-
     // $ANTLR start "IF"
     public final void mIF() throws RecognitionException {
         try {
             int _type = IF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:25:4: ( 'if' )
-            // .\\src\\thelang\\TheLang.g:25:6: 'if'
+            // .\\src\\thelang\\TheLang.g:24:4: ( 'if' )
+            // .\\src\\thelang\\TheLang.g:24:6: 'if'
             {
             match("if"); 
 
@@ -389,8 +383,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:26:5: ( 'int' )
-            // .\\src\\thelang\\TheLang.g:26:7: 'int'
+            // .\\src\\thelang\\TheLang.g:25:5: ( 'int' )
+            // .\\src\\thelang\\TheLang.g:25:7: 'int'
             {
             match("int"); 
 
@@ -412,8 +406,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = LBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:27:8: ( '{' )
-            // .\\src\\thelang\\TheLang.g:27:10: '{'
+            // .\\src\\thelang\\TheLang.g:26:8: ( '{' )
+            // .\\src\\thelang\\TheLang.g:26:10: '{'
             {
             match('{'); 
 
@@ -433,8 +427,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = LBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:28:10: ( '[' )
-            // .\\src\\thelang\\TheLang.g:28:12: '['
+            // .\\src\\thelang\\TheLang.g:27:10: ( '[' )
+            // .\\src\\thelang\\TheLang.g:27:12: '['
             {
             match('['); 
 
@@ -454,8 +448,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = LE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:29:4: ( '<=' )
-            // .\\src\\thelang\\TheLang.g:29:6: '<='
+            // .\\src\\thelang\\TheLang.g:28:4: ( '<=' )
+            // .\\src\\thelang\\TheLang.g:28:6: '<='
             {
             match("<="); 
 
@@ -472,36 +466,13 @@ public class TheLangLexer extends Lexer {
     }
     // $ANTLR end "LE"
 
-    // $ANTLR start "LOW"
-    public final void mLOW() throws RecognitionException {
-        try {
-            int _type = LOW;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:30:5: ( 'low' )
-            // .\\src\\thelang\\TheLang.g:30:7: 'low'
-            {
-            match("low"); 
-
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        	// do for sure before leaving
-        }
-    }
-    // $ANTLR end "LOW"
-
     // $ANTLR start "LPAREN"
     public final void mLPAREN() throws RecognitionException {
         try {
             int _type = LPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:31:8: ( '(' )
-            // .\\src\\thelang\\TheLang.g:31:10: '('
+            // .\\src\\thelang\\TheLang.g:29:8: ( '(' )
+            // .\\src\\thelang\\TheLang.g:29:10: '('
             {
             match('('); 
 
@@ -521,8 +492,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = LT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:32:4: ( '<' )
-            // .\\src\\thelang\\TheLang.g:32:6: '<'
+            // .\\src\\thelang\\TheLang.g:30:4: ( '<' )
+            // .\\src\\thelang\\TheLang.g:30:6: '<'
             {
             match('<'); 
 
@@ -542,8 +513,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:33:7: ( '-' )
-            // .\\src\\thelang\\TheLang.g:33:9: '-'
+            // .\\src\\thelang\\TheLang.g:31:7: ( '-' )
+            // .\\src\\thelang\\TheLang.g:31:9: '-'
             {
             match('-'); 
 
@@ -563,8 +534,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = MUL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:34:5: ( '*' )
-            // .\\src\\thelang\\TheLang.g:34:7: '*'
+            // .\\src\\thelang\\TheLang.g:32:5: ( '*' )
+            // .\\src\\thelang\\TheLang.g:32:7: '*'
             {
             match('*'); 
 
@@ -584,8 +555,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = NEQ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:35:5: ( '!=' )
-            // .\\src\\thelang\\TheLang.g:35:7: '!='
+            // .\\src\\thelang\\TheLang.g:33:5: ( '!=' )
+            // .\\src\\thelang\\TheLang.g:33:7: '!='
             {
             match("!="); 
 
@@ -607,8 +578,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = NOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:36:5: ( '!' )
-            // .\\src\\thelang\\TheLang.g:36:7: '!'
+            // .\\src\\thelang\\TheLang.g:34:5: ( '!' )
+            // .\\src\\thelang\\TheLang.g:34:7: '!'
             {
             match('!'); 
 
@@ -628,8 +599,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = OD;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:37:4: ( 'od' )
-            // .\\src\\thelang\\TheLang.g:37:6: 'od'
+            // .\\src\\thelang\\TheLang.g:35:4: ( 'od' )
+            // .\\src\\thelang\\TheLang.g:35:6: 'od'
             {
             match("od"); 
 
@@ -651,8 +622,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = OR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:38:4: ( '|' )
-            // .\\src\\thelang\\TheLang.g:38:6: '|'
+            // .\\src\\thelang\\TheLang.g:36:4: ( '|' )
+            // .\\src\\thelang\\TheLang.g:36:6: '|'
             {
             match('|'); 
 
@@ -672,8 +643,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:39:6: ( '+' )
-            // .\\src\\thelang\\TheLang.g:39:8: '+'
+            // .\\src\\thelang\\TheLang.g:37:6: ( '+' )
+            // .\\src\\thelang\\TheLang.g:37:8: '+'
             {
             match('+'); 
 
@@ -693,8 +664,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = PROGRAM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:40:9: ( 'program' )
-            // .\\src\\thelang\\TheLang.g:40:11: 'program'
+            // .\\src\\thelang\\TheLang.g:38:9: ( 'program' )
+            // .\\src\\thelang\\TheLang.g:38:11: 'program'
             {
             match("program"); 
 
@@ -716,8 +687,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = RBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:41:8: ( '}' )
-            // .\\src\\thelang\\TheLang.g:41:10: '}'
+            // .\\src\\thelang\\TheLang.g:39:8: ( '}' )
+            // .\\src\\thelang\\TheLang.g:39:10: '}'
             {
             match('}'); 
 
@@ -737,8 +708,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = RBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:42:10: ( ']' )
-            // .\\src\\thelang\\TheLang.g:42:12: ']'
+            // .\\src\\thelang\\TheLang.g:40:10: ( ']' )
+            // .\\src\\thelang\\TheLang.g:40:12: ']'
             {
             match(']'); 
 
@@ -758,8 +729,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = READ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:43:6: ( 'read' )
-            // .\\src\\thelang\\TheLang.g:43:8: 'read'
+            // .\\src\\thelang\\TheLang.g:41:6: ( 'read' )
+            // .\\src\\thelang\\TheLang.g:41:8: 'read'
             {
             match("read"); 
 
@@ -781,8 +752,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = RPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:44:8: ( ')' )
-            // .\\src\\thelang\\TheLang.g:44:10: ')'
+            // .\\src\\thelang\\TheLang.g:42:8: ( ')' )
+            // .\\src\\thelang\\TheLang.g:42:10: ')'
             {
             match(')'); 
 
@@ -802,8 +773,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = SEMI;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:45:6: ( ';' )
-            // .\\src\\thelang\\TheLang.g:45:8: ';'
+            // .\\src\\thelang\\TheLang.g:43:6: ( ';' )
+            // .\\src\\thelang\\TheLang.g:43:8: ';'
             {
             match(';'); 
 
@@ -823,8 +794,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = SKIP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:46:6: ( 'skip' )
-            // .\\src\\thelang\\TheLang.g:46:8: 'skip'
+            // .\\src\\thelang\\TheLang.g:44:6: ( 'skip' )
+            // .\\src\\thelang\\TheLang.g:44:8: 'skip'
             {
             match("skip"); 
 
@@ -846,8 +817,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = THEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:47:6: ( 'then' )
-            // .\\src\\thelang\\TheLang.g:47:8: 'then'
+            // .\\src\\thelang\\TheLang.g:45:6: ( 'then' )
+            // .\\src\\thelang\\TheLang.g:45:8: 'then'
             {
             match("then"); 
 
@@ -869,8 +840,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = TRUE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:48:6: ( 'true' )
-            // .\\src\\thelang\\TheLang.g:48:8: 'true'
+            // .\\src\\thelang\\TheLang.g:46:6: ( 'true' )
+            // .\\src\\thelang\\TheLang.g:46:8: 'true'
             {
             match("true"); 
 
@@ -892,8 +863,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = WHILE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:49:7: ( 'while' )
-            // .\\src\\thelang\\TheLang.g:49:9: 'while'
+            // .\\src\\thelang\\TheLang.g:47:7: ( 'while' )
+            // .\\src\\thelang\\TheLang.g:47:9: 'while'
             {
             match("while"); 
 
@@ -915,8 +886,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = WRITE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:50:7: ( 'write' )
-            // .\\src\\thelang\\TheLang.g:50:9: 'write'
+            // .\\src\\thelang\\TheLang.g:48:7: ( 'write' )
+            // .\\src\\thelang\\TheLang.g:48:9: 'write'
             {
             match("write"); 
 
@@ -938,14 +909,14 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:108:9: ( '(*' ( options {greedy=false; } : . )* '*)' )
-            // .\\src\\thelang\\TheLang.g:108:11: '(*' ( options {greedy=false; } : . )* '*)'
+            // .\\src\\thelang\\TheLang.g:155:9: ( '(*' ( options {greedy=false; } : . )* '*)' )
+            // .\\src\\thelang\\TheLang.g:155:11: '(*' ( options {greedy=false; } : . )* '*)'
             {
             match("(*"); 
 
 
 
-            // .\\src\\thelang\\TheLang.g:108:16: ( options {greedy=false; } : . )*
+            // .\\src\\thelang\\TheLang.g:155:16: ( options {greedy=false; } : . )*
             loop1:
             do {
                 int alt1=2;
@@ -970,7 +941,7 @@ public class TheLangLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // .\\src\\thelang\\TheLang.g:108:43: .
+            	    // .\\src\\thelang\\TheLang.g:155:43: .
             	    {
             	    matchAny(); 
 
@@ -1005,10 +976,10 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = INTEGER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:111:9: ( ( '0' | '1' .. '9' ( '0' .. '9' )* ) )
-            // .\\src\\thelang\\TheLang.g:111:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
+            // .\\src\\thelang\\TheLang.g:158:9: ( ( '0' | '1' .. '9' ( '0' .. '9' )* ) )
+            // .\\src\\thelang\\TheLang.g:158:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
             {
-            // .\\src\\thelang\\TheLang.g:111:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
+            // .\\src\\thelang\\TheLang.g:158:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -1027,18 +998,18 @@ public class TheLangLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // .\\src\\thelang\\TheLang.g:111:12: '0'
+                    // .\\src\\thelang\\TheLang.g:158:12: '0'
                     {
                     match('0'); 
 
                     }
                     break;
                 case 2 :
-                    // .\\src\\thelang\\TheLang.g:111:18: '1' .. '9' ( '0' .. '9' )*
+                    // .\\src\\thelang\\TheLang.g:158:18: '1' .. '9' ( '0' .. '9' )*
                     {
                     matchRange('1','9'); 
 
-                    // .\\src\\thelang\\TheLang.g:111:27: ( '0' .. '9' )*
+                    // .\\src\\thelang\\TheLang.g:158:27: ( '0' .. '9' )*
                     loop2:
                     do {
                         int alt2=2;
@@ -1094,13 +1065,13 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = IDENTIFIER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:113:12: ( LETTER ( LETTER | '0' .. '9' )* )
-            // .\\src\\thelang\\TheLang.g:113:14: LETTER ( LETTER | '0' .. '9' )*
+            // .\\src\\thelang\\TheLang.g:160:12: ( LETTER ( LETTER | '0' .. '9' )* )
+            // .\\src\\thelang\\TheLang.g:160:14: LETTER ( LETTER | '0' .. '9' )*
             {
             mLETTER(); 
 
 
-            // .\\src\\thelang\\TheLang.g:113:21: ( LETTER | '0' .. '9' )*
+            // .\\src\\thelang\\TheLang.g:160:21: ( LETTER | '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -1148,7 +1119,7 @@ public class TheLangLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // .\\src\\thelang\\TheLang.g:117:8: ( 'A' .. 'Z' | 'a' .. 'z' | '_' )
+            // .\\src\\thelang\\TheLang.g:164:8: ( 'A' .. 'Z' | 'a' .. 'z' | '_' )
             // .\\src\\thelang\\TheLang.g:
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
@@ -1176,8 +1147,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:121:4: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // .\\src\\thelang\\TheLang.g:121:6: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // .\\src\\thelang\\TheLang.g:168:4: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+            // .\\src\\thelang\\TheLang.g:168:6: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             {
             if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n')||(input.LA(1) >= '\f' && input.LA(1) <= '\r')||input.LA(1)==' ' ) {
                 input.consume();
@@ -1203,8 +1174,8 @@ public class TheLangLexer extends Lexer {
     // $ANTLR end "WS"
 
     public void mTokens() throws RecognitionException {
-        // .\\src\\thelang\\TheLang.g:1:8: ( AND | ASSIGN | COLON | DIV | DO | ELSE | END | EQ | FALSE | FI | GE | GT | HIGH | IF | INT | LBRACE | LBRACKET | LE | LOW | LPAREN | LT | MINUS | MUL | NEQ | NOT | OD | OR | PLUS | PROGRAM | RBRACE | RBRACKET | READ | RPAREN | SEMI | SKIP | THEN | TRUE | WHILE | WRITE | COMMENT | INTEGER | IDENTIFIER | WS )
-        int alt5=43;
+        // .\\src\\thelang\\TheLang.g:1:8: ( AND | ASSIGN | COLON | DIV | DO | ELSE | END | EQ | FALSE | FI | GE | GT | IF | INT | LBRACE | LBRACKET | LE | LPAREN | LT | MINUS | MUL | NEQ | NOT | OD | OR | PLUS | PROGRAM | RBRACE | RBRACKET | READ | RPAREN | SEMI | SKIP | THEN | TRUE | WHILE | WRITE | COMMENT | INTEGER | IDENTIFIER | WS )
+        int alt5=41;
         alt5 = dfa5.predict(input);
         switch (alt5) {
             case 1 :
@@ -1304,247 +1275,231 @@ public class TheLangLexer extends Lexer {
                 }
                 break;
             case 13 :
-                // .\\src\\thelang\\TheLang.g:1:61: HIGH
-                {
-                mHIGH(); 
-
-
-                }
-                break;
-            case 14 :
-                // .\\src\\thelang\\TheLang.g:1:66: IF
+                // .\\src\\thelang\\TheLang.g:1:61: IF
                 {
                 mIF(); 
 
 
                 }
                 break;
-            case 15 :
-                // .\\src\\thelang\\TheLang.g:1:69: INT
+            case 14 :
+                // .\\src\\thelang\\TheLang.g:1:64: INT
                 {
                 mINT(); 
 
 
                 }
                 break;
-            case 16 :
-                // .\\src\\thelang\\TheLang.g:1:73: LBRACE
+            case 15 :
+                // .\\src\\thelang\\TheLang.g:1:68: LBRACE
                 {
                 mLBRACE(); 
 
 
                 }
                 break;
-            case 17 :
-                // .\\src\\thelang\\TheLang.g:1:80: LBRACKET
+            case 16 :
+                // .\\src\\thelang\\TheLang.g:1:75: LBRACKET
                 {
                 mLBRACKET(); 
 
 
                 }
                 break;
-            case 18 :
-                // .\\src\\thelang\\TheLang.g:1:89: LE
+            case 17 :
+                // .\\src\\thelang\\TheLang.g:1:84: LE
                 {
                 mLE(); 
 
 
                 }
                 break;
-            case 19 :
-                // .\\src\\thelang\\TheLang.g:1:92: LOW
-                {
-                mLOW(); 
-
-
-                }
-                break;
-            case 20 :
-                // .\\src\\thelang\\TheLang.g:1:96: LPAREN
+            case 18 :
+                // .\\src\\thelang\\TheLang.g:1:87: LPAREN
                 {
                 mLPAREN(); 
 
 
                 }
                 break;
-            case 21 :
-                // .\\src\\thelang\\TheLang.g:1:103: LT
+            case 19 :
+                // .\\src\\thelang\\TheLang.g:1:94: LT
                 {
                 mLT(); 
 
 
                 }
                 break;
-            case 22 :
-                // .\\src\\thelang\\TheLang.g:1:106: MINUS
+            case 20 :
+                // .\\src\\thelang\\TheLang.g:1:97: MINUS
                 {
                 mMINUS(); 
 
 
                 }
                 break;
-            case 23 :
-                // .\\src\\thelang\\TheLang.g:1:112: MUL
+            case 21 :
+                // .\\src\\thelang\\TheLang.g:1:103: MUL
                 {
                 mMUL(); 
 
 
                 }
                 break;
-            case 24 :
-                // .\\src\\thelang\\TheLang.g:1:116: NEQ
+            case 22 :
+                // .\\src\\thelang\\TheLang.g:1:107: NEQ
                 {
                 mNEQ(); 
 
 
                 }
                 break;
-            case 25 :
-                // .\\src\\thelang\\TheLang.g:1:120: NOT
+            case 23 :
+                // .\\src\\thelang\\TheLang.g:1:111: NOT
                 {
                 mNOT(); 
 
 
                 }
                 break;
-            case 26 :
-                // .\\src\\thelang\\TheLang.g:1:124: OD
+            case 24 :
+                // .\\src\\thelang\\TheLang.g:1:115: OD
                 {
                 mOD(); 
 
 
                 }
                 break;
-            case 27 :
-                // .\\src\\thelang\\TheLang.g:1:127: OR
+            case 25 :
+                // .\\src\\thelang\\TheLang.g:1:118: OR
                 {
                 mOR(); 
 
 
                 }
                 break;
-            case 28 :
-                // .\\src\\thelang\\TheLang.g:1:130: PLUS
+            case 26 :
+                // .\\src\\thelang\\TheLang.g:1:121: PLUS
                 {
                 mPLUS(); 
 
 
                 }
                 break;
-            case 29 :
-                // .\\src\\thelang\\TheLang.g:1:135: PROGRAM
+            case 27 :
+                // .\\src\\thelang\\TheLang.g:1:126: PROGRAM
                 {
                 mPROGRAM(); 
 
 
                 }
                 break;
-            case 30 :
-                // .\\src\\thelang\\TheLang.g:1:143: RBRACE
+            case 28 :
+                // .\\src\\thelang\\TheLang.g:1:134: RBRACE
                 {
                 mRBRACE(); 
 
 
                 }
                 break;
-            case 31 :
-                // .\\src\\thelang\\TheLang.g:1:150: RBRACKET
+            case 29 :
+                // .\\src\\thelang\\TheLang.g:1:141: RBRACKET
                 {
                 mRBRACKET(); 
 
 
                 }
                 break;
-            case 32 :
-                // .\\src\\thelang\\TheLang.g:1:159: READ
+            case 30 :
+                // .\\src\\thelang\\TheLang.g:1:150: READ
                 {
                 mREAD(); 
 
 
                 }
                 break;
-            case 33 :
-                // .\\src\\thelang\\TheLang.g:1:164: RPAREN
+            case 31 :
+                // .\\src\\thelang\\TheLang.g:1:155: RPAREN
                 {
                 mRPAREN(); 
 
 
                 }
                 break;
-            case 34 :
-                // .\\src\\thelang\\TheLang.g:1:171: SEMI
+            case 32 :
+                // .\\src\\thelang\\TheLang.g:1:162: SEMI
                 {
                 mSEMI(); 
 
 
                 }
                 break;
-            case 35 :
-                // .\\src\\thelang\\TheLang.g:1:176: SKIP
+            case 33 :
+                // .\\src\\thelang\\TheLang.g:1:167: SKIP
                 {
                 mSKIP(); 
 
 
                 }
                 break;
-            case 36 :
-                // .\\src\\thelang\\TheLang.g:1:181: THEN
+            case 34 :
+                // .\\src\\thelang\\TheLang.g:1:172: THEN
                 {
                 mTHEN(); 
 
 
                 }
                 break;
-            case 37 :
-                // .\\src\\thelang\\TheLang.g:1:186: TRUE
+            case 35 :
+                // .\\src\\thelang\\TheLang.g:1:177: TRUE
                 {
                 mTRUE(); 
 
 
                 }
                 break;
-            case 38 :
-                // .\\src\\thelang\\TheLang.g:1:191: WHILE
+            case 36 :
+                // .\\src\\thelang\\TheLang.g:1:182: WHILE
                 {
                 mWHILE(); 
 
 
                 }
                 break;
-            case 39 :
-                // .\\src\\thelang\\TheLang.g:1:197: WRITE
+            case 37 :
+                // .\\src\\thelang\\TheLang.g:1:188: WRITE
                 {
                 mWRITE(); 
 
 
                 }
                 break;
-            case 40 :
-                // .\\src\\thelang\\TheLang.g:1:203: COMMENT
+            case 38 :
+                // .\\src\\thelang\\TheLang.g:1:194: COMMENT
                 {
                 mCOMMENT(); 
 
 
                 }
                 break;
-            case 41 :
-                // .\\src\\thelang\\TheLang.g:1:211: INTEGER
+            case 39 :
+                // .\\src\\thelang\\TheLang.g:1:202: INTEGER
                 {
                 mINTEGER(); 
 
 
                 }
                 break;
-            case 42 :
-                // .\\src\\thelang\\TheLang.g:1:219: IDENTIFIER
+            case 40 :
+                // .\\src\\thelang\\TheLang.g:1:210: IDENTIFIER
                 {
                 mIDENTIFIER(); 
 
 
                 }
                 break;
-            case 43 :
-                // .\\src\\thelang\\TheLang.g:1:230: WS
+            case 41 :
+                // .\\src\\thelang\\TheLang.g:1:221: WS
                 {
                 mWS(); 
 
@@ -1559,155 +1514,142 @@ public class TheLangLexer extends Lexer {
 
     protected DFA5 dfa5 = new DFA5(this);
     static final String DFA5_eotS =
-        "\2\uffff\1\43\1\uffff\2\40\1\uffff\1\40\1\52\2\40\2\uffff\1\57\1"+
-        "\40\1\62\2\uffff\1\64\1\40\2\uffff\1\40\2\uffff\1\40\2\uffff\3\40"+
-        "\5\uffff\1\75\3\40\1\101\2\uffff\1\40\1\103\1\40\2\uffff\1\40\4"+
-        "\uffff\1\106\7\40\1\uffff\1\40\1\117\1\40\1\uffff\1\40\1\uffff\1"+
-        "\122\1\123\1\uffff\7\40\1\133\1\uffff\1\40\1\135\2\uffff\1\40\1"+
-        "\137\1\140\1\141\1\142\2\40\1\uffff\1\145\1\uffff\1\40\4\uffff\1"+
-        "\147\1\150\1\uffff\1\40\2\uffff\1\152\1\uffff";
+        "\2\uffff\1\41\1\uffff\2\36\1\uffff\1\36\1\50\1\36\2\uffff\1\54\1"+
+        "\56\2\uffff\1\60\1\36\2\uffff\1\36\2\uffff\1\36\2\uffff\3\36\5\uffff"+
+        "\1\71\3\36\1\75\2\uffff\1\76\1\36\6\uffff\1\100\7\36\1\uffff\1\36"+
+        "\1\111\1\36\2\uffff\1\113\1\uffff\7\36\1\123\1\uffff\1\36\1\uffff"+
+        "\1\36\1\126\1\127\1\130\1\131\2\36\1\uffff\1\134\1\36\4\uffff\1"+
+        "\136\1\137\1\uffff\1\36\2\uffff\1\141\1\uffff";
     static final String DFA5_eofS =
-        "\153\uffff";
+        "\142\uffff";
     static final String DFA5_minS =
-        "\1\11\1\uffff\1\75\1\uffff\1\157\1\154\1\uffff\1\141\1\75\1\151"+
-        "\1\146\2\uffff\1\75\1\157\1\52\2\uffff\1\75\1\144\2\uffff\1\162"+
-        "\2\uffff\1\145\2\uffff\1\153\2\150\5\uffff\1\60\1\163\1\144\1\154"+
-        "\1\60\2\uffff\1\147\1\60\1\164\2\uffff\1\167\4\uffff\1\60\1\157"+
-        "\1\141\1\151\1\145\1\165\2\151\1\uffff\1\145\1\60\1\163\1\uffff"+
-        "\1\150\1\uffff\2\60\1\uffff\1\147\1\144\1\160\1\156\1\145\1\154"+
-        "\1\164\1\60\1\uffff\1\145\1\60\2\uffff\1\162\4\60\2\145\1\uffff"+
-        "\1\60\1\uffff\1\141\4\uffff\2\60\1\uffff\1\155\2\uffff\1\60\1\uffff";
+        "\1\11\1\uffff\1\75\1\uffff\1\157\1\154\1\uffff\1\141\1\75\1\146"+
+        "\2\uffff\1\75\1\52\2\uffff\1\75\1\144\2\uffff\1\162\2\uffff\1\145"+
+        "\2\uffff\1\153\2\150\5\uffff\1\60\1\163\1\144\1\154\1\60\2\uffff"+
+        "\1\60\1\164\6\uffff\1\60\1\157\1\141\1\151\1\145\1\165\2\151\1\uffff"+
+        "\1\145\1\60\1\163\2\uffff\1\60\1\uffff\1\147\1\144\1\160\1\156\1"+
+        "\145\1\154\1\164\1\60\1\uffff\1\145\1\uffff\1\162\4\60\2\145\1\uffff"+
+        "\1\60\1\141\4\uffff\2\60\1\uffff\1\155\2\uffff\1\60\1\uffff";
     static final String DFA5_maxS =
-        "\1\175\1\uffff\1\75\1\uffff\1\157\1\156\1\uffff\1\151\1\75\1\151"+
-        "\1\156\2\uffff\1\75\1\157\1\52\2\uffff\1\75\1\144\2\uffff\1\162"+
-        "\2\uffff\1\145\2\uffff\1\153\2\162\5\uffff\1\172\1\163\1\144\1\154"+
-        "\1\172\2\uffff\1\147\1\172\1\164\2\uffff\1\167\4\uffff\1\172\1\157"+
-        "\1\141\1\151\1\145\1\165\2\151\1\uffff\1\145\1\172\1\163\1\uffff"+
-        "\1\150\1\uffff\2\172\1\uffff\1\147\1\144\1\160\1\156\1\145\1\154"+
-        "\1\164\1\172\1\uffff\1\145\1\172\2\uffff\1\162\4\172\2\145\1\uffff"+
-        "\1\172\1\uffff\1\141\4\uffff\2\172\1\uffff\1\155\2\uffff\1\172\1"+
-        "\uffff";
+        "\1\175\1\uffff\1\75\1\uffff\1\157\1\156\1\uffff\1\151\1\75\1\156"+
+        "\2\uffff\1\75\1\52\2\uffff\1\75\1\144\2\uffff\1\162\2\uffff\1\145"+
+        "\2\uffff\1\153\2\162\5\uffff\1\172\1\163\1\144\1\154\1\172\2\uffff"+
+        "\1\172\1\164\6\uffff\1\172\1\157\1\141\1\151\1\145\1\165\2\151\1"+
+        "\uffff\1\145\1\172\1\163\2\uffff\1\172\1\uffff\1\147\1\144\1\160"+
+        "\1\156\1\145\1\154\1\164\1\172\1\uffff\1\145\1\uffff\1\162\4\172"+
+        "\2\145\1\uffff\1\172\1\141\4\uffff\2\172\1\uffff\1\155\2\uffff\1"+
+        "\172\1\uffff";
     static final String DFA5_acceptS =
-        "\1\uffff\1\1\1\uffff\1\4\2\uffff\1\10\4\uffff\1\20\1\21\3\uffff"+
-        "\1\26\1\27\2\uffff\1\33\1\34\1\uffff\1\36\1\37\1\uffff\1\41\1\42"+
-        "\3\uffff\1\51\1\52\1\53\1\2\1\3\5\uffff\1\13\1\14\3\uffff\1\22\1"+
-        "\25\1\uffff\1\50\1\24\1\30\1\31\10\uffff\1\5\3\uffff\1\12\1\uffff"+
-        "\1\16\2\uffff\1\32\10\uffff\1\7\2\uffff\1\17\1\23\7\uffff\1\6\1"+
-        "\uffff\1\15\1\uffff\1\40\1\43\1\44\1\45\2\uffff\1\11\1\uffff\1\46"+
-        "\1\47\1\uffff\1\35";
+        "\1\uffff\1\1\1\uffff\1\4\2\uffff\1\10\3\uffff\1\17\1\20\2\uffff"+
+        "\1\24\1\25\2\uffff\1\31\1\32\1\uffff\1\34\1\35\1\uffff\1\37\1\40"+
+        "\3\uffff\1\47\1\50\1\51\1\2\1\3\5\uffff\1\13\1\14\2\uffff\1\21\1"+
+        "\23\1\46\1\22\1\26\1\27\10\uffff\1\5\3\uffff\1\12\1\15\1\uffff\1"+
+        "\30\10\uffff\1\7\1\uffff\1\16\7\uffff\1\6\2\uffff\1\36\1\41\1\42"+
+        "\1\43\2\uffff\1\11\1\uffff\1\44\1\45\1\uffff\1\33";
     static final String DFA5_specialS =
-        "\153\uffff}>";
+        "\142\uffff}>";
     static final String[] DFA5_transitionS = {
-            "\2\41\1\uffff\2\41\22\uffff\1\41\1\22\4\uffff\1\1\1\uffff\1"+
-            "\17\1\32\1\21\1\25\1\uffff\1\20\1\uffff\1\3\12\37\1\2\1\33\1"+
-            "\15\1\6\1\10\2\uffff\32\40\1\14\1\uffff\1\30\1\uffff\1\40\1"+
-            "\uffff\3\40\1\4\1\5\1\7\1\40\1\11\1\12\2\40\1\16\2\40\1\23\1"+
-            "\26\1\40\1\31\1\34\1\35\2\40\1\36\3\40\1\13\1\24\1\27",
+            "\2\37\1\uffff\2\37\22\uffff\1\37\1\20\4\uffff\1\1\1\uffff\1"+
+            "\15\1\30\1\17\1\23\1\uffff\1\16\1\uffff\1\3\12\35\1\2\1\31\1"+
+            "\14\1\6\1\10\2\uffff\32\36\1\13\1\uffff\1\26\1\uffff\1\36\1"+
+            "\uffff\3\36\1\4\1\5\1\7\2\36\1\11\5\36\1\21\1\24\1\36\1\27\1"+
+            "\32\1\33\2\36\1\34\3\36\1\12\1\22\1\25",
+            "",
+            "\1\40",
             "",
             "\1\42",
+            "\1\43\1\uffff\1\44",
             "",
-            "\1\44",
-            "\1\45\1\uffff\1\46",
+            "\1\45\7\uffff\1\46",
+            "\1\47",
+            "\1\51\7\uffff\1\52",
             "",
-            "\1\47\7\uffff\1\50",
-            "\1\51",
+            "",
             "\1\53",
-            "\1\54\7\uffff\1\55",
+            "\1\55",
             "",
             "",
-            "\1\56",
-            "\1\60",
+            "\1\57",
             "\1\61",
             "",
             "",
+            "\1\62",
+            "",
+            "",
             "\1\63",
-            "\1\65",
             "",
             "",
-            "\1\66",
-            "",
-            "",
-            "\1\67",
-            "",
-            "",
-            "\1\70",
-            "\1\71\11\uffff\1\72",
-            "\1\73\11\uffff\1\74",
+            "\1\64",
+            "\1\65\11\uffff\1\66",
+            "\1\67\11\uffff\1\70",
             "",
             "",
             "",
             "",
             "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\76",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "\1\72",
+            "\1\73",
+            "\1\74",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "",
+            "",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
             "\1\77",
-            "\1\100",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
             "",
             "",
+            "",
+            "",
+            "",
+            "",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "\1\101",
             "\1\102",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\103",
             "\1\104",
-            "",
-            "",
             "\1\105",
-            "",
-            "",
-            "",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\106",
             "\1\107",
+            "",
             "\1\110",
-            "\1\111",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
             "\1\112",
-            "\1\113",
+            "",
+            "",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "",
             "\1\114",
             "\1\115",
-            "",
             "\1\116",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\117",
             "\1\120",
-            "",
             "\1\121",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\122",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
             "",
             "\1\124",
+            "",
             "\1\125",
-            "\1\126",
-            "\1\127",
-            "\1\130",
-            "\1\131",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
             "\1\132",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\1\133",
             "",
-            "\1\134",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "",
-            "\1\136",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\1\143",
-            "\1\144",
-            "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "",
-            "\1\146",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "\1\135",
             "",
             "",
             "",
             "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
             "",
-            "\1\151",
+            "\1\140",
             "",
             "",
-            "\12\40\7\uffff\32\40\4\uffff\1\40\1\uffff\32\40",
+            "\12\36\7\uffff\32\36\4\uffff\1\36\1\uffff\32\36",
             ""
     };
 
@@ -1741,7 +1683,7 @@ public class TheLangLexer extends Lexer {
             this.transition = DFA5_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( AND | ASSIGN | COLON | DIV | DO | ELSE | END | EQ | FALSE | FI | GE | GT | HIGH | IF | INT | LBRACE | LBRACKET | LE | LOW | LPAREN | LT | MINUS | MUL | NEQ | NOT | OD | OR | PLUS | PROGRAM | RBRACE | RBRACKET | READ | RPAREN | SEMI | SKIP | THEN | TRUE | WHILE | WRITE | COMMENT | INTEGER | IDENTIFIER | WS );";
+            return "1:1: Tokens : ( AND | ASSIGN | COLON | DIV | DO | ELSE | END | EQ | FALSE | FI | GE | GT | IF | INT | LBRACE | LBRACKET | LE | LPAREN | LT | MINUS | MUL | NEQ | NOT | OD | OR | PLUS | PROGRAM | RBRACE | RBRACKET | READ | RPAREN | SEMI | SKIP | THEN | TRUE | WHILE | WRITE | COMMENT | INTEGER | IDENTIFIER | WS );";
         }
     }
  
