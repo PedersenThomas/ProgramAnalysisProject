@@ -10,4 +10,9 @@ public class BooleanOperation extends BooleanExpression {
 		this.operator = operator;
 		this.right = right;
 	}
+
+	@Override
+	public String toString() {
+		return "" + left + " " + operator + " " + right;
+	}
 }

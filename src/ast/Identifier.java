@@ -6,4 +6,9 @@ public class Identifier extends ArithmeticExpression {
 	public Identifier(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

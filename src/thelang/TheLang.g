@@ -96,7 +96,7 @@ aexpr2 : MINUS aexpr3 -> ^(UNARY_MINUS aexpr3)
        ;
 
 aexpr3 : IDENTIFIER                         -> ^(VARIABLE IDENTIFIER)
-	   | IDENTIFIER LBRACKET aexpr RBRACKET -> ^(ARRAY_ACCESS IDENTIFIER aexpr)
+	   | IDENTIFIER LBRACKET aexpr RBRACKET -> ^(ARRAY_ACCESS ^(VARIABLE IDENTIFIER) aexpr)
        | INTEGER                            -> ^(CONSTANT INTEGER)
        | LPAREN aexpr RPAREN                -> aexpr
        ;
@@ -122,7 +122,7 @@ opr : GT
     | NEQ
     ;
 
-decl : INT IDENTIFIER SEMI -> ^(DECLARE_VARIABLE IDENTIFIER)
+decl : INT IDENTIFIER SEMI -> ^(DECLARE_VARIABLE ^(VARIABLE IDENTIFIER))
 	 | INT IDENTIFIER LBRACKET INTEGER RBRACKET SEMI -> ^(DECLARE_ARRAY ^(VARIABLE IDENTIFIER) ^(CONSTANT INTEGER));
 
 stmts : stmt+ ;
@@ -135,8 +135,8 @@ stmt : assignStmt
      | whileStmt
      ;
 
-assignStmt : IDENTIFIER ASSIGN aexpr SEMI -> ^(ASSIGNMENT_VARIABLE IDENTIFIER aexpr)
-	       | IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI -> ^(ASSIGNMENT_ARRAY IDENTIFIER aexpr aexpr);
+assignStmt : IDENTIFIER ASSIGN aexpr SEMI -> ^(ASSIGNMENT_VARIABLE ^(VARIABLE IDENTIFIER) aexpr)
+	       | IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI -> ^(ASSIGNMENT_ARRAY ^(VARIABLE IDENTIFIER) aexpr aexpr);
 
 skipStmt : SKIP SEMI -> SKIP_STATEMENT;
 

@@ -1,0 +1,5 @@
+program 
+int a;
+int Arr[10];
+skip; 
+end

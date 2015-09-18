@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 
+import ast.AstBuilder;
+import ast.Program;
 import thelang.TheLangParser.program_return;
 
 public class Main {
@@ -25,6 +27,9 @@ public class Main {
         System.out.println("-----------------------------------------");
         
         printTree(tree, 0);
+        
+        Program theProgram = AstBuilder.build(tree);
+        System.out.println(theProgram);
       }
     } catch (RecognitionException e) {
       e.printStackTrace();
@@ -33,7 +38,7 @@ public class Main {
   
   public static void printTree(CommonTree tree, int indentCount) {
 	  String indent = repeat(indentCount, " ");
-	  System.out.println(indent + tree);
+	  System.out.println(indent + tree + " #" + tree.getType());
 
       ArrayList<CommonTree> children = (ArrayList) tree.getChildren();
       if(children != null) {

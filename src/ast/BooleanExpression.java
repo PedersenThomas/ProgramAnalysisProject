@@ -1,4 +1,3 @@
 package ast;
 
-public class BooleanExpression {
-}
+public abstract class BooleanExpression {}

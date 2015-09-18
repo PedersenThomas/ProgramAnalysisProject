@@ -1,6 +1,6 @@
 package ast;
 
-public class ArithmeticOperation {
+public class ArithmeticOperation extends ArithmeticExpression {
 	ArithmeticExpression left;
 	ArithmeticOperator Operator;
 	ArithmeticExpression right;
@@ -9,5 +9,10 @@ public class ArithmeticOperation {
 		this.left = left;
 		this.Operator = Operator;
 		this.right = right;
+	}
+
+	@Override
+	public String toString() {
+		return "" + left + " " + Operator + " " + right;
 	}
 }

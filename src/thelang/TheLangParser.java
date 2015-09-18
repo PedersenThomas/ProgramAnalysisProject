@@ -1,4 +1,4 @@
-// $ANTLR 3.4 .\\src\\thelang\\TheLang.g 2015-09-18 15:32:49
+// $ANTLR 3.4 .\\src\\thelang\\TheLang.g 2015-09-18 22:39:49
 
 package thelang;
 
@@ -494,7 +494,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "aexpr3"
-    // .\\src\\thelang\\TheLang.g:98:1: aexpr3 : ( IDENTIFIER -> ^( VARIABLE IDENTIFIER ) | IDENTIFIER LBRACKET aexpr RBRACKET -> ^( ARRAY_ACCESS IDENTIFIER aexpr ) | INTEGER -> ^( CONSTANT INTEGER ) | LPAREN aexpr RPAREN -> aexpr );
+    // .\\src\\thelang\\TheLang.g:98:1: aexpr3 : ( IDENTIFIER -> ^( VARIABLE IDENTIFIER ) | IDENTIFIER LBRACKET aexpr RBRACKET -> ^( ARRAY_ACCESS ^( VARIABLE IDENTIFIER ) aexpr ) | INTEGER -> ^( CONSTANT INTEGER ) | LPAREN aexpr RPAREN -> aexpr );
     public final TheLangParser.aexpr3_return aexpr3() throws RecognitionException {
         TheLangParser.aexpr3_return retval = new TheLangParser.aexpr3_return();
         retval.start = input.LT(1);
@@ -532,7 +532,7 @@ public TreeAdaptor getTreeAdaptor() {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 4) ) { return retval; }
 
-            // .\\src\\thelang\\TheLang.g:98:8: ( IDENTIFIER -> ^( VARIABLE IDENTIFIER ) | IDENTIFIER LBRACKET aexpr RBRACKET -> ^( ARRAY_ACCESS IDENTIFIER aexpr ) | INTEGER -> ^( CONSTANT INTEGER ) | LPAREN aexpr RPAREN -> aexpr )
+            // .\\src\\thelang\\TheLang.g:98:8: ( IDENTIFIER -> ^( VARIABLE IDENTIFIER ) | IDENTIFIER LBRACKET aexpr RBRACKET -> ^( ARRAY_ACCESS ^( VARIABLE IDENTIFIER ) aexpr ) | INTEGER -> ^( CONSTANT INTEGER ) | LPAREN aexpr RPAREN -> aexpr )
             int alt4=4;
             switch ( input.LA(1) ) {
             case IDENTIFIER:
@@ -654,18 +654,28 @@ public TreeAdaptor getTreeAdaptor() {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 99:42: -> ^( ARRAY_ACCESS IDENTIFIER aexpr )
+                    // 99:42: -> ^( ARRAY_ACCESS ^( VARIABLE IDENTIFIER ) aexpr )
                     {
-                        // .\\src\\thelang\\TheLang.g:99:45: ^( ARRAY_ACCESS IDENTIFIER aexpr )
+                        // .\\src\\thelang\\TheLang.g:99:45: ^( ARRAY_ACCESS ^( VARIABLE IDENTIFIER ) aexpr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(
                         (CommonTree)adaptor.create(ARRAY_ACCESS, "ARRAY_ACCESS")
                         , root_1);
 
-                        adaptor.addChild(root_1, 
+                        // .\\src\\thelang\\TheLang.g:99:60: ^( VARIABLE IDENTIFIER )
+                        {
+                        CommonTree root_2 = (CommonTree)adaptor.nil();
+                        root_2 = (CommonTree)adaptor.becomeRoot(
+                        (CommonTree)adaptor.create(VARIABLE, "VARIABLE")
+                        , root_2);
+
+                        adaptor.addChild(root_2, 
                         stream_IDENTIFIER.nextNode()
                         );
+
+                        adaptor.addChild(root_1, root_2);
+                        }
 
                         adaptor.addChild(root_1, stream_aexpr.nextTree());
 
@@ -683,7 +693,7 @@ public TreeAdaptor getTreeAdaptor() {
                 case 3 :
                     // .\\src\\thelang\\TheLang.g:100:10: INTEGER
                     {
-                    INTEGER15=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_aexpr3666); if (state.failed) return retval; 
+                    INTEGER15=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_aexpr3670); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTEGER.add(INTEGER15);
 
 
@@ -727,18 +737,18 @@ public TreeAdaptor getTreeAdaptor() {
                 case 4 :
                     // .\\src\\thelang\\TheLang.g:101:10: LPAREN aexpr RPAREN
                     {
-                    LPAREN16=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_aexpr3712); if (state.failed) return retval; 
+                    LPAREN16=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_aexpr3716); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LPAREN.add(LPAREN16);
 
 
-                    pushFollow(FOLLOW_aexpr_in_aexpr3714);
+                    pushFollow(FOLLOW_aexpr_in_aexpr3718);
                     aexpr17=aexpr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_aexpr.add(aexpr17.getTree());
 
-                    RPAREN18=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_aexpr3716); if (state.failed) return retval; 
+                    RPAREN18=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_aexpr3720); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_RPAREN.add(RPAREN18);
 
 
@@ -828,7 +838,7 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
 
 
-            pushFollow(FOLLOW_bexpr1_in_bexpr751);
+            pushFollow(FOLLOW_bexpr1_in_bexpr755);
             bexpr119=bexpr1();
 
             state._fsp--;
@@ -856,7 +866,7 @@ public TreeAdaptor getTreeAdaptor() {
             	case 1 :
             	    // .\\src\\thelang\\TheLang.g:104:17: OR ^ bexpr1
             	    {
-            	    OR20=(Token)match(input,OR,FOLLOW_OR_in_bexpr754); if (state.failed) return retval;
+            	    OR20=(Token)match(input,OR,FOLLOW_OR_in_bexpr758); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
             	    OR20_tree = 
             	    (CommonTree)adaptor.create(OR20)
@@ -864,7 +874,7 @@ public TreeAdaptor getTreeAdaptor() {
             	    root_0 = (CommonTree)adaptor.becomeRoot(OR20_tree, root_0);
             	    }
 
-            	    pushFollow(FOLLOW_bexpr1_in_bexpr757);
+            	    pushFollow(FOLLOW_bexpr1_in_bexpr761);
             	    bexpr121=bexpr1();
 
             	    state._fsp--;
@@ -941,7 +951,7 @@ public TreeAdaptor getTreeAdaptor() {
             root_0 = (CommonTree)adaptor.nil();
 
 
-            pushFollow(FOLLOW_bexpr2_in_bexpr1774);
+            pushFollow(FOLLOW_bexpr2_in_bexpr1778);
             bexpr222=bexpr2();
 
             state._fsp--;
@@ -969,7 +979,7 @@ public TreeAdaptor getTreeAdaptor() {
             	case 1 :
             	    // .\\src\\thelang\\TheLang.g:107:18: AND ^ bexpr2
             	    {
-            	    AND23=(Token)match(input,AND,FOLLOW_AND_in_bexpr1777); if (state.failed) return retval;
+            	    AND23=(Token)match(input,AND,FOLLOW_AND_in_bexpr1781); if (state.failed) return retval;
             	    if ( state.backtracking==0 ) {
             	    AND23_tree = 
             	    (CommonTree)adaptor.create(AND23)
@@ -977,7 +987,7 @@ public TreeAdaptor getTreeAdaptor() {
             	    root_0 = (CommonTree)adaptor.becomeRoot(AND23_tree, root_0);
             	    }
 
-            	    pushFollow(FOLLOW_bexpr2_in_bexpr1780);
+            	    pushFollow(FOLLOW_bexpr2_in_bexpr1784);
             	    bexpr224=bexpr2();
 
             	    state._fsp--;
@@ -1128,21 +1138,21 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    pushFollow(FOLLOW_aexpr_in_bexpr2798);
+                    pushFollow(FOLLOW_aexpr_in_bexpr2802);
                     aexpr25=aexpr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, aexpr25.getTree());
 
-                    pushFollow(FOLLOW_opr_in_bexpr2800);
+                    pushFollow(FOLLOW_opr_in_bexpr2804);
                     opr26=opr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(opr26.getTree(), root_0);
 
-                    pushFollow(FOLLOW_aexpr_in_bexpr2803);
+                    pushFollow(FOLLOW_aexpr_in_bexpr2807);
                     aexpr27=aexpr();
 
                     state._fsp--;
@@ -1154,11 +1164,11 @@ public TreeAdaptor getTreeAdaptor() {
                 case 2 :
                     // .\\src\\thelang\\TheLang.g:111:10: NOT bexpr
                     {
-                    NOT28=(Token)match(input,NOT,FOLLOW_NOT_in_bexpr2814); if (state.failed) return retval; 
+                    NOT28=(Token)match(input,NOT,FOLLOW_NOT_in_bexpr2818); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NOT.add(NOT28);
 
 
-                    pushFollow(FOLLOW_bexpr_in_bexpr2816);
+                    pushFollow(FOLLOW_bexpr_in_bexpr2820);
                     bexpr29=bexpr();
 
                     state._fsp--;
@@ -1203,7 +1213,7 @@ public TreeAdaptor getTreeAdaptor() {
                 case 3 :
                     // .\\src\\thelang\\TheLang.g:112:10: TRUE
                     {
-                    TRUE30=(Token)match(input,TRUE,FOLLOW_TRUE_in_bexpr2835); if (state.failed) return retval; 
+                    TRUE30=(Token)match(input,TRUE,FOLLOW_TRUE_in_bexpr2839); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_TRUE.add(TRUE30);
 
 
@@ -1247,7 +1257,7 @@ public TreeAdaptor getTreeAdaptor() {
                 case 4 :
                     // .\\src\\thelang\\TheLang.g:113:10: FALSE
                     {
-                    FALSE31=(Token)match(input,FALSE,FOLLOW_FALSE_in_bexpr2854); if (state.failed) return retval; 
+                    FALSE31=(Token)match(input,FALSE,FOLLOW_FALSE_in_bexpr2858); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_FALSE.add(FALSE31);
 
 
@@ -1291,18 +1301,18 @@ public TreeAdaptor getTreeAdaptor() {
                 case 5 :
                     // .\\src\\thelang\\TheLang.g:114:10: LPAREN bexpr RPAREN
                     {
-                    LPAREN32=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_bexpr2873); if (state.failed) return retval; 
+                    LPAREN32=(Token)match(input,LPAREN,FOLLOW_LPAREN_in_bexpr2877); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LPAREN.add(LPAREN32);
 
 
-                    pushFollow(FOLLOW_bexpr_in_bexpr2875);
+                    pushFollow(FOLLOW_bexpr_in_bexpr2879);
                     bexpr33=bexpr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_bexpr.add(bexpr33.getTree());
 
-                    RPAREN34=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_bexpr2877); if (state.failed) return retval; 
+                    RPAREN34=(Token)match(input,RPAREN,FOLLOW_RPAREN_in_bexpr2881); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_RPAREN.add(RPAREN34);
 
 
@@ -1440,7 +1450,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "decl"
-    // .\\src\\thelang\\TheLang.g:125:1: decl : ( INT IDENTIFIER SEMI -> ^( DECLARE_VARIABLE IDENTIFIER ) | INT IDENTIFIER LBRACKET INTEGER RBRACKET SEMI -> ^( DECLARE_ARRAY ^( VARIABLE IDENTIFIER ) ^( CONSTANT INTEGER ) ) );
+    // .\\src\\thelang\\TheLang.g:125:1: decl : ( INT IDENTIFIER SEMI -> ^( DECLARE_VARIABLE ^( VARIABLE IDENTIFIER ) ) | INT IDENTIFIER LBRACKET INTEGER RBRACKET SEMI -> ^( DECLARE_ARRAY ^( VARIABLE IDENTIFIER ) ^( CONSTANT INTEGER ) ) );
     public final TheLangParser.decl_return decl() throws RecognitionException {
         TheLangParser.decl_return retval = new TheLangParser.decl_return();
         retval.start = input.LT(1);
@@ -1478,7 +1488,7 @@ public TreeAdaptor getTreeAdaptor() {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 9) ) { return retval; }
 
-            // .\\src\\thelang\\TheLang.g:125:6: ( INT IDENTIFIER SEMI -> ^( DECLARE_VARIABLE IDENTIFIER ) | INT IDENTIFIER LBRACKET INTEGER RBRACKET SEMI -> ^( DECLARE_ARRAY ^( VARIABLE IDENTIFIER ) ^( CONSTANT INTEGER ) ) )
+            // .\\src\\thelang\\TheLang.g:125:6: ( INT IDENTIFIER SEMI -> ^( DECLARE_VARIABLE ^( VARIABLE IDENTIFIER ) ) | INT IDENTIFIER LBRACKET INTEGER RBRACKET SEMI -> ^( DECLARE_ARRAY ^( VARIABLE IDENTIFIER ) ^( CONSTANT INTEGER ) ) )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1524,15 +1534,15 @@ public TreeAdaptor getTreeAdaptor() {
                 case 1 :
                     // .\\src\\thelang\\TheLang.g:125:8: INT IDENTIFIER SEMI
                     {
-                    INT36=(Token)match(input,INT,FOLLOW_INT_in_decl950); if (state.failed) return retval; 
+                    INT36=(Token)match(input,INT,FOLLOW_INT_in_decl954); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INT.add(INT36);
 
 
-                    IDENTIFIER37=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_decl952); if (state.failed) return retval; 
+                    IDENTIFIER37=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_decl956); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER37);
 
 
-                    SEMI38=(Token)match(input,SEMI,FOLLOW_SEMI_in_decl954); if (state.failed) return retval; 
+                    SEMI38=(Token)match(input,SEMI,FOLLOW_SEMI_in_decl958); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SEMI.add(SEMI38);
 
 
@@ -1549,18 +1559,28 @@ public TreeAdaptor getTreeAdaptor() {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 125:28: -> ^( DECLARE_VARIABLE IDENTIFIER )
+                    // 125:28: -> ^( DECLARE_VARIABLE ^( VARIABLE IDENTIFIER ) )
                     {
-                        // .\\src\\thelang\\TheLang.g:125:31: ^( DECLARE_VARIABLE IDENTIFIER )
+                        // .\\src\\thelang\\TheLang.g:125:31: ^( DECLARE_VARIABLE ^( VARIABLE IDENTIFIER ) )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(
                         (CommonTree)adaptor.create(DECLARE_VARIABLE, "DECLARE_VARIABLE")
                         , root_1);
 
-                        adaptor.addChild(root_1, 
+                        // .\\src\\thelang\\TheLang.g:125:50: ^( VARIABLE IDENTIFIER )
+                        {
+                        CommonTree root_2 = (CommonTree)adaptor.nil();
+                        root_2 = (CommonTree)adaptor.becomeRoot(
+                        (CommonTree)adaptor.create(VARIABLE, "VARIABLE")
+                        , root_2);
+
+                        adaptor.addChild(root_2, 
                         stream_IDENTIFIER.nextNode()
                         );
+
+                        adaptor.addChild(root_1, root_2);
+                        }
 
                         adaptor.addChild(root_0, root_1);
                         }
@@ -1576,27 +1596,27 @@ public TreeAdaptor getTreeAdaptor() {
                 case 2 :
                     // .\\src\\thelang\\TheLang.g:126:5: INT IDENTIFIER LBRACKET INTEGER RBRACKET SEMI
                     {
-                    INT39=(Token)match(input,INT,FOLLOW_INT_in_decl968); if (state.failed) return retval; 
+                    INT39=(Token)match(input,INT,FOLLOW_INT_in_decl976); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INT.add(INT39);
 
 
-                    IDENTIFIER40=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_decl970); if (state.failed) return retval; 
+                    IDENTIFIER40=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_decl978); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER40);
 
 
-                    LBRACKET41=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_decl972); if (state.failed) return retval; 
+                    LBRACKET41=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_decl980); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LBRACKET.add(LBRACKET41);
 
 
-                    INTEGER42=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_decl974); if (state.failed) return retval; 
+                    INTEGER42=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_decl982); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTEGER.add(INTEGER42);
 
 
-                    RBRACKET43=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_decl976); if (state.failed) return retval; 
+                    RBRACKET43=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_decl984); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_RBRACKET.add(RBRACKET43);
 
 
-                    SEMI44=(Token)match(input,SEMI,FOLLOW_SEMI_in_decl978); if (state.failed) return retval; 
+                    SEMI44=(Token)match(input,SEMI,FOLLOW_SEMI_in_decl986); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SEMI.add(SEMI44);
 
 
@@ -1734,7 +1754,7 @@ public TreeAdaptor getTreeAdaptor() {
             	case 1 :
             	    // .\\src\\thelang\\TheLang.g:128:9: stmt
             	    {
-            	    pushFollow(FOLLOW_stmt_in_stmts1004);
+            	    pushFollow(FOLLOW_stmt_in_stmts1012);
             	    stmt45=stmt();
 
             	    state._fsp--;
@@ -1865,7 +1885,7 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    pushFollow(FOLLOW_assignStmt_in_stmt1014);
+                    pushFollow(FOLLOW_assignStmt_in_stmt1022);
                     assignStmt46=assignStmt();
 
                     state._fsp--;
@@ -1880,7 +1900,7 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    pushFollow(FOLLOW_skipStmt_in_stmt1023);
+                    pushFollow(FOLLOW_skipStmt_in_stmt1031);
                     skipStmt47=skipStmt();
 
                     state._fsp--;
@@ -1895,7 +1915,7 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    pushFollow(FOLLOW_readStmt_in_stmt1032);
+                    pushFollow(FOLLOW_readStmt_in_stmt1040);
                     readStmt48=readStmt();
 
                     state._fsp--;
@@ -1910,7 +1930,7 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    pushFollow(FOLLOW_writeStmt_in_stmt1041);
+                    pushFollow(FOLLOW_writeStmt_in_stmt1049);
                     writeStmt49=writeStmt();
 
                     state._fsp--;
@@ -1925,7 +1945,7 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    pushFollow(FOLLOW_ifStmt_in_stmt1050);
+                    pushFollow(FOLLOW_ifStmt_in_stmt1058);
                     ifStmt50=ifStmt();
 
                     state._fsp--;
@@ -1940,7 +1960,7 @@ public TreeAdaptor getTreeAdaptor() {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    pushFollow(FOLLOW_whileStmt_in_stmt1059);
+                    pushFollow(FOLLOW_whileStmt_in_stmt1067);
                     whileStmt51=whileStmt();
 
                     state._fsp--;
@@ -1984,7 +2004,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "assignStmt"
-    // .\\src\\thelang\\TheLang.g:138:1: assignStmt : ( IDENTIFIER ASSIGN aexpr SEMI -> ^( ASSIGNMENT_VARIABLE IDENTIFIER aexpr ) | IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI -> ^( ASSIGNMENT_ARRAY IDENTIFIER aexpr aexpr ) );
+    // .\\src\\thelang\\TheLang.g:138:1: assignStmt : ( IDENTIFIER ASSIGN aexpr SEMI -> ^( ASSIGNMENT_VARIABLE ^( VARIABLE IDENTIFIER ) aexpr ) | IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI -> ^( ASSIGNMENT_ARRAY ^( VARIABLE IDENTIFIER ) aexpr aexpr ) );
     public final TheLangParser.assignStmt_return assignStmt() throws RecognitionException {
         TheLangParser.assignStmt_return retval = new TheLangParser.assignStmt_return();
         retval.start = input.LT(1);
@@ -2025,7 +2045,7 @@ public TreeAdaptor getTreeAdaptor() {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 12) ) { return retval; }
 
-            // .\\src\\thelang\\TheLang.g:138:12: ( IDENTIFIER ASSIGN aexpr SEMI -> ^( ASSIGNMENT_VARIABLE IDENTIFIER aexpr ) | IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI -> ^( ASSIGNMENT_ARRAY IDENTIFIER aexpr aexpr ) )
+            // .\\src\\thelang\\TheLang.g:138:12: ( IDENTIFIER ASSIGN aexpr SEMI -> ^( ASSIGNMENT_VARIABLE ^( VARIABLE IDENTIFIER ) aexpr ) | IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI -> ^( ASSIGNMENT_ARRAY ^( VARIABLE IDENTIFIER ) aexpr aexpr ) )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -2059,22 +2079,22 @@ public TreeAdaptor getTreeAdaptor() {
                 case 1 :
                     // .\\src\\thelang\\TheLang.g:138:14: IDENTIFIER ASSIGN aexpr SEMI
                     {
-                    IDENTIFIER52=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_assignStmt1073); if (state.failed) return retval; 
+                    IDENTIFIER52=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_assignStmt1081); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER52);
 
 
-                    ASSIGN53=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_assignStmt1075); if (state.failed) return retval; 
+                    ASSIGN53=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_assignStmt1083); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ASSIGN.add(ASSIGN53);
 
 
-                    pushFollow(FOLLOW_aexpr_in_assignStmt1077);
+                    pushFollow(FOLLOW_aexpr_in_assignStmt1085);
                     aexpr54=aexpr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_aexpr.add(aexpr54.getTree());
 
-                    SEMI55=(Token)match(input,SEMI,FOLLOW_SEMI_in_assignStmt1079); if (state.failed) return retval; 
+                    SEMI55=(Token)match(input,SEMI,FOLLOW_SEMI_in_assignStmt1087); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SEMI.add(SEMI55);
 
 
@@ -2091,18 +2111,28 @@ public TreeAdaptor getTreeAdaptor() {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 138:43: -> ^( ASSIGNMENT_VARIABLE IDENTIFIER aexpr )
+                    // 138:43: -> ^( ASSIGNMENT_VARIABLE ^( VARIABLE IDENTIFIER ) aexpr )
                     {
-                        // .\\src\\thelang\\TheLang.g:138:46: ^( ASSIGNMENT_VARIABLE IDENTIFIER aexpr )
+                        // .\\src\\thelang\\TheLang.g:138:46: ^( ASSIGNMENT_VARIABLE ^( VARIABLE IDENTIFIER ) aexpr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(
                         (CommonTree)adaptor.create(ASSIGNMENT_VARIABLE, "ASSIGNMENT_VARIABLE")
                         , root_1);
 
-                        adaptor.addChild(root_1, 
+                        // .\\src\\thelang\\TheLang.g:138:68: ^( VARIABLE IDENTIFIER )
+                        {
+                        CommonTree root_2 = (CommonTree)adaptor.nil();
+                        root_2 = (CommonTree)adaptor.becomeRoot(
+                        (CommonTree)adaptor.create(VARIABLE, "VARIABLE")
+                        , root_2);
+
+                        adaptor.addChild(root_2, 
                         stream_IDENTIFIER.nextNode()
                         );
+
+                        adaptor.addChild(root_1, root_2);
+                        }
 
                         adaptor.addChild(root_1, stream_aexpr.nextTree());
 
@@ -2120,37 +2150,37 @@ public TreeAdaptor getTreeAdaptor() {
                 case 2 :
                     // .\\src\\thelang\\TheLang.g:139:11: IDENTIFIER LBRACKET aexpr RBRACKET ASSIGN aexpr SEMI
                     {
-                    IDENTIFIER56=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_assignStmt1101); if (state.failed) return retval; 
+                    IDENTIFIER56=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_assignStmt1113); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER56);
 
 
-                    LBRACKET57=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_assignStmt1103); if (state.failed) return retval; 
+                    LBRACKET57=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_assignStmt1115); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LBRACKET.add(LBRACKET57);
 
 
-                    pushFollow(FOLLOW_aexpr_in_assignStmt1105);
+                    pushFollow(FOLLOW_aexpr_in_assignStmt1117);
                     aexpr58=aexpr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_aexpr.add(aexpr58.getTree());
 
-                    RBRACKET59=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_assignStmt1107); if (state.failed) return retval; 
+                    RBRACKET59=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_assignStmt1119); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_RBRACKET.add(RBRACKET59);
 
 
-                    ASSIGN60=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_assignStmt1109); if (state.failed) return retval; 
+                    ASSIGN60=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_assignStmt1121); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ASSIGN.add(ASSIGN60);
 
 
-                    pushFollow(FOLLOW_aexpr_in_assignStmt1111);
+                    pushFollow(FOLLOW_aexpr_in_assignStmt1123);
                     aexpr61=aexpr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_aexpr.add(aexpr61.getTree());
 
-                    SEMI62=(Token)match(input,SEMI,FOLLOW_SEMI_in_assignStmt1113); if (state.failed) return retval; 
+                    SEMI62=(Token)match(input,SEMI,FOLLOW_SEMI_in_assignStmt1125); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SEMI.add(SEMI62);
 
 
@@ -2167,18 +2197,28 @@ public TreeAdaptor getTreeAdaptor() {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 139:64: -> ^( ASSIGNMENT_ARRAY IDENTIFIER aexpr aexpr )
+                    // 139:64: -> ^( ASSIGNMENT_ARRAY ^( VARIABLE IDENTIFIER ) aexpr aexpr )
                     {
-                        // .\\src\\thelang\\TheLang.g:139:67: ^( ASSIGNMENT_ARRAY IDENTIFIER aexpr aexpr )
+                        // .\\src\\thelang\\TheLang.g:139:67: ^( ASSIGNMENT_ARRAY ^( VARIABLE IDENTIFIER ) aexpr aexpr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(
                         (CommonTree)adaptor.create(ASSIGNMENT_ARRAY, "ASSIGNMENT_ARRAY")
                         , root_1);
 
-                        adaptor.addChild(root_1, 
+                        // .\\src\\thelang\\TheLang.g:139:86: ^( VARIABLE IDENTIFIER )
+                        {
+                        CommonTree root_2 = (CommonTree)adaptor.nil();
+                        root_2 = (CommonTree)adaptor.becomeRoot(
+                        (CommonTree)adaptor.create(VARIABLE, "VARIABLE")
+                        , root_2);
+
+                        adaptor.addChild(root_2, 
                         stream_IDENTIFIER.nextNode()
                         );
+
+                        adaptor.addChild(root_1, root_2);
+                        }
 
                         adaptor.addChild(root_1, stream_aexpr.nextTree());
 
@@ -2253,11 +2293,11 @@ public TreeAdaptor getTreeAdaptor() {
             // .\\src\\thelang\\TheLang.g:141:10: ( SKIP SEMI -> SKIP_STATEMENT )
             // .\\src\\thelang\\TheLang.g:141:12: SKIP SEMI
             {
-            SKIP63=(Token)match(input,SKIP,FOLLOW_SKIP_in_skipStmt1133); if (state.failed) return retval; 
+            SKIP63=(Token)match(input,SKIP,FOLLOW_SKIP_in_skipStmt1149); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_SKIP.add(SKIP63);
 
 
-            SEMI64=(Token)match(input,SEMI,FOLLOW_SEMI_in_skipStmt1135); if (state.failed) return retval; 
+            SEMI64=(Token)match(input,SEMI,FOLLOW_SEMI_in_skipStmt1151); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_SEMI.add(SEMI64);
 
 
@@ -2404,15 +2444,15 @@ public TreeAdaptor getTreeAdaptor() {
                 case 1 :
                     // .\\src\\thelang\\TheLang.g:143:12: READ IDENTIFIER SEMI
                     {
-                    READ65=(Token)match(input,READ,FOLLOW_READ_in_readStmt1147); if (state.failed) return retval; 
+                    READ65=(Token)match(input,READ,FOLLOW_READ_in_readStmt1163); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_READ.add(READ65);
 
 
-                    IDENTIFIER66=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_readStmt1149); if (state.failed) return retval; 
+                    IDENTIFIER66=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_readStmt1165); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER66);
 
 
-                    SEMI67=(Token)match(input,SEMI,FOLLOW_SEMI_in_readStmt1151); if (state.failed) return retval; 
+                    SEMI67=(Token)match(input,SEMI,FOLLOW_SEMI_in_readStmt1167); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SEMI.add(SEMI67);
 
 
@@ -2466,30 +2506,30 @@ public TreeAdaptor getTreeAdaptor() {
                 case 2 :
                     // .\\src\\thelang\\TheLang.g:144:6: READ IDENTIFIER LBRACKET aexpr RBRACKET SEMI
                     {
-                    READ68=(Token)match(input,READ,FOLLOW_READ_in_readStmt1170); if (state.failed) return retval; 
+                    READ68=(Token)match(input,READ,FOLLOW_READ_in_readStmt1186); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_READ.add(READ68);
 
 
-                    IDENTIFIER69=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_readStmt1172); if (state.failed) return retval; 
+                    IDENTIFIER69=(Token)match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_readStmt1188); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IDENTIFIER.add(IDENTIFIER69);
 
 
-                    LBRACKET70=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_readStmt1174); if (state.failed) return retval; 
+                    LBRACKET70=(Token)match(input,LBRACKET,FOLLOW_LBRACKET_in_readStmt1190); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LBRACKET.add(LBRACKET70);
 
 
-                    pushFollow(FOLLOW_aexpr_in_readStmt1176);
+                    pushFollow(FOLLOW_aexpr_in_readStmt1192);
                     aexpr71=aexpr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_aexpr.add(aexpr71.getTree());
 
-                    RBRACKET72=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_readStmt1178); if (state.failed) return retval; 
+                    RBRACKET72=(Token)match(input,RBRACKET,FOLLOW_RBRACKET_in_readStmt1194); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_RBRACKET.add(RBRACKET72);
 
 
-                    SEMI73=(Token)match(input,SEMI,FOLLOW_SEMI_in_readStmt1180); if (state.failed) return retval; 
+                    SEMI73=(Token)match(input,SEMI,FOLLOW_SEMI_in_readStmt1196); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SEMI.add(SEMI73);
 
 
@@ -2602,18 +2642,18 @@ public TreeAdaptor getTreeAdaptor() {
             // .\\src\\thelang\\TheLang.g:146:11: ( WRITE aexpr SEMI -> ^( WRITE_EXPRESSION aexpr ) )
             // .\\src\\thelang\\TheLang.g:146:13: WRITE aexpr SEMI
             {
-            WRITE74=(Token)match(input,WRITE,FOLLOW_WRITE_in_writeStmt1202); if (state.failed) return retval; 
+            WRITE74=(Token)match(input,WRITE,FOLLOW_WRITE_in_writeStmt1218); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_WRITE.add(WRITE74);
 
 
-            pushFollow(FOLLOW_aexpr_in_writeStmt1204);
+            pushFollow(FOLLOW_aexpr_in_writeStmt1220);
             aexpr75=aexpr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_aexpr.add(aexpr75.getTree());
 
-            SEMI76=(Token)match(input,SEMI,FOLLOW_SEMI_in_writeStmt1206); if (state.failed) return retval; 
+            SEMI76=(Token)match(input,SEMI,FOLLOW_SEMI_in_writeStmt1222); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_SEMI.add(SEMI76);
 
 
@@ -2721,40 +2761,40 @@ public TreeAdaptor getTreeAdaptor() {
             // .\\src\\thelang\\TheLang.g:148:8: ( IF bexpr THEN stmts ELSE stmts FI -> ^( IF_STATEMENT bexpr ^( BLOCK_STATEMENT stmts ) ^( BLOCK_STATEMENT stmts ) ) )
             // .\\src\\thelang\\TheLang.g:148:10: IF bexpr THEN stmts ELSE stmts FI
             {
-            IF77=(Token)match(input,IF,FOLLOW_IF_in_ifStmt1222); if (state.failed) return retval; 
+            IF77=(Token)match(input,IF,FOLLOW_IF_in_ifStmt1238); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_IF.add(IF77);
 
 
-            pushFollow(FOLLOW_bexpr_in_ifStmt1224);
+            pushFollow(FOLLOW_bexpr_in_ifStmt1240);
             bexpr78=bexpr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_bexpr.add(bexpr78.getTree());
 
-            THEN79=(Token)match(input,THEN,FOLLOW_THEN_in_ifStmt1226); if (state.failed) return retval; 
+            THEN79=(Token)match(input,THEN,FOLLOW_THEN_in_ifStmt1242); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_THEN.add(THEN79);
 
 
-            pushFollow(FOLLOW_stmts_in_ifStmt1228);
+            pushFollow(FOLLOW_stmts_in_ifStmt1244);
             stmts80=stmts();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_stmts.add(stmts80.getTree());
 
-            ELSE81=(Token)match(input,ELSE,FOLLOW_ELSE_in_ifStmt1230); if (state.failed) return retval; 
+            ELSE81=(Token)match(input,ELSE,FOLLOW_ELSE_in_ifStmt1246); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_ELSE.add(ELSE81);
 
 
-            pushFollow(FOLLOW_stmts_in_ifStmt1232);
+            pushFollow(FOLLOW_stmts_in_ifStmt1248);
             stmts82=stmts();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_stmts.add(stmts82.getTree());
 
-            FI83=(Token)match(input,FI,FOLLOW_FI_in_ifStmt1234); if (state.failed) return retval; 
+            FI83=(Token)match(input,FI,FOLLOW_FI_in_ifStmt1250); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_FI.add(FI83);
 
 
@@ -2881,29 +2921,29 @@ public TreeAdaptor getTreeAdaptor() {
             // .\\src\\thelang\\TheLang.g:150:11: ( WHILE bexpr DO stmts OD -> ^( WHILE_STATEMENT bexpr ^( BLOCK_STATEMENT stmts ) ) )
             // .\\src\\thelang\\TheLang.g:150:13: WHILE bexpr DO stmts OD
             {
-            WHILE84=(Token)match(input,WHILE,FOLLOW_WHILE_in_whileStmt1262); if (state.failed) return retval; 
+            WHILE84=(Token)match(input,WHILE,FOLLOW_WHILE_in_whileStmt1278); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_WHILE.add(WHILE84);
 
 
-            pushFollow(FOLLOW_bexpr_in_whileStmt1264);
+            pushFollow(FOLLOW_bexpr_in_whileStmt1280);
             bexpr85=bexpr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_bexpr.add(bexpr85.getTree());
 
-            DO86=(Token)match(input,DO,FOLLOW_DO_in_whileStmt1266); if (state.failed) return retval; 
+            DO86=(Token)match(input,DO,FOLLOW_DO_in_whileStmt1282); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_DO.add(DO86);
 
 
-            pushFollow(FOLLOW_stmts_in_whileStmt1268);
+            pushFollow(FOLLOW_stmts_in_whileStmt1284);
             stmts87=stmts();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_stmts.add(stmts87.getTree());
 
-            OD88=(Token)match(input,OD,FOLLOW_OD_in_whileStmt1270); if (state.failed) return retval; 
+            OD88=(Token)match(input,OD,FOLLOW_OD_in_whileStmt1286); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OD.add(OD88);
 
 
@@ -3015,7 +3055,7 @@ public TreeAdaptor getTreeAdaptor() {
             // .\\src\\thelang\\TheLang.g:152:9: ( PROGRAM ( decl )* stmts END -> ^( THEPROGRAM ^( BLOCK_DECLARATION ( decl )* ) ^( BLOCK_STATEMENT stmts ) ) )
             // .\\src\\thelang\\TheLang.g:152:11: PROGRAM ( decl )* stmts END
             {
-            PROGRAM89=(Token)match(input,PROGRAM,FOLLOW_PROGRAM_in_program1292); if (state.failed) return retval; 
+            PROGRAM89=(Token)match(input,PROGRAM,FOLLOW_PROGRAM_in_program1308); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_PROGRAM.add(PROGRAM89);
 
 
@@ -3034,7 +3074,7 @@ public TreeAdaptor getTreeAdaptor() {
             	case 1 :
             	    // .\\src\\thelang\\TheLang.g:152:19: decl
             	    {
-            	    pushFollow(FOLLOW_decl_in_program1294);
+            	    pushFollow(FOLLOW_decl_in_program1310);
             	    decl90=decl();
 
             	    state._fsp--;
@@ -3050,14 +3090,14 @@ public TreeAdaptor getTreeAdaptor() {
             } while (true);
 
 
-            pushFollow(FOLLOW_stmts_in_program1297);
+            pushFollow(FOLLOW_stmts_in_program1313);
             stmts91=stmts();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_stmts.add(stmts91.getTree());
 
-            END92=(Token)match(input,END,FOLLOW_END_in_program1299); if (state.failed) return retval; 
+            END92=(Token)match(input,END,FOLLOW_END_in_program1315); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_END.add(END92);
 
 
@@ -3153,9 +3193,9 @@ public TreeAdaptor getTreeAdaptor() {
         // .\\src\\thelang\\TheLang.g:104:17: ( OR bexpr1 )
         // .\\src\\thelang\\TheLang.g:104:17: OR bexpr1
         {
-        match(input,OR,FOLLOW_OR_in_synpred9_TheLang754); if (state.failed) return ;
+        match(input,OR,FOLLOW_OR_in_synpred9_TheLang758); if (state.failed) return ;
 
-        pushFollow(FOLLOW_bexpr1_in_synpred9_TheLang757);
+        pushFollow(FOLLOW_bexpr1_in_synpred9_TheLang761);
         bexpr1();
 
         state._fsp--;
@@ -3171,9 +3211,9 @@ public TreeAdaptor getTreeAdaptor() {
         // .\\src\\thelang\\TheLang.g:107:18: ( AND bexpr2 )
         // .\\src\\thelang\\TheLang.g:107:18: AND bexpr2
         {
-        match(input,AND,FOLLOW_AND_in_synpred10_TheLang777); if (state.failed) return ;
+        match(input,AND,FOLLOW_AND_in_synpred10_TheLang781); if (state.failed) return ;
 
-        pushFollow(FOLLOW_bexpr2_in_synpred10_TheLang780);
+        pushFollow(FOLLOW_bexpr2_in_synpred10_TheLang784);
         bexpr2();
 
         state._fsp--;
@@ -3189,19 +3229,19 @@ public TreeAdaptor getTreeAdaptor() {
         // .\\src\\thelang\\TheLang.g:110:10: ( aexpr opr aexpr )
         // .\\src\\thelang\\TheLang.g:110:10: aexpr opr aexpr
         {
-        pushFollow(FOLLOW_aexpr_in_synpred11_TheLang798);
+        pushFollow(FOLLOW_aexpr_in_synpred11_TheLang802);
         aexpr();
 
         state._fsp--;
         if (state.failed) return ;
 
-        pushFollow(FOLLOW_opr_in_synpred11_TheLang800);
+        pushFollow(FOLLOW_opr_in_synpred11_TheLang804);
         opr();
 
         state._fsp--;
         if (state.failed) return ;
 
-        pushFollow(FOLLOW_aexpr_in_synpred11_TheLang803);
+        pushFollow(FOLLOW_aexpr_in_synpred11_TheLang807);
         aexpr();
 
         state._fsp--;
@@ -3274,89 +3314,89 @@ public TreeAdaptor getTreeAdaptor() {
     public static final BitSet FOLLOW_LBRACKET_in_aexpr3641 = new BitSet(new long[]{0x0000002844000000L});
     public static final BitSet FOLLOW_aexpr_in_aexpr3643 = new BitSet(new long[]{0x0000800000000000L});
     public static final BitSet FOLLOW_RBRACKET_in_aexpr3645 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INTEGER_in_aexpr3666 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_aexpr3712 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_aexpr3714 = new BitSet(new long[]{0x0008000000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_aexpr3716 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_bexpr1_in_bexpr751 = new BitSet(new long[]{0x0000080000000002L});
-    public static final BitSet FOLLOW_OR_in_bexpr754 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr1_in_bexpr757 = new BitSet(new long[]{0x0000080000000002L});
-    public static final BitSet FOLLOW_bexpr2_in_bexpr1774 = new BitSet(new long[]{0x0000000000000012L});
-    public static final BitSet FOLLOW_AND_in_bexpr1777 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr2_in_bexpr1780 = new BitSet(new long[]{0x0000000000000012L});
-    public static final BitSet FOLLOW_aexpr_in_bexpr2798 = new BitSet(new long[]{0x0000009203200000L});
-    public static final BitSet FOLLOW_opr_in_bexpr2800 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_bexpr2803 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_bexpr2814 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr_in_bexpr2816 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TRUE_in_bexpr2835 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_FALSE_in_bexpr2854 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_bexpr2873 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr_in_bexpr2875 = new BitSet(new long[]{0x0008000000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_bexpr2877 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INT_in_decl950 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_decl952 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_decl954 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INT_in_decl968 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_decl970 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_LBRACKET_in_decl972 = new BitSet(new long[]{0x0000000040000000L});
-    public static final BitSet FOLLOW_INTEGER_in_decl974 = new BitSet(new long[]{0x0000800000000000L});
-    public static final BitSet FOLLOW_RBRACKET_in_decl976 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_decl978 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_stmt_in_stmts1004 = new BitSet(new long[]{0x502100000C000002L});
-    public static final BitSet FOLLOW_assignStmt_in_stmt1014 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_skipStmt_in_stmt1023 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_readStmt_in_stmt1032 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_writeStmt_in_stmt1041 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ifStmt_in_stmt1050 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_whileStmt_in_stmt1059 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_assignStmt1073 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_ASSIGN_in_assignStmt1075 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_assignStmt1077 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_assignStmt1079 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_assignStmt1101 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_LBRACKET_in_assignStmt1103 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_assignStmt1105 = new BitSet(new long[]{0x0000800000000000L});
-    public static final BitSet FOLLOW_RBRACKET_in_assignStmt1107 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_ASSIGN_in_assignStmt1109 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_assignStmt1111 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_assignStmt1113 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SKIP_in_skipStmt1133 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_skipStmt1135 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_READ_in_readStmt1147 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_readStmt1149 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_readStmt1151 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_READ_in_readStmt1170 = new BitSet(new long[]{0x0000000004000000L});
-    public static final BitSet FOLLOW_IDENTIFIER_in_readStmt1172 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_LBRACKET_in_readStmt1174 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_readStmt1176 = new BitSet(new long[]{0x0000800000000000L});
-    public static final BitSet FOLLOW_RBRACKET_in_readStmt1178 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_readStmt1180 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_WRITE_in_writeStmt1202 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_writeStmt1204 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_writeStmt1206 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_IF_in_ifStmt1222 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr_in_ifStmt1224 = new BitSet(new long[]{0x0080000000000000L});
-    public static final BitSet FOLLOW_THEN_in_ifStmt1226 = new BitSet(new long[]{0x502100000C000000L});
-    public static final BitSet FOLLOW_stmts_in_ifStmt1228 = new BitSet(new long[]{0x0000000000080000L});
-    public static final BitSet FOLLOW_ELSE_in_ifStmt1230 = new BitSet(new long[]{0x502100000C000000L});
-    public static final BitSet FOLLOW_stmts_in_ifStmt1232 = new BitSet(new long[]{0x0000000000800000L});
-    public static final BitSet FOLLOW_FI_in_ifStmt1234 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_WHILE_in_whileStmt1262 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr_in_whileStmt1264 = new BitSet(new long[]{0x0000000000040000L});
-    public static final BitSet FOLLOW_DO_in_whileStmt1266 = new BitSet(new long[]{0x502100000C000000L});
-    public static final BitSet FOLLOW_stmts_in_whileStmt1268 = new BitSet(new long[]{0x0000040000000000L});
-    public static final BitSet FOLLOW_OD_in_whileStmt1270 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PROGRAM_in_program1292 = new BitSet(new long[]{0x502100002C000000L});
-    public static final BitSet FOLLOW_decl_in_program1294 = new BitSet(new long[]{0x502100002C000000L});
-    public static final BitSet FOLLOW_stmts_in_program1297 = new BitSet(new long[]{0x0000000000100000L});
-    public static final BitSet FOLLOW_END_in_program1299 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OR_in_synpred9_TheLang754 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr1_in_synpred9_TheLang757 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_AND_in_synpred10_TheLang777 = new BitSet(new long[]{0x0200012844400000L});
-    public static final BitSet FOLLOW_bexpr2_in_synpred10_TheLang780 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_aexpr_in_synpred11_TheLang798 = new BitSet(new long[]{0x0000009203200000L});
-    public static final BitSet FOLLOW_opr_in_synpred11_TheLang800 = new BitSet(new long[]{0x0000002844000000L});
-    public static final BitSet FOLLOW_aexpr_in_synpred11_TheLang803 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INTEGER_in_aexpr3670 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_aexpr3716 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_aexpr3718 = new BitSet(new long[]{0x0008000000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_aexpr3720 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_bexpr1_in_bexpr755 = new BitSet(new long[]{0x0000080000000002L});
+    public static final BitSet FOLLOW_OR_in_bexpr758 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr1_in_bexpr761 = new BitSet(new long[]{0x0000080000000002L});
+    public static final BitSet FOLLOW_bexpr2_in_bexpr1778 = new BitSet(new long[]{0x0000000000000012L});
+    public static final BitSet FOLLOW_AND_in_bexpr1781 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr2_in_bexpr1784 = new BitSet(new long[]{0x0000000000000012L});
+    public static final BitSet FOLLOW_aexpr_in_bexpr2802 = new BitSet(new long[]{0x0000009203200000L});
+    public static final BitSet FOLLOW_opr_in_bexpr2804 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_bexpr2807 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NOT_in_bexpr2818 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr_in_bexpr2820 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_TRUE_in_bexpr2839 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_FALSE_in_bexpr2858 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_bexpr2877 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr_in_bexpr2879 = new BitSet(new long[]{0x0008000000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_bexpr2881 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INT_in_decl954 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_decl956 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_decl958 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INT_in_decl976 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_decl978 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_LBRACKET_in_decl980 = new BitSet(new long[]{0x0000000040000000L});
+    public static final BitSet FOLLOW_INTEGER_in_decl982 = new BitSet(new long[]{0x0000800000000000L});
+    public static final BitSet FOLLOW_RBRACKET_in_decl984 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_decl986 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_stmt_in_stmts1012 = new BitSet(new long[]{0x502100000C000002L});
+    public static final BitSet FOLLOW_assignStmt_in_stmt1022 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_skipStmt_in_stmt1031 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_readStmt_in_stmt1040 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_writeStmt_in_stmt1049 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ifStmt_in_stmt1058 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_whileStmt_in_stmt1067 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_assignStmt1081 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_ASSIGN_in_assignStmt1083 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_assignStmt1085 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_assignStmt1087 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_assignStmt1113 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_LBRACKET_in_assignStmt1115 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_assignStmt1117 = new BitSet(new long[]{0x0000800000000000L});
+    public static final BitSet FOLLOW_RBRACKET_in_assignStmt1119 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_ASSIGN_in_assignStmt1121 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_assignStmt1123 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_assignStmt1125 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SKIP_in_skipStmt1149 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_skipStmt1151 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_READ_in_readStmt1163 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_readStmt1165 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_readStmt1167 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_READ_in_readStmt1186 = new BitSet(new long[]{0x0000000004000000L});
+    public static final BitSet FOLLOW_IDENTIFIER_in_readStmt1188 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_LBRACKET_in_readStmt1190 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_readStmt1192 = new BitSet(new long[]{0x0000800000000000L});
+    public static final BitSet FOLLOW_RBRACKET_in_readStmt1194 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_readStmt1196 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_WRITE_in_writeStmt1218 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_writeStmt1220 = new BitSet(new long[]{0x0010000000000000L});
+    public static final BitSet FOLLOW_SEMI_in_writeStmt1222 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_IF_in_ifStmt1238 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr_in_ifStmt1240 = new BitSet(new long[]{0x0080000000000000L});
+    public static final BitSet FOLLOW_THEN_in_ifStmt1242 = new BitSet(new long[]{0x502100000C000000L});
+    public static final BitSet FOLLOW_stmts_in_ifStmt1244 = new BitSet(new long[]{0x0000000000080000L});
+    public static final BitSet FOLLOW_ELSE_in_ifStmt1246 = new BitSet(new long[]{0x502100000C000000L});
+    public static final BitSet FOLLOW_stmts_in_ifStmt1248 = new BitSet(new long[]{0x0000000000800000L});
+    public static final BitSet FOLLOW_FI_in_ifStmt1250 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_WHILE_in_whileStmt1278 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr_in_whileStmt1280 = new BitSet(new long[]{0x0000000000040000L});
+    public static final BitSet FOLLOW_DO_in_whileStmt1282 = new BitSet(new long[]{0x502100000C000000L});
+    public static final BitSet FOLLOW_stmts_in_whileStmt1284 = new BitSet(new long[]{0x0000040000000000L});
+    public static final BitSet FOLLOW_OD_in_whileStmt1286 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PROGRAM_in_program1308 = new BitSet(new long[]{0x502100002C000000L});
+    public static final BitSet FOLLOW_decl_in_program1310 = new BitSet(new long[]{0x502100002C000000L});
+    public static final BitSet FOLLOW_stmts_in_program1313 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_END_in_program1315 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OR_in_synpred9_TheLang758 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr1_in_synpred9_TheLang761 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_AND_in_synpred10_TheLang781 = new BitSet(new long[]{0x0200012844400000L});
+    public static final BitSet FOLLOW_bexpr2_in_synpred10_TheLang784 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_aexpr_in_synpred11_TheLang802 = new BitSet(new long[]{0x0000009203200000L});
+    public static final BitSet FOLLOW_opr_in_synpred11_TheLang804 = new BitSet(new long[]{0x0000002844000000L});
+    public static final BitSet FOLLOW_aexpr_in_synpred11_TheLang807 = new BitSet(new long[]{0x0000000000000002L});
 
 }

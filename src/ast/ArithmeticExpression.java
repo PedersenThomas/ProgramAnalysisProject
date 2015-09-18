@@ -1,4 +1,3 @@
 package ast;
 
-public abstract class ArithmeticExpression {
-}
+public abstract class ArithmeticExpression {}

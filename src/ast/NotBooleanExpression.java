@@ -6,4 +6,9 @@ public class NotBooleanExpression extends BooleanExpression {
 	public NotBooleanExpression(BooleanExpression expression) {
 		this.expression = expression;
 	}
+
+	@Override
+	public String toString() {
+		return "!" + expression;
+	}
 }

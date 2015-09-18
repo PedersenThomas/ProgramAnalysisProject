@@ -1,9 +1,14 @@
 package ast;
 
 public class VariableDeclaration extends Declaration {
-	Identifier name;
+	String name;
 	
-	public VariableDeclaration(Identifier name) {
+	public VariableDeclaration(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "int " + name;
 	}
 }

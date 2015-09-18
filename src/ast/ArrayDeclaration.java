@@ -1,11 +1,16 @@
 package ast;
 
 public class ArrayDeclaration extends Declaration {
-	Identifier array;
-	Constant size;
+	String array;
+	int size;
 	
-	public ArrayDeclaration(Identifier array, Constant size) {
+	public ArrayDeclaration(String array, int size) {
 		this.array = array;
 		this.size = size;
+	}
+
+	@Override
+	public String toString() {
+		return "int " + array + "[" + size + "]";
 	}
 }

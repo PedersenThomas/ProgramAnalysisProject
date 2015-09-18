@@ -1,9 +1,14 @@
 package ast;
 
 public class WriteStatement extends Statement {
-	Identifier identifier;
+	ArithmeticExpression expression;
 	
-	public WriteStatement(Identifier identifier) {
-		this.identifier = identifier;
+	public WriteStatement(ArithmeticExpression expression) {
+		this.expression = expression;
+	}
+
+	@Override
+	public String toString() {
+		return "write " + expression;
 	}
 }

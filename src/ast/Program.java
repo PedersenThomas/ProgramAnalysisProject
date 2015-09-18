@@ -3,10 +3,10 @@ package ast;
 import java.util.List;
 
 public class Program {
-	Declaration declaration;
+	List<Declaration> declaration;
 	List<Statement> statement;
 	
-	public Program(Declaration declaration, List<Statement> statement) {
+	public Program(List<Declaration> declaration, List<Statement> statement) {
 		this.declaration = declaration;
 		this.statement = statement;
 	}
@@ -15,6 +15,6 @@ public class Program {
 	public String toString() {
 		String d = this.declaration != null ? this.declaration.toString() : "";
 		String s = this.statement != null ? this.statement.toString() : "";
-		return "PROGRAM\n" + d + "" + s + "\nEND";
+		return "PROGRAM\n-DECLARATION-\n" + d + "\n-STATEMENTS-\n" + s + "\nEND";
 	}
 }

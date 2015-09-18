@@ -6,4 +6,9 @@ public class UnaryMinus extends ArithmeticExpression {
 	public UnaryMinus(ArithmeticExpression expression) {
 		this.expression = expression;
 	}
+
+	@Override
+	public String toString() {
+		return "-" + expression;
+	}
 }
