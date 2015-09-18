@@ -20,7 +20,7 @@ public class AstBuilder {
 			throw new IllegalArgumentException("The passed CommonTree was not of type \"THEPROGRAM\".");
 		}
 		// TODO Add check for getChildren
-		ArrayList<CommonTree> chrildren = (ArrayList<CommonTree>) tree.getChildren();
+		ArrayList<CommonTree> chrildren = getChildren(tree);
 
 		List<Declaration> declarations = parseDeclarationBlock(chrildren.get(0));
 		List<Statement> statements = parseStatmentBlock(chrildren.get(1));
@@ -34,7 +34,7 @@ public class AstBuilder {
 		}
 		ArrayList<Declaration> declarations = new ArrayList<Declaration>();
 
-		ArrayList<CommonTree> chrildren = (ArrayList<CommonTree>) tree.getChildren();
+		ArrayList<CommonTree> chrildren = getChildren(tree);
 		if (chrildren != null) {
 			for (CommonTree commonTree : chrildren) {
 				declarations.add(parseDeclaration(commonTree));
@@ -49,7 +49,7 @@ public class AstBuilder {
 			throw new IllegalArgumentException("The passed CommonTree was null.");
 		}
 
-		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		ArrayList<CommonTree> children = getChildren(tree);
 		switch (tree.getType()) {
 		case TheLangParser.DECLARE_VARIABLE:
 			return new VariableDeclaration( nameFromVariable(children.get(0)) );
@@ -68,7 +68,7 @@ public class AstBuilder {
 		}
 		ArrayList<Statement> statements = new ArrayList<Statement>();
 		
-		ArrayList<CommonTree> chrildren = (ArrayList<CommonTree>) tree.getChildren();
+		ArrayList<CommonTree> chrildren = getChildren(tree);
 		if (chrildren != null) {
 			for (CommonTree commonTree : chrildren) {
 				statements.add(parseStatement(commonTree));
@@ -78,20 +78,12 @@ public class AstBuilder {
 		return statements;
 	}
 	
-	/*
-	 * assignStmt
-     | skipStmt
-     | readStmt
-     | writeStmt
-     | ifStmt
-     | whileStmt
-	 */
 	private static Statement parseStatement(CommonTree tree) {
 		if (tree == null) {
 			throw new IllegalArgumentException("The passed CommonTree was null.");
 		}
 
-		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		ArrayList<CommonTree> children = getChildren(tree);
 		switch (tree.getType()) {
 		case TheLangParser.ASSIGNMENT_VARIABLE:
 			return new VariableAssignment( nameFromVariable(children.get(0)), parseArithmeticExpression(children.get(1)) );
@@ -126,7 +118,7 @@ public class AstBuilder {
 		if(tree == null) {
 			throw new IllegalArgumentException("The passed CommonTree was null.");
 		}
-		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		ArrayList<CommonTree> children = getChildren(tree);
 		
 		switch(tree.getType()) {
 		case TheLangParser.PLUS:
@@ -176,7 +168,7 @@ public class AstBuilder {
 		if(tree == null) {
 			throw new IllegalArgumentException("The passed CommonTree was null.");
 		}
-		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		ArrayList<CommonTree> children = getChildren(tree);
 		
 		switch (tree.getType()) {
 		case TheLangParser.OR:
@@ -238,6 +230,12 @@ public class AstBuilder {
 		}
 	}
 	
+	private static ArrayList<CommonTree> getChildren(CommonTree tree) {
+		@SuppressWarnings("unchecked")
+		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		return children;
+	}
+	
 	/**
 	 * Utility function, for extracting the name of a variable as a string
 	 * @param tree CommonTree node of type VARIABLE
@@ -250,7 +248,7 @@ public class AstBuilder {
 		if(tree.getType() != TheLangParser.VARIABLE) {
 			throw new IllegalArgumentException("The passed CommonTree was not of type \"VARIABLE\". It was: " + tree.getType());
 		}
-		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		ArrayList<CommonTree> children = getChildren(tree);
 		
 		return children.get(0).getText();
 	}
@@ -267,11 +265,16 @@ public class AstBuilder {
 		if(tree.getType() != TheLangParser.CONSTANT) {
 			throw new IllegalArgumentException("The passed CommonTree was not of type \"CONSTANT\".");
 		}
-		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		ArrayList<CommonTree> children = getChildren(tree);
 		
 		return Integer.parseInt(children.get(0).getText());
 	}
 	
+	/**
+	 * Utility function, for extract the boolean value of a boolean constant as a boolean.
+	 * @param tree CommonTree node of type BOOL_CONSTANT
+	 * @return
+	 */
 	private static boolean booleanFromBooleanConstant(CommonTree tree) {
 		if(tree == null) {
 			throw new IllegalArgumentException("The passed CommonTree was null.");
@@ -279,7 +282,7 @@ public class AstBuilder {
 		if(tree.getType() != TheLangParser.BOOL_CONSTANT) {
 			throw new IllegalArgumentException("The passed CommonTree was not of type \"BOOL_CONSTANT\".");
 		}
-		ArrayList<CommonTree> children = (ArrayList<CommonTree>)tree.getChildren();
+		ArrayList<CommonTree> children = getChildren(tree);
 		
 		return Boolean.parseBoolean(children.get(0).getText());
 	}
