@@ -1,0 +1,7 @@
+program 
+if true then
+	skip;
+else
+	skip;
+fi
+end

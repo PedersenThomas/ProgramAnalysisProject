@@ -1,4 +1,4 @@
-// $ANTLR 3.4 .\\src\\thelang\\TheLang.g 2015-09-16 16:08:54
+// $ANTLR 3.4 .\\src\\thelang\\TheLang.g 2015-09-18 13:08:15
 
 package thelang;
 
@@ -938,14 +938,14 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:87:9: ( '(*' ( options {greedy=false; } : . )* '*)' )
-            // .\\src\\thelang\\TheLang.g:87:11: '(*' ( options {greedy=false; } : . )* '*)'
+            // .\\src\\thelang\\TheLang.g:108:9: ( '(*' ( options {greedy=false; } : . )* '*)' )
+            // .\\src\\thelang\\TheLang.g:108:11: '(*' ( options {greedy=false; } : . )* '*)'
             {
             match("(*"); 
 
 
 
-            // .\\src\\thelang\\TheLang.g:87:16: ( options {greedy=false; } : . )*
+            // .\\src\\thelang\\TheLang.g:108:16: ( options {greedy=false; } : . )*
             loop1:
             do {
                 int alt1=2;
@@ -970,7 +970,7 @@ public class TheLangLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // .\\src\\thelang\\TheLang.g:87:43: .
+            	    // .\\src\\thelang\\TheLang.g:108:43: .
             	    {
             	    matchAny(); 
 
@@ -1005,10 +1005,10 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = INTEGER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:90:9: ( ( '0' | '1' .. '9' ( '0' .. '9' )* ) )
-            // .\\src\\thelang\\TheLang.g:90:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
+            // .\\src\\thelang\\TheLang.g:111:9: ( ( '0' | '1' .. '9' ( '0' .. '9' )* ) )
+            // .\\src\\thelang\\TheLang.g:111:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
             {
-            // .\\src\\thelang\\TheLang.g:90:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
+            // .\\src\\thelang\\TheLang.g:111:11: ( '0' | '1' .. '9' ( '0' .. '9' )* )
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -1027,18 +1027,18 @@ public class TheLangLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // .\\src\\thelang\\TheLang.g:90:12: '0'
+                    // .\\src\\thelang\\TheLang.g:111:12: '0'
                     {
                     match('0'); 
 
                     }
                     break;
                 case 2 :
-                    // .\\src\\thelang\\TheLang.g:90:18: '1' .. '9' ( '0' .. '9' )*
+                    // .\\src\\thelang\\TheLang.g:111:18: '1' .. '9' ( '0' .. '9' )*
                     {
                     matchRange('1','9'); 
 
-                    // .\\src\\thelang\\TheLang.g:90:27: ( '0' .. '9' )*
+                    // .\\src\\thelang\\TheLang.g:111:27: ( '0' .. '9' )*
                     loop2:
                     do {
                         int alt2=2;
@@ -1094,13 +1094,13 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = IDENTIFIER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:92:12: ( LETTER ( LETTER | '0' .. '9' )* )
-            // .\\src\\thelang\\TheLang.g:92:14: LETTER ( LETTER | '0' .. '9' )*
+            // .\\src\\thelang\\TheLang.g:113:12: ( LETTER ( LETTER | '0' .. '9' )* )
+            // .\\src\\thelang\\TheLang.g:113:14: LETTER ( LETTER | '0' .. '9' )*
             {
             mLETTER(); 
 
 
-            // .\\src\\thelang\\TheLang.g:92:21: ( LETTER | '0' .. '9' )*
+            // .\\src\\thelang\\TheLang.g:113:21: ( LETTER | '0' .. '9' )*
             loop4:
             do {
                 int alt4=2;
@@ -1148,7 +1148,7 @@ public class TheLangLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // .\\src\\thelang\\TheLang.g:96:8: ( 'A' .. 'Z' | 'a' .. 'z' | '_' )
+            // .\\src\\thelang\\TheLang.g:117:8: ( 'A' .. 'Z' | 'a' .. 'z' | '_' )
             // .\\src\\thelang\\TheLang.g:
             {
             if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
@@ -1176,8 +1176,8 @@ public class TheLangLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // .\\src\\thelang\\TheLang.g:100:4: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
-            // .\\src\\thelang\\TheLang.g:100:6: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
+            // .\\src\\thelang\\TheLang.g:121:4: ( ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' ) )
+            // .\\src\\thelang\\TheLang.g:121:6: ( ' ' | '\\r' | '\\t' | '\\u000C' | '\\n' )
             {
             if ( (input.LA(1) >= '\t' && input.LA(1) <= '\n')||(input.LA(1) >= '\f' && input.LA(1) <= '\r')||input.LA(1)==' ' ) {
                 input.consume();

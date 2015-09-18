@@ -71,13 +71,34 @@ package thelang;
 
 }
 
+bexpr returns [BooleanExpression value] : 
+	b1=bexpr1      { $value = b1; }
+	 (OR b2=bexpr1 { $value = new BooleanOperation($value, BooleanOperator.Or, b2); } )* 
+      ;
+
+bexpr1 returns [BooleanExpression value] 
+	: b1=bexpr2       { $value = b1; }
+	   (AND b2=bexpr2 { $value = new BooleanOperation($value, BooleanOperator.And, b2); } )*
+    ;
+
+bexpr2 returns [BooleanExpression value]
+	: NOT b=bexpr           { $value = new NotBooleanExpression(b); }
+    | TRUE                  { $value = new BooleanConstant(true); }
+    | FALSE                 { $value = new BooleanConstant(false); }
+    | LPAREN c=bexpr RPAREN { $value = c; }
+    ;
 
 skipStmt returns [SkipStatement value]
 	: SKIP SEMI { $value = new SkipStatement(); }
 	;
+
+ifStmt returns [IfStatement value] : 
+	IF b=bexpr THEN t=stmt+ ELSE f=stmt+ FI { $value = new IfStatement(b, t, f); }
+	;
 	
 stmt returns [Statement value] 
-	: s=skipStmt { $value = s}
+	: s=skipStmt { $value = s; }
+    | i=ifStmt { $value = i; }
 	;
 
 program returns [Program value]
