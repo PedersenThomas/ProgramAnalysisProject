@@ -6,7 +6,10 @@ import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 
 import ast.AstBuilder;
+import ast.ILabelable;
 import ast.Program;
+import graph.FlowGraph;
+import graph.FlowGraphNode;
 import thelang.TheLangParser.program_return;
 
 public class Main {
@@ -20,16 +23,30 @@ public class Main {
 			program_return parserResult = parser.program();
 			System.out.println(parserResult);
 			if (parserResult != null) {
-
-				CommonTree tree = (CommonTree) parserResult.tree;
-				System.out.println(tree.toStringTree());
-
-				System.out.println("-----------------------------------------");
-
+				CommonTree tree = parserResult.tree;
 				printTree(tree, 0);
+				System.out.println("-----------------------------------------");
 
 				Program theProgram = AstBuilder.build(tree);
 				System.out.println(theProgram);
+
+				FlowGraph graph = new FlowGraph(theProgram);
+				
+				System.out.println("////////////// Labels ////////////////////////////");
+				for (ILabelable key : graph.getLabels().keySet()) {
+					Integer value = graph.getLabels().get(key);
+					System.out.println(value + " ---> " + key);
+				}
+				
+				System.out.println("////////////// Flow ////////////////////////////");
+				for (FlowGraphNode node : graph.getFlowNodes()) {
+					System.out.println(node);
+				}
+
+				System.out.println("////////////// Free Variables ////////////////////////////");
+				for (String variable : graph.getFreeVariables()) {
+					System.out.println(variable);
+				}
 			}
 		} catch (RecognitionException e) {
 			e.printStackTrace();
@@ -37,6 +54,7 @@ public class Main {
 	}
 
 	public static void printTree(CommonTree tree, int indentCount) {
+		// TODO Remove this function!
 		String indent = repeat(indentCount, " ");
 		System.out.println(indent + tree + " #" + tree.getType());
 
@@ -55,6 +73,5 @@ public class Main {
 			result += txt;
 		}
 		return result;
-
 	}
 }

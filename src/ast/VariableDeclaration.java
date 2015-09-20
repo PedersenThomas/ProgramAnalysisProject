@@ -6,6 +6,10 @@ public class VariableDeclaration extends Declaration {
 	public VariableDeclaration(String name) {
 		this.name = name;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public String toString() {

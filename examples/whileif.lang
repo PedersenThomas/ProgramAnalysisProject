@@ -1,0 +1,16 @@
+program
+(* Must insert skip here to get Isolated Entry *)
+while i < 10 do
+   if i/2*2 = i then
+      write i;
+   else
+      i := i+1;
+   fi
+od
+if i > 0 then
+   write 0;
+else
+   write 1;
+fi
+(* Must insert skip here to get Isolated Exit *)
+end

@@ -8,6 +8,10 @@ public class ArrayDeclaration extends Declaration {
 		this.array = array;
 		this.size = size;
 	}
+	
+	public String getArrayName() {
+		return array;
+	}
 
 	@Override
 	public String toString() {

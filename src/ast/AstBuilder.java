@@ -19,7 +19,7 @@ public class AstBuilder {
 		if (tree.getType() != TheLangParser.THEPROGRAM) {
 			throw new IllegalArgumentException("The passed CommonTree was not of type \"THEPROGRAM\".");
 		}
-		// TODO Add check for getChildren
+
 		ArrayList<CommonTree> chrildren = getChildren(tree);
 
 		List<Declaration> declarations = parseDeclarationBlock(chrildren.get(0));
