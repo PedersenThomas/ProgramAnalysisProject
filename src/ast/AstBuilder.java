@@ -184,7 +184,7 @@ public class AstBuilder {
 					parseBooleanExpression(children.get(1)));
 
 		case TheLangParser.NOT_EXPRESSION:
-			return new NotBooleanExpression(parseBooleanExpression(children.get(0)));
+			return new BooleanNotExpression(parseBooleanExpression(children.get(0)));
 		
 		case TheLangParser.BOOL_CONSTANT:
 			return new BooleanConstant(booleanFromBooleanConstant(tree));
