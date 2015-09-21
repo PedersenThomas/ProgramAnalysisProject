@@ -1,9 +1,9 @@
 package ast;
 
-public class NotBooleanExpression extends BooleanExpression {
+public class BooleanNotExpression extends BooleanExpression {
 	BooleanExpression expression;
 	
-	public NotBooleanExpression(BooleanExpression expression) {
+	public BooleanNotExpression(BooleanExpression expression) {
 		this.expression = expression;
 	}
 
