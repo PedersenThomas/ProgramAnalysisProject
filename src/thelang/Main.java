@@ -9,7 +9,7 @@ import ast.AstBuilder;
 import ast.ILabelable;
 import ast.Program;
 import graph.FlowGraph;
-import graph.FlowGraphNode;
+import graph.FlowGraphEdge;
 import thelang.TheLangParser.program_return;
 
 public class Main {
@@ -41,13 +41,13 @@ public class Main {
 
 	public static void printGraphInfo(FlowGraph graph) {
 		System.out.println("////////////// Labels ////////////////////////////");
-		for (ILabelable key : graph.getLabels().keySet()) {
-			Integer value = graph.getLabels().get(key);
-			System.out.println(value + " ---> " + key);
+		for (Integer key : graph.getLabelToProgramPoint().keySet()) {
+			ILabelable value = graph.getLabelToProgramPoint().get(key);
+			System.out.println(key + " ---> " + value);
 		}
 		
 		System.out.println("////////////// Flow ////////////////////////////");
-		for (FlowGraphNode node : graph.getFlowNodes()) {
+		for (FlowGraphEdge node : graph.getFlowNodes()) {
 			System.out.println(node);
 		}
 
