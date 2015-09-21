@@ -1,7 +1,9 @@
-﻿.DS_Store
+.DS_Store
 .project
 .classpath
 .settings/
+.IDEA
+ProgramAnalysisProject.iml
 
 # Compiled java classes
 *.class
