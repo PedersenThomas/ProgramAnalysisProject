@@ -9,6 +9,7 @@ import ast.Declaration;
 import ast.ILabelable;
 import ast.IfStatement;
 import ast.Program;
+import ast.SkipStatement;
 import ast.Statement;
 import ast.VariableDeclaration;
 import ast.WhileStatement;
@@ -49,6 +50,16 @@ public class FlowGraph {
 			}
 		}
 
+		// To make sure there are Isolated Entry
+		if(program.declarations.isEmpty() && program.statements.get(0) instanceof WhileStatement) {
+			program.statements.add(0, new SkipStatement());
+		}
+		
+		// To make sure there are Isolated Exit
+		if(program.statements.get(program.statements.size() -1) instanceof IfStatement) {
+			program.statements.add(new SkipStatement());
+		}
+		
 		List<Integer> previous = new ArrayList<Integer>();
 		if (lastLabel != null) {
 			previous.add(lastLabel);

@@ -32,27 +32,31 @@ public class Main {
 
 				FlowGraph graph = new FlowGraph(theProgram);
 				
-				System.out.println("////////////// Labels ////////////////////////////");
-				for (ILabelable key : graph.getLabels().keySet()) {
-					Integer value = graph.getLabels().get(key);
-					System.out.println(value + " ---> " + key);
-				}
-				
-				System.out.println("////////////// Flow ////////////////////////////");
-				for (FlowGraphNode node : graph.getFlowNodes()) {
-					System.out.println(node);
-				}
-
-				System.out.println("////////////// Free Variables ////////////////////////////");
-				for (String variable : graph.getFreeVariables()) {
-					System.out.println(variable);
-				}
+				printGraphInfo(graph);
 			}
 		} catch (RecognitionException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public static void printGraphInfo(FlowGraph graph) {
+		System.out.println("////////////// Labels ////////////////////////////");
+		for (ILabelable key : graph.getLabels().keySet()) {
+			Integer value = graph.getLabels().get(key);
+			System.out.println(value + " ---> " + key);
+		}
+		
+		System.out.println("////////////// Flow ////////////////////////////");
+		for (FlowGraphNode node : graph.getFlowNodes()) {
+			System.out.println(node);
+		}
+
+		System.out.println("////////////// Free Variables ////////////////////////////");
+		for (String variable : graph.getFreeVariables()) {
+			System.out.println(variable);
+		}
+	}
+	
 	public static void printTree(CommonTree tree, int indentCount) {
 		// TODO Remove this function!
 		String indent = repeat(indentCount, " ");
