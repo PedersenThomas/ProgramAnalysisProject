@@ -1,3 +1,3 @@
 package ast;
 
-public abstract class Statement implements ILabelable {}
+public abstract class Statement implements ILabelable, ITokenable {}

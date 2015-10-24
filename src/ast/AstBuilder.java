@@ -52,10 +52,10 @@ public class AstBuilder {
 		ArrayList<CommonTree> children = getChildren(tree);
 		switch (tree.getType()) {
 		case TheLangParser.DECLARE_VARIABLE:
-			return new VariableDeclaration( nameFromVariable(children.get(0)) );
+			return new VariableDeclaration( nameFromVariable(children.get(0)), tree.token );
 			
 		case TheLangParser.DECLARE_ARRAY:
-			return new ArrayDeclaration( nameFromVariable(children.get(0)), intFromConstant(children.get(1)) );
+			return new ArrayDeclaration( nameFromVariable(children.get(0)), intFromConstant(children.get(1)), tree.token );
 			
 		default:
 			throw new IllegalArgumentException("The passed CommonTree was of unexpected type: " + tree.getType());
@@ -86,28 +86,31 @@ public class AstBuilder {
 		ArrayList<CommonTree> children = getChildren(tree);
 		switch (tree.getType()) {
 		case TheLangParser.ASSIGNMENT_VARIABLE:
-			return new VariableAssignment( nameFromVariable(children.get(0)), parseArithmeticExpression(children.get(1)) );
+			return new VariableAssignment( nameFromVariable(children.get(0)), parseArithmeticExpression(children.get(1)), tree.token );
 		case TheLangParser.ASSIGNMENT_ARRAY:
 			return new ArrayAssignment(
 					nameFromVariable(children.get(0)), 
 					parseArithmeticExpression(children.get(1)), 
-					parseArithmeticExpression(children.get(2))
+					parseArithmeticExpression(children.get(2)), 
+					tree.token
 				);
 		case TheLangParser.SKIP_STATEMENT:
-			return new SkipStatement();
+			return new SkipStatement(tree.token);
 		case TheLangParser.READ_VARIABLE:
-			return new ReadVariable(nameFromVariable(children.get(0)));
+			return new ReadVariable( nameFromVariable(children.get(0)), tree.token );
 		case TheLangParser.READ_ARRAY:
-			return new ReadArray(nameFromVariable(children.get(0)), parseArithmeticExpression(children.get(1)));
+			return new ReadArray( nameFromVariable(children.get(0)), parseArithmeticExpression(children.get(1)), tree.token );
 		case TheLangParser.WRITE_EXPRESSION:
-			return new WriteStatement(parseArithmeticExpression(children.get(0)));
+			return new WriteStatement( parseArithmeticExpression(children.get(0)), tree.token );
 		case TheLangParser.IF_STATEMENT:
 			return new IfStatement(
 					parseBooleanExpression(children.get(0)), 
 					parseStatmentBlock(children.get(1)), 
-					parseStatmentBlock(children.get(2)));
+					parseStatmentBlock(children.get(2)), 
+					tree.token
+				);
 		case TheLangParser.WHILE_STATEMENT:
-			return new WhileStatement(parseBooleanExpression(children.get(0)), parseStatmentBlock(children.get(1)));
+			return new WhileStatement( parseBooleanExpression(children.get(0)), parseStatmentBlock(children.get(1)), tree.token );
 			
 		default:
 			throw new IllegalArgumentException("The passed CommonTree was of unexpected type: " + tree.getType());
@@ -175,55 +178,71 @@ public class AstBuilder {
 			return new BooleanOperation(
 					parseBooleanExpression(children.get(0)), 
 					BooleanOperator.Or, 
-					parseBooleanExpression(children.get(1)));
+					parseBooleanExpression(children.get(1)), 
+					tree.token
+				);
 			
 		case TheLangParser.AND:
 			return new BooleanOperation(
 					parseBooleanExpression(children.get(0)), 
 					BooleanOperator.And, 
-					parseBooleanExpression(children.get(1)));
+					parseBooleanExpression(children.get(1)), 
+					tree.token
+				);
 
 		case TheLangParser.NOT_EXPRESSION:
-			return new BooleanNotExpression(parseBooleanExpression(children.get(0)));
+			return new BooleanNotExpression( parseBooleanExpression(children.get(0)), tree.token );
 		
 		case TheLangParser.BOOL_CONSTANT:
-			return new BooleanConstant(booleanFromBooleanConstant(tree));
+			return new BooleanConstant( booleanFromBooleanConstant(tree), tree.token );
 		
 		case TheLangParser.GT:
 			return new RelationalOperation(
 					parseArithmeticExpression(children.get(0)), 
 					RelationalOperator.GreaterThan, 
-					parseArithmeticExpression(children.get(1)));
+					parseArithmeticExpression(children.get(1)), 
+					tree.token
+				);
 			
 		case TheLangParser.GE:
 			return new RelationalOperation(
 					parseArithmeticExpression(children.get(0)), 
 					RelationalOperator.GreaterThanOrEqual, 
-					parseArithmeticExpression(children.get(1)));
+					parseArithmeticExpression(children.get(1)), 
+					tree.token
+				);
 			
 		case TheLangParser.LT:
 			return new RelationalOperation(
 					parseArithmeticExpression(children.get(0)), 
 					RelationalOperator.LessThan, 
-					parseArithmeticExpression(children.get(1)));
+					parseArithmeticExpression(children.get(1)), 
+					tree.token
+				);
 			
 		case TheLangParser.LE:
 			return new RelationalOperation(
 					parseArithmeticExpression(children.get(0)), 
 					RelationalOperator.LessThanOrEqual, 
-					parseArithmeticExpression(children.get(1)));
+					parseArithmeticExpression(children.get(1)), 
+					tree.token
+				);
 			
 		case TheLangParser.EQ:
 			return new RelationalOperation(
 					parseArithmeticExpression(children.get(0)), 
 					RelationalOperator.Equal, 
-					parseArithmeticExpression(children.get(1)));
+					parseArithmeticExpression(children.get(1)), 
+					tree.token
+				);
 			
 		case TheLangParser.NEQ:
 			return new RelationalOperation(
 					parseArithmeticExpression(children.get(0)), 
 					RelationalOperator.NotEqual, 
-					parseArithmeticExpression(children.get(1)));		
+					parseArithmeticExpression(children.get(1)), 
+					tree.token
+				);		
 			
 		default:
 			throw new IllegalArgumentException("The passed CommonTree was of unexpected type: " + tree.getType());
