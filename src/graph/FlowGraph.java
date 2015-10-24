@@ -16,25 +16,24 @@ import ast.WhileStatement;
 
 public class FlowGraph {
 	private static int labelcount = 1;
-	Program ast;
-//	HashMap<ILabelable, Integer> Labels = new HashMap<ILabelable, Integer>();
-	HashMap<Integer, ILabelable> labelToProgramPoint = new HashMap<Integer, ILabelable>();
-	
-	ArrayList<FlowGraphEdge> flowNodes = new ArrayList<FlowGraphEdge>();
-	ArrayList<String> freeVariables = new ArrayList<String>();
-	
-	public HashMap<Integer, ILabelable> getLabelToProgramPoint() {
-		return labelToProgramPoint;
+	private Program ast;
+	private HashMap<Integer, ILabelable> labelMapping = new HashMap<Integer, ILabelable>();
+
+	private ArrayList<FlowGraphEdge> flowEdges = new ArrayList<FlowGraphEdge>();
+	private ArrayList<String> freeVariables = new ArrayList<String>();
+
+	public HashMap<Integer, ILabelable> getLabelMapping() {
+		return labelMapping;
 	}
 
-	public ArrayList<FlowGraphEdge> getFlowNodes() {
-		return flowNodes;
+	public ArrayList<FlowGraphEdge> getFlowEdges() {
+		return flowEdges;
 	}
 
 	public ArrayList<String> getFreeVariables() {
 		return freeVariables;
 	}
-	
+
 	public FlowGraph(Program program) {
 		this.ast = program;
 
@@ -43,43 +42,56 @@ public class FlowGraph {
 		if (!program.declarations.isEmpty()) {
 			lastLabel = labelProgramPoint(program.declarations.get(0));
 			AddFreeVariable(program.declarations.get(0));
-			
+
 			for (int i = 1; i < program.declarations.size(); i++) {
 				Declaration declaration = program.declarations.get(i);
 				int label = labelProgramPoint(declaration);
 				AddFlowNode(lastLabel, label);
 				lastLabel = label;
-				
+
 				// Store the name of the variable.
 				AddFreeVariable(declaration);
 			}
 		}
 
 		// To make sure there are Isolated Entry
-		if(program.declarations.isEmpty() && program.statements.get(0) instanceof WhileStatement) {
+		if (program.declarations.isEmpty() && program.statements.get(0) instanceof WhileStatement) {
 			program.statements.add(0, new SkipStatement());
 		}
-		
+
 		// To make sure there are Isolated Exit
-		if(program.statements.get(program.statements.size() -1) instanceof IfStatement) {
+		if (program.statements.get(program.statements.size() - 1) instanceof IfStatement) {
 			program.statements.add(new SkipStatement());
 		}
-		
+
 		List<Integer> previous = new ArrayList<Integer>();
 		if (lastLabel != null) {
 			previous.add(lastLabel);
 		}
+
 		// Statements
-		convertStatement(previous, program.statements);
+		convertStatements(previous, program.statements);
+	}
+
+	public List<FlowGraphEdge> getNodeEdges(int programPoint) {
+		List<FlowGraphEdge> result = new ArrayList<FlowGraphEdge>();
+
+		for (FlowGraphEdge edge : getFlowEdges()) {
+			if (edge.getLabel1() == programPoint) {
+				result.add(edge);
+			}
+		}
+
+		return result;
 	}
 
 	private List<Integer> convertStatement(List<Integer> previous, Statement statement) {
 		// Dispatching the statements
 		if (statement instanceof WhileStatement) {
-			return convertStatement(previous, (WhileStatement) statement);
+			return convertWhileStatement(previous, (WhileStatement) statement);
 
 		} else if (statement instanceof IfStatement) {
-			return convertStatement(previous, (IfStatement) statement);
+			return convertIfStatement(previous, (IfStatement) statement);
 		}
 
 		// Base case where there are no special control flow
@@ -90,7 +102,7 @@ public class FlowGraph {
 		return lastLabels;
 	}
 
-	private List<Integer> convertStatement(List<Integer> previous, List<Statement> statements) {
+	private List<Integer> convertStatements(List<Integer> previous, List<Statement> statements) {
 		List<Integer> prev = new ArrayList<Integer>();
 		if (!statements.isEmpty()) {
 			prev = previous;
@@ -102,13 +114,13 @@ public class FlowGraph {
 		return prev;
 	}
 
-	private List<Integer> convertStatement(List<Integer> previous, WhileStatement statement) {
+	private List<Integer> convertWhileStatement(List<Integer> previous, WhileStatement statement) {
 		int conditionLabel = labelProgramPoint(statement.getCondition());
 		AddAllFlowNode(previous, conditionLabel);
 
 		List<Integer> conditionPrevious = new ArrayList<Integer>();
 		conditionPrevious.add(conditionLabel);
-		List<Integer> prev = convertStatement(conditionPrevious, statement.getBody());
+		List<Integer> prev = convertStatements(conditionPrevious, statement.getBody());
 
 		// Loopback from while body to condition
 		AddAllFlowNode(prev, conditionLabel);
@@ -116,15 +128,16 @@ public class FlowGraph {
 		return conditionPrevious;
 	}
 
-	private List<Integer> convertStatement(List<Integer> previous, IfStatement statement) {
+	private List<Integer> convertIfStatement(List<Integer> previous, IfStatement statement) {
 		int conditionLabel = labelProgramPoint(statement.getCondition());
 		AddAllFlowNode(previous, conditionLabel);
 
 		List<Integer> conditionPrevious = new ArrayList<Integer>();
 		conditionPrevious.add(conditionLabel);
-		List<Integer> trueLabels = convertStatement(conditionPrevious, statement.getTrueBody());
-		List<Integer> falseLabels = convertStatement(conditionPrevious, statement.getFalseBody());
+		List<Integer> trueLabels = convertStatements(conditionPrevious, statement.getTrueBody());
+		List<Integer> falseLabels = convertStatements(conditionPrevious, statement.getFalseBody());
 
+		// Join the two ends together to one set.
 		List<Integer> lastLabels = new ArrayList<Integer>();
 		lastLabels.addAll(trueLabels);
 		lastLabels.addAll(falseLabels);
@@ -138,7 +151,7 @@ public class FlowGraph {
 	}
 
 	private void AddFlowNode(Integer label1, Integer label2) {
-		flowNodes.add(new FlowGraphEdge(label1, label2));
+		flowEdges.add(new FlowGraphEdge(label1, label2));
 	}
 
 	/**
@@ -150,8 +163,7 @@ public class FlowGraph {
 	 */
 	private int labelProgramPoint(ILabelable point) {
 		int label = labelcount++;
-//		Labels.put(point, label);
-		labelToProgramPoint.put(label, point);
+		labelMapping.put(label, point);
 		return label;
 	}
 

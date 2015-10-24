@@ -8,6 +8,7 @@ import org.antlr.runtime.tree.*;
 import ast.AstBuilder;
 import ast.ILabelable;
 import ast.Program;
+import frameworks.MonotoneFramework;
 import graph.FlowGraph;
 import graph.FlowGraphEdge;
 import thelang.TheLangParser.program_return;
@@ -31,8 +32,12 @@ public class Main {
 				System.out.println(theProgram);
 
 				FlowGraph graph = new FlowGraph(theProgram);
-				
+
 				printGraphInfo(graph);
+
+				MonotoneFramework framework = new MonotoneFramework(graph);
+				framework.SignDetection();
+
 			}
 		} catch (RecognitionException e) {
 			e.printStackTrace();
@@ -41,13 +46,13 @@ public class Main {
 
 	public static void printGraphInfo(FlowGraph graph) {
 		System.out.println("////////////// Labels ////////////////////////////");
-		for (Integer key : graph.getLabelToProgramPoint().keySet()) {
-			ILabelable value = graph.getLabelToProgramPoint().get(key);
+		for (Integer key : graph.getLabelMapping().keySet()) {
+			ILabelable value = graph.getLabelMapping().get(key);
 			System.out.println(key + " ---> " + value);
 		}
-		
+
 		System.out.println("////////////// Flow ////////////////////////////");
-		for (FlowGraphEdge node : graph.getFlowNodes()) {
+		for (FlowGraphEdge node : graph.getFlowEdges()) {
 			System.out.println(node);
 		}
 
@@ -56,7 +61,7 @@ public class Main {
 			System.out.println(variable);
 		}
 	}
-	
+
 	public static void printTree(CommonTree tree, int indentCount) {
 		// TODO Remove this function!
 		String indent = repeat(indentCount, " ");
