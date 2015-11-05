@@ -20,7 +20,7 @@ public class WorklistAlgorithm<T> {
 	}
 	
 	//Step 2
-	ArrayList<ILaticeValue<T>> Run() {
+	public ArrayList<ILaticeValue<T>> Run() {
 		while (!worklist.isEmpty()) {
 			WorklistEntry<T> item = worklist.extract();
 			ILaticeValue<T> newValue = item.getItem().eval(analysis);
