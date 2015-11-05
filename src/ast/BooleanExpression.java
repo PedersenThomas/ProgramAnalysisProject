@@ -1,3 +1,3 @@
 package ast;
 
-public abstract class BooleanExpression implements ILabelable {}
+public abstract class BooleanExpression implements ILabelable, ITokenable {}
