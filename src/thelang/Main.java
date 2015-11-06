@@ -8,7 +8,7 @@ import org.antlr.runtime.tree.*;
 import ast.AstBuilder;
 import ast.ILabelable;
 import ast.Program;
-import frameworks.MonotoneFramework;
+import frameworks.detection_of_signs.DSMonotoneFramework;
 import graph.FlowGraph;
 import graph.FlowGraphEdge;
 import thelang.TheLangParser.program_return;

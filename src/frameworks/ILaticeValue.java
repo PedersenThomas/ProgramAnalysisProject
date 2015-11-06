@@ -1,8 +1,9 @@
 package frameworks;
 
-public interface ILaticeValue<T> {
-	boolean isSubset(ILaticeValue<T> other);
-	boolean isEquals(ILaticeValue<T> other);
-	ILaticeValue<T> join(ILaticeValue<T> other);
-	ILaticeValue<T> getButtom();
+public interface ILaticeValue {
+	public abstract boolean isSubset(ILaticeValue other);
+
+	public abstract boolean isEqual(ILaticeValue other);
+
+	public abstract ILaticeValue join(ILaticeValue other);
 }

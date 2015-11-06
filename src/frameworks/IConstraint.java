@@ -1,7 +1,10 @@
 package frameworks;
 
 import java.util.List;
+import java.util.Set;
 
-public interface IConstraint<T> {
-	ILaticeValue<T> eval(List<ILaticeValue<T>> analysisList);
+public interface IConstraint {
+	ILaticeValue eval(List<ILaticeValue> analysisList);
+
+	Set<Integer> getFreeVariables();
 }
