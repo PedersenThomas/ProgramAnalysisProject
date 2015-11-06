@@ -3,19 +3,19 @@ package frameworks;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SetWorklist<T> implements IWorklist<T> {
-	private Set<WorklistEntry<T>> set = new HashSet<WorklistEntry<T>>();
+public class SetWorklist implements IWorklist {
+	private Set<Integer> set = new HashSet<Integer>();
 
 	@Override
-	public void insert(WorklistEntry<T> item) {
-		set.add(item);
+	public void insert(int index) {
+		set.add(index);
 	}
 
 	@Override
-	public WorklistEntry<T> extract() {
+	public int extract() {
 		// Finds an element in the set.
-		WorklistEntry<T> item = null;
-		for (WorklistEntry<T> t : set) {
+		Integer item = null;
+		for (int t : set) {
 			item = t;
 			break;
 		}

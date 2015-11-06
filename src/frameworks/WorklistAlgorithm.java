@@ -5,29 +5,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WorklistAlgorithm<T> {
-	private IWorklist<T> worklist;
+	private IWorklist worklist;
 	private ArrayList<ILaticeValue<T>> analysis;
-	private ArrayList<Set<WorklistEntry<T>>> influenceList;
+	private ArrayList<Set<Integer>> influenceList;
+	private ArrayList<IConstraint<T>> constrains;
 	
 	//Step 1
-	public WorklistAlgorithm(IWorklist<T> worklist, ArrayList<IConstraint<T>> Contrains) {
+	public WorklistAlgorithm(IWorklist worklist, ArrayList<IConstraint<T>> contrains) {
 		this.worklist = worklist;
-		this.analysis = new ArrayList<ILaticeValue<T>>(Contrains.size());
-		this.influenceList = new ArrayList<Set<WorklistEntry<T>>>(Contrains.size());
-		for (int i = 0; i < Contrains.size(); i++) {
-			this.influenceList.add(new HashSet<WorklistEntry<T>>());
+		this.constrains = contrains;
+		this.analysis = new ArrayList<ILaticeValue<T>>(contrains.size());
+		this.influenceList = new ArrayList<Set<Integer>>(contrains.size());
+		for (int i = 0; i < contrains.size(); i++) {
+			this.influenceList.add(new HashSet<Integer>());
 		}
 	}
 	
 	//Step 2
 	public ArrayList<ILaticeValue<T>> Run() {
 		while (!worklist.isEmpty()) {
-			WorklistEntry<T> item = worklist.extract();
-			ILaticeValue<T> newValue = item.getItem().eval(analysis);
-			if ( !analysis.get(item.getIndex()).isSubset(newValue) ) {
-				analysis.set(item.getIndex(), analysis.get(item.getIndex()).join(newValue) );
-				for (WorklistEntry<T> value : influenceList.get(item.getIndex())) {
-					worklist.insert(value);
+			int index = worklist.extract();
+			IConstraint<T> constraint = constrains.get(index);
+			ILaticeValue<T> newValue = constraint.eval(analysis);
+			if ( !analysis.get(index).isSubset(newValue) ) {
+				analysis.set(index, analysis.get(index).join(newValue) );
+				for (int indexPrime : influenceList.get(index)) {
+					worklist.insert(indexPrime);
 				}
 			}
 		}
