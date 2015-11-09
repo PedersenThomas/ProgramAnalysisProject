@@ -2,36 +2,49 @@ package frameworks;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class WorklistAlgorithm<T> {
-	private IWorklist<T> worklist;
-	private ArrayList<ILaticeValue<T>> analysis;
-	private ArrayList<Set<WorklistEntry<T>>> influenceList;
-	
-	//Step 1
-	public WorklistAlgorithm(IWorklist<T> worklist, ArrayList<IConstraint<T>> Contrains) {
+public class WorklistAlgorithm {
+	private IWorklist worklist;
+	private ArrayList<ILaticeValue> analysis;
+	private ArrayList<Set<Integer>> influenceList;
+	private List<IConstraint> constrains;
+
+	// Step 1
+	public WorklistAlgorithm(IWorklist worklist, IMonotoneFramework framework) {
 		this.worklist = worklist;
-		this.analysis = new ArrayList<ILaticeValue<T>>(Contrains.size());
-		this.influenceList = new ArrayList<Set<WorklistEntry<T>>>(Contrains.size());
-		for (int i = 0; i < Contrains.size(); i++) {
-			this.influenceList.add(new HashSet<WorklistEntry<T>>());
+		this.constrains = framework.getConstrains();
+		this.analysis = new ArrayList<ILaticeValue>(constrains.size());
+		this.influenceList = new ArrayList<Set<Integer>>(constrains.size());
+
+		for (int i = 0; i < constrains.size(); i++) {
+			this.worklist.insert(i);
+			this.analysis.add(framework.getButtom());
+			this.influenceList.add(new HashSet<Integer>());
+		}
+
+		for (int i = 0; i < constrains.size(); i++) {
+			Set<Integer> freeVariables = this.constrains.get(i).getFreeVariables();
+			Set<Integer> newValue = Util.Union(this.influenceList.get(i), freeVariables);
+			this.influenceList.set(i, newValue);
 		}
 	}
-	
-	//Step 2
-	public ArrayList<ILaticeValue<T>> Run() {
+
+	// Step 2
+	public ArrayList<ILaticeValue> Run() {
 		while (!worklist.isEmpty()) {
-			WorklistEntry<T> item = worklist.extract();
-			ILaticeValue<T> newValue = item.getItem().eval(analysis);
-			if ( !analysis.get(item.getIndex()).isSubset(newValue) ) {
-				analysis.set(item.getIndex(), analysis.get(item.getIndex()).join(newValue) );
-				for (WorklistEntry<T> value : influenceList.get(item.getIndex())) {
-					worklist.insert(value);
+			int index = worklist.extract();
+			IConstraint constraint = constrains.get(index);
+			ILaticeValue newValue = constraint.eval(analysis);
+			if (!analysis.get(index).isSubset(newValue)) {
+				analysis.set(index, analysis.get(index).join(newValue));
+				for (int indexPrime : influenceList.get(index)) {
+					worklist.insert(indexPrime);
 				}
 			}
 		}
-		
+
 		return this.analysis;
 	}
 }

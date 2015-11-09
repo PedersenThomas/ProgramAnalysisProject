@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import antlr.Token;
 import ast.ArrayDeclaration;
 import ast.Declaration;
 import ast.ILabelable;
@@ -17,7 +16,6 @@ import ast.WhileStatement;
 
 public class FlowGraph {
 	private static int labelcount = 1;
-	private Program ast;
 	private HashMap<Integer, ILabelable> labelMapping = new HashMap<Integer, ILabelable>();
 
 	private ArrayList<FlowGraphEdge> flowEdges = new ArrayList<FlowGraphEdge>();
@@ -36,8 +34,6 @@ public class FlowGraph {
 	}
 
 	public FlowGraph(Program program) {
-		this.ast = program;
-
 		Integer lastLabel = null;
 		// Declarations
 		if (!program.declarations.isEmpty()) {
@@ -60,10 +56,11 @@ public class FlowGraph {
 			program.statements.add(0, new SkipStatement(null));
 		}
 
-//		// To make sure there are Isolated Exit
-//		if (program.statements.get(program.statements.size() - 1) instanceof IfStatement) {
-//			program.statements.add(new SkipStatement(null));
-//		}
+		// // To make sure there are Isolated Exit
+		// if (program.statements.get(program.statements.size() - 1) instanceof
+		// IfStatement) {
+		// program.statements.add(new SkipStatement(null));
+		// }
 
 		List<Integer> previous = new ArrayList<Integer>();
 		if (lastLabel != null) {
@@ -85,7 +82,7 @@ public class FlowGraph {
 
 		return result;
 	}
-	
+
 	private List<Integer> convertStatement(List<Integer> previous, Statement statement) {
 		// Dispatching the statements
 		if (statement instanceof WhileStatement) {

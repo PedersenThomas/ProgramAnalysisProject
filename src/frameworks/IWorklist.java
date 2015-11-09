@@ -1,7 +1,7 @@
 package frameworks;
 
-public interface IWorklist<T> {
-	void insert(WorklistEntry<T> item);
-	WorklistEntry<T> extract();
+public interface IWorklist {
+	void insert(int index);
+	int extract();
 	boolean isEmpty();
 }
