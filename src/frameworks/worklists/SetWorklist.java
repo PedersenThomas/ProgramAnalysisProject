@@ -1,11 +1,11 @@
 package frameworks.worklists;
 
-import frameworks.IWorklist;
+import frameworks.IWorkList;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class SetWorklist implements IWorklist {
+public class SetWorkList implements IWorkList {
 	private Set<Integer> set = new HashSet<Integer>();
 
 	@Override
@@ -27,6 +27,13 @@ public class SetWorklist implements IWorklist {
 			set.remove(item);
 		}
 		return item;
+	}
+
+	@Override
+	public String toString() {
+		return "SetWorkList{" +
+				"set=" + set +
+				'}';
 	}
 
 	@Override

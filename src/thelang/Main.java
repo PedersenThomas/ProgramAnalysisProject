@@ -2,14 +2,14 @@ package thelang;
 
 import java.util.ArrayList;
 
+import frameworks.IWorkList;
 import frameworks.reachingDefinitions.ReachingDefinitions;
 import org.antlr.runtime.tree.*;
 
 import ast.ILabelable;
 import frameworks.ILatticeValue;
-import frameworks.IWorklist;
-import frameworks.worklists.SetWorklist;
-import frameworks.WorklistAlgorithm;
+import frameworks.worklists.SetWorkList;
+import frameworks.WorkListAlgorithm;
 import graph.FlowGraph;
 import graph.FlowGraphEdge;
 
@@ -18,11 +18,13 @@ public class Main {
 	public static void main(String args[]) throws Exception {
 
 		ReachingDefinitions RD = new ReachingDefinitions(null);
-		IWorklist worklist = new SetWorklist();
-		WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, RD);
-		ArrayList<ILatticeValue> result = worklistAlgorithm.Run();
+		IWorkList workList = new SetWorkList();
+		WorkListAlgorithm workListAlgorithm = new WorkListAlgorithm(workList, RD);
+		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
 		System.out.println("Final values:");
-		System.out.println(result);
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println("Variable " + i + ": " + result.get(i));
+        }
 
 		/*
 		TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[0]));
@@ -46,8 +48,8 @@ public class Main {
 
 				System.out.println("////////////// Detection of Signs ////////////////////////////");
 				IMonotoneFramework dsFramework = new DSMonotoneFramework(graph);
-				IWorklist worklist = new SetWorklist();
-				WorklistAlgorithm algo = new WorklistAlgorithm(worklist, dsFramework);
+				IWorkList workList = new SetWorkList();
+				WorkListAlgorithm algo = new WorkListAlgorithm(workList, dsFramework);
 				List<ILatticeValue> result = algo.Run();
 				for (ILatticeValue value : result) {
 					System.out.println(value);

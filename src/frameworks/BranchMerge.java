@@ -6,29 +6,44 @@ import java.util.Set;
 
 public class BranchMerge implements IConstraint {
 
-	private Set<Integer> merges;
+	private Set<Integer> freeVariables;
 
-	public BranchMerge(Set<Integer> merges) {
-		this.merges = merges;
+    public BranchMerge(int singletonFreeVariable) {
+        Set<Integer> singletonSet = new HashSet<>();
+        singletonSet.add(singletonFreeVariable);
+        this.freeVariables = singletonSet;
+    }
+
+    public BranchMerge(int[] freeVariables) {
+        this.freeVariables = new HashSet<Integer>();
+        for (int i : freeVariables) {
+            this.freeVariables.add(i);
+        }
+    }
+
+	public BranchMerge(Set<Integer> freeVariables) {
+		this.freeVariables = freeVariables;
 	}
 
 	@Override
 	public ILatticeValue eval(List<ILatticeValue> analysisList) {
 		ILatticeValue current = null;
-		for (Integer i : this.merges) {
-			ILatticeValue value = analysisList.get(i);
-			if (current == null) {
-				current = value;
-			} else {
-				current.join(value);
-			}
+        // Get the first value in the set.
+		for (Integer i : this.freeVariables) {
+			current = analysisList.get(i);
+            break;
 		}
+        assert (current != null);
+        // Join all incoming states.
+        for (Integer i : this.freeVariables) {
+            current = current.join(analysisList.get(i));
+        }
 		return current;
 	}
 
 	@Override
 	public Set<Integer> getFreeVariables() {
-		return merges;
+		return freeVariables;
 	}
 
 }

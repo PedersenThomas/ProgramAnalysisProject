@@ -21,9 +21,7 @@ public class RDLatticeValue implements ILatticeValue {
 
     @Override
     public String toString() {
-        return "RDLatticeValue{" +
-                "bitSet=" + bitSet +
-                '}';
+        return "" + bitSet;
     }
 
     public RDLatticeValue(BitSet bitSet) {

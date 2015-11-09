@@ -1,6 +1,6 @@
 package frameworks;
 
-public interface IWorklist {
+public interface IWorkList {
 	void insert(int index);
 	int extract();
 	boolean isEmpty();
