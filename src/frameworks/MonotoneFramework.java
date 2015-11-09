@@ -8,10 +8,4 @@ public class MonotoneFramework {
 	public MonotoneFramework(FlowGraph flowgraph) {
 		this.flowgraph = flowgraph;
 	}
-	
-	public void SignDetection() {
-		if (flowgraph != null) {
-			System.out.println(flowgraph);
-		}
-	}
 }

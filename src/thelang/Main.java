@@ -35,9 +35,6 @@ public class Main {
 
 				printGraphInfo(graph);
 
-				MonotoneFramework framework = new MonotoneFramework(graph);
-				framework.SignDetection();
-
 			}
 		} catch (RecognitionException e) {
 			e.printStackTrace();
