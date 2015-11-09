@@ -1,4 +1,4 @@
-package frameworks.detection_of_signs;
+package frameworks.detectionOfSigns;
 
 import java.util.HashSet;
 import java.util.Set;

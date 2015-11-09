@@ -1,4 +1,4 @@
-package frameworks.detection_of_signs;
+package frameworks.detectionOfSigns;
 
 public enum Signs {
 	zero,

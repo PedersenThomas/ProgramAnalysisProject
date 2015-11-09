@@ -1,15 +1,13 @@
 package tests;
 
-import static org.junit.Assert.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import frameworks.detection_of_signs.DSLatticeValue;
-import frameworks.detection_of_signs.Signs;
+import frameworks.detectionOfSigns.DSLatticeValue;
+import frameworks.detectionOfSigns.Signs;
 
 public class LaticeValue {
 

@@ -1,4 +1,6 @@
-package frameworks;
+package frameworks.worklists;
+
+import frameworks.IWorklist;
 
 import java.util.HashSet;
 import java.util.Set;
