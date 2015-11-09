@@ -3,6 +3,7 @@
 .classpath
 .settings/
 .IDEA
+out/*
 ProgramAnalysisProject.iml
 
 # Compiled java classes
