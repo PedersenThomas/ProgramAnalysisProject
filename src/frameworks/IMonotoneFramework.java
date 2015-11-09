@@ -3,6 +3,6 @@ package frameworks;
 import java.util.List;
 
 public interface IMonotoneFramework {
-	ILaticeValue getButtom();
+	ILatticeValue getButtom();
 	List<IConstraint> getConstrains();
 }

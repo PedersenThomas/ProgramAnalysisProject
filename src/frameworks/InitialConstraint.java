@@ -4,15 +4,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class InitialContraint implements IConstraint {
-	private ILaticeValue initialValue;
+public class InitialConstraint implements IConstraint {
+	private ILatticeValue initialValue;
 	
-	public InitialContraint(ILaticeValue initialValue) {
+	public InitialConstraint(ILatticeValue initialValue) {
 		this.initialValue = initialValue;
 	}
 	
 	@Override
-	public ILaticeValue eval(List<ILaticeValue> analysisList) {
+	public ILatticeValue eval(List<ILatticeValue> analysisList) {
 		return initialValue;
 	}
 

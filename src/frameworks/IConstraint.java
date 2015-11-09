@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface IConstraint {
-	ILaticeValue eval(List<ILaticeValue> analysisList);
-
+	ILatticeValue eval(List<ILatticeValue> analysisList);
 	Set<Integer> getFreeVariables();
 }

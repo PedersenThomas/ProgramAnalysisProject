@@ -1,25 +1,23 @@
 package frameworks.detection_of_signs;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import frameworks.ILaticeValue;
+import frameworks.ILatticeValue;
 import frameworks.Util;
 
-public class DSLaticeValue implements ILaticeValue {
+public class DSLatticeValue implements ILatticeValue {
 	private Set<Signs> signs;
 
-	public DSLaticeValue() {
+	public DSLatticeValue() {
 		this.signs = new HashSet<Signs>();
 	}
 
-	public DSLaticeValue(Set<Signs> signs) {
+	public DSLatticeValue(Set<Signs> signs) {
 		this.signs = signs;
 	}
 
-	public DSLaticeValue(Signs sign) {
+	public DSLatticeValue(Signs sign) {
 		Set<Signs> value = new HashSet<Signs>();
 		value.add(sign);
 		this.signs = value;
@@ -29,8 +27,8 @@ public class DSLaticeValue implements ILaticeValue {
 	 * Is this a subset of PARAM
 	 */
 	@Override
-	public boolean isSubset(ILaticeValue obj) {
-		DSLaticeValue other = (DSLaticeValue) obj;
+	public boolean isSubset(ILatticeValue obj) {
+		DSLatticeValue other = (DSLatticeValue) obj;
 		// The signs is stored as sets, so if "this" has more elements
 		// than other then it is not a subset for sure.
 		if (this.signs.size() > other.signs.size()) {
@@ -47,19 +45,19 @@ public class DSLaticeValue implements ILaticeValue {
 	}
 
 	@Override
-	public boolean isEqual(ILaticeValue obj) {
-		if (!(obj instanceof DSLaticeValue)) {
+	public boolean isEqual(ILatticeValue obj) {
+		if (!(obj instanceof DSLatticeValue)) {
 			return false;
 		}
 
-		DSLaticeValue other = (DSLaticeValue) obj;
+		DSLatticeValue other = (DSLatticeValue) obj;
 		return this.signs.equals(other.signs);
 	}
 
 	@Override
-	public ILaticeValue join(ILaticeValue obj) {
-		DSLaticeValue other = (DSLaticeValue) obj;
-		return new DSLaticeValue(Util.Union(signs, other.signs));
+	public ILatticeValue join(ILatticeValue obj) {
+		DSLatticeValue other = (DSLatticeValue) obj;
+		return new DSLatticeValue(Util.Union(signs, other.signs));
 	}
 	
 	@Override

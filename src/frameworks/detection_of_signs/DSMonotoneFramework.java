@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import frameworks.IConstraint;
-import frameworks.ILaticeValue;
+import frameworks.ILatticeValue;
 import frameworks.IMonotoneFramework;
-import frameworks.InitialContraint;
+import frameworks.InitialConstraint;
 import graph.FlowGraph;
 
 public class DSMonotoneFramework implements IMonotoneFramework {
@@ -17,14 +17,14 @@ public class DSMonotoneFramework implements IMonotoneFramework {
 	}
 
 	@Override
-	public ILaticeValue getButtom() {
-		return new DSLaticeValue();
+	public ILatticeValue getButtom() {
+		return new DSLatticeValue();
 	}
 
 	@Override
 	public List<IConstraint> getConstrains() {
 		ArrayList<IConstraint> constrains = new ArrayList<IConstraint>();
-		constrains.add(new InitialContraint(this.getButtom()));
+		constrains.add(new InitialConstraint(this.getButtom()));
 
 		return constrains;
 	}

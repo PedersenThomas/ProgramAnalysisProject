@@ -3,13 +3,14 @@ package thelang;
 import java.util.ArrayList;
 import java.util.List;
 
+import frameworks.reachingDefinitions.ReachingDefinitions;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 
 import ast.AstBuilder;
 import ast.ILabelable;
 import ast.Program;
-import frameworks.ILaticeValue;
+import frameworks.ILatticeValue;
 import frameworks.IMonotoneFramework;
 import frameworks.IWorklist;
 import frameworks.SetWorklist;
@@ -22,6 +23,14 @@ import thelang.TheLangParser.program_return;
 public class Main {
 
 	public static void main(String args[]) throws Exception {
+
+		ReachingDefinitions RD = new ReachingDefinitions(null);
+		IWorklist worklist = new SetWorklist();
+		WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, RD);
+		ArrayList<ILatticeValue> result = worklistAlgorithm.Run();
+		System.out.println(result);
+
+		/*
 		TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[0]));
 		CommonTokenStream tokens = new CommonTokenStream(lex);
 		TheLangParser parser = new TheLangParser(tokens);
@@ -45,8 +54,8 @@ public class Main {
 				IMonotoneFramework dsFramework = new DSMonotoneFramework(graph);
 				IWorklist worklist = new SetWorklist();
 				WorklistAlgorithm algo = new WorklistAlgorithm(worklist, dsFramework);
-				List<ILaticeValue> result = algo.Run();
-				for (ILaticeValue value : result) {
+				List<ILatticeValue> result = algo.Run();
+				for (ILatticeValue value : result) {
 					System.out.println(value);
 				}
 
@@ -54,6 +63,7 @@ public class Main {
 		} catch (RecognitionException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public static void printGraphInfo(FlowGraph graph) {

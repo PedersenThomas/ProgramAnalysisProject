@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class WorklistAlgorithm {
 	private IWorklist worklist;
-	private ArrayList<ILaticeValue> analysis;
+	private ArrayList<ILatticeValue> analysis;
 	private ArrayList<Set<Integer>> influenceList;
 	private List<IConstraint> constrains;
 
@@ -15,7 +15,7 @@ public class WorklistAlgorithm {
 	public WorklistAlgorithm(IWorklist worklist, IMonotoneFramework framework) {
 		this.worklist = worklist;
 		this.constrains = framework.getConstrains();
-		this.analysis = new ArrayList<ILaticeValue>(constrains.size());
+		this.analysis = new ArrayList<ILatticeValue>(constrains.size());
 		this.influenceList = new ArrayList<Set<Integer>>(constrains.size());
 
 		for (int i = 0; i < constrains.size(); i++) {
@@ -32,11 +32,11 @@ public class WorklistAlgorithm {
 	}
 
 	// Step 2
-	public ArrayList<ILaticeValue> Run() {
+	public ArrayList<ILatticeValue> Run() {
 		while (!worklist.isEmpty()) {
 			int index = worklist.extract();
 			IConstraint constraint = constrains.get(index);
-			ILaticeValue newValue = constraint.eval(analysis);
+			ILatticeValue newValue = constraint.eval(analysis);
 			if (!analysis.get(index).isSubset(newValue)) {
 				analysis.set(index, analysis.get(index).join(newValue));
 				for (int indexPrime : influenceList.get(index)) {

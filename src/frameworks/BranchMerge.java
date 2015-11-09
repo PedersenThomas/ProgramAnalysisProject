@@ -4,15 +4,25 @@ import java.util.List;
 import java.util.Set;
 
 public class BranchMerge implements IConstraint {
+
+	private Set<Integer> freeVariable;
+
+	public BranchMerge(Set<Integer> freeVariable) {
+		this.freeVariable = freeVariable;
+	}
+
 	@Override
-	public ILaticeValue eval(List<ILaticeValue> analysisList) {
-		// TODO Auto-generated method stub
-		return null;
+	public ILatticeValue eval(List<ILatticeValue> analysisList) {
+		ILatticeValue current = analysisList.get(0);
+		for (ILatticeValue value : analysisList) {
+			current = current.join(value);
+		}
+		return current;
 	}
 
 	@Override
 	public Set<Integer> getFreeVariables() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+		return freeVariable;
+	}
+
 }
