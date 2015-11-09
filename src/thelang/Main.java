@@ -1,6 +1,7 @@
 package thelang;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
@@ -8,6 +9,11 @@ import org.antlr.runtime.tree.*;
 import ast.AstBuilder;
 import ast.ILabelable;
 import ast.Program;
+import frameworks.ILaticeValue;
+import frameworks.IMonotoneFramework;
+import frameworks.IWorklist;
+import frameworks.SetWorklist;
+import frameworks.WorklistAlgorithm;
 import frameworks.detection_of_signs.DSMonotoneFramework;
 import graph.FlowGraph;
 import graph.FlowGraphEdge;
@@ -34,6 +40,15 @@ public class Main {
 				FlowGraph graph = new FlowGraph(theProgram);
 
 				printGraphInfo(graph);
+
+				System.out.println("////////////// Detection of Signs ////////////////////////////");
+				IMonotoneFramework dsFramework = new DSMonotoneFramework(graph);
+				IWorklist worklist = new SetWorklist();
+				WorklistAlgorithm algo = new WorklistAlgorithm(worklist, dsFramework);
+				List<ILaticeValue> result = algo.Run();
+				for (ILaticeValue value : result) {
+					System.out.println(value);
+				}
 
 			}
 		} catch (RecognitionException e) {

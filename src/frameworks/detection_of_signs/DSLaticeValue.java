@@ -1,13 +1,14 @@
 package frameworks.detection_of_signs;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import frameworks.ILaticeValue;
 import frameworks.Util;
 
 public class DSLaticeValue implements ILaticeValue {
-	// TODO(TP): Change to BitVector
 	private Set<Signs> signs;
 
 	public DSLaticeValue() {
@@ -59,5 +60,10 @@ public class DSLaticeValue implements ILaticeValue {
 	public ILaticeValue join(ILaticeValue obj) {
 		DSLaticeValue other = (DSLaticeValue) obj;
 		return new DSLaticeValue(Util.Union(signs, other.signs));
+	}
+	
+	@Override
+	public String toString() {
+		return Util.join(signs, " ");
 	}
 }

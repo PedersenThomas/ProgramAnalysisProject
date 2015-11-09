@@ -1,10 +1,12 @@
 package frameworks.detection_of_signs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import frameworks.IConstraint;
 import frameworks.ILaticeValue;
 import frameworks.IMonotoneFramework;
+import frameworks.InitialContraint;
 import graph.FlowGraph;
 
 public class DSMonotoneFramework implements IMonotoneFramework {
@@ -21,7 +23,9 @@ public class DSMonotoneFramework implements IMonotoneFramework {
 
 	@Override
 	public List<IConstraint> getConstrains() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<IConstraint> constrains = new ArrayList<IConstraint>();
+		constrains.add(new InitialContraint(this.getButtom()));
+
+		return constrains;
 	}
 }

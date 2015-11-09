@@ -20,7 +20,7 @@ public class WorklistAlgorithm {
 
 		for (int i = 0; i < constrains.size(); i++) {
 			this.worklist.insert(i);
-			this.analysis.set(i, framework.getButtom());
+			this.analysis.add(framework.getButtom());
 			this.influenceList.add(new HashSet<Integer>());
 		}
 
@@ -29,7 +29,6 @@ public class WorklistAlgorithm {
 			Set<Integer> newValue = Util.Union(this.influenceList.get(i), freeVariables);
 			this.influenceList.set(i, newValue);
 		}
-		// TODO(TP): Find nodes to add here.
 	}
 
 	// Step 2
