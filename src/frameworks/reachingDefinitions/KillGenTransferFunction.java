@@ -4,6 +4,7 @@ import frameworks.IConstraint;
 import frameworks.ILatticeValue;
 
 import java.util.BitSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,14 +14,12 @@ import java.util.Set;
 public class KillGenTransferFunction implements IConstraint {
 
     private final int inputIndex;
-    private final Set<Integer> freeVariables;
 
     private final BitSet killSet;
     private final BitSet genSet;
 
-    public KillGenTransferFunction(int inputIndex, Set<Integer> freeVariables, BitSet killSet, BitSet genSet) {
+    public KillGenTransferFunction(int inputIndex, BitSet killSet, BitSet genSet) {
         this.inputIndex = inputIndex;
-        this.freeVariables = freeVariables;
         this.killSet = killSet;
         this.genSet = genSet;
     }
@@ -36,6 +35,8 @@ public class KillGenTransferFunction implements IConstraint {
 
     @Override
     public Set<Integer> getFreeVariables() {
-        return this.freeVariables;
+        Set<Integer> freeVariables = new HashSet<>();
+        freeVariables.add(inputIndex);
+        return freeVariables;
     }
 }

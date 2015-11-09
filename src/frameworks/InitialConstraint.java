@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 public class InitialConstraint implements IConstraint {
-	private ILatticeValue initialValue;
+
+    private ILatticeValue initialValue;
 	
 	public InitialConstraint(ILatticeValue initialValue) {
 		this.initialValue = initialValue;
@@ -18,6 +19,6 @@ public class InitialConstraint implements IConstraint {
 
 	@Override
 	public Set<Integer> getFreeVariables() {
-		return new HashSet<Integer>();
+		return new HashSet<>();
 	}
 }

@@ -26,10 +26,11 @@ public class WorklistAlgorithm {
 
 		for (int i = 0; i < constrains.size(); i++) {
 			Set<Integer> freeVariables = this.constrains.get(i).getFreeVariables();
-			Set<Integer> newValue = Util.Union(this.influenceList.get(i), freeVariables);
-			this.influenceList.set(i, newValue);
+            for (Integer n : freeVariables) {
+                influenceList.get(n).add(i);
+            }
 		}
-	}
+    }
 
 	// Step 2
 	public ArrayList<ILatticeValue> Run() {
@@ -37,8 +38,8 @@ public class WorklistAlgorithm {
 			int index = worklist.extract();
 			IConstraint constraint = constrains.get(index);
 			ILatticeValue newValue = constraint.eval(analysis);
-			if (!analysis.get(index).isSubset(newValue)) {
-				analysis.set(index, analysis.get(index).join(newValue));
+            if (!newValue.isSubset(analysis.get(index))) {
+                analysis.set(index, analysis.get(index).join(newValue));
 				for (int indexPrime : influenceList.get(index)) {
 					worklist.insert(indexPrime);
 				}

@@ -28,6 +28,7 @@ public class Main {
 		IWorklist worklist = new SetWorklist();
 		WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, RD);
 		ArrayList<ILatticeValue> result = worklistAlgorithm.Run();
+		System.out.println("Final values:");
 		System.out.println(result);
 
 		/*
