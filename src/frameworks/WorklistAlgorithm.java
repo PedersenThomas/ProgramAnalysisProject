@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class WorkListAlgorithm {
-	private IWorkList worklist;
+public class WorklistAlgorithm {
+	private IWorklist worklist;
 	private ArrayList<ILatticeValue> analysis;
 	private ArrayList<Set<Integer>> influenceList;
 	private List<IConstraint> constrains;
 
 	// Step 1
-	public WorkListAlgorithm(IWorkList worklist, IMonotoneFramework framework) {
+	public WorklistAlgorithm(IWorklist worklist, IMonotoneFramework framework) {
 		this.worklist = worklist;
 		this.constrains = framework.getConstrains();
 		this.analysis = new ArrayList<ILatticeValue>(constrains.size());

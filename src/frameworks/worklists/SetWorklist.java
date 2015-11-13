@@ -1,11 +1,11 @@
 package frameworks.worklists;
 
-import frameworks.IWorkList;
+import frameworks.IWorklist;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class SetWorkList implements IWorkList {
+public class SetWorklist implements IWorklist {
 	private Set<Integer> set = new HashSet<Integer>();
 
 	@Override

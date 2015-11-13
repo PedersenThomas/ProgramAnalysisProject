@@ -1,6 +1,7 @@
 package frameworks.reachingDefinitions;
 
 import frameworks.*;
+import graph.FlowGraph;
 
 import java.util.*;
 
@@ -11,14 +12,14 @@ public class ReachingDefinitions implements IMonotoneFramework {
 
     private List<IConstraint> constraints;
 
-    public ReachingDefinitions(Object flowGraph) {
+    public ReachingDefinitions(FlowGraph flowGraph) {
 
         this.constraints = new ArrayList<IConstraint>(4);
 
         //example1();
         example2();
 
-
+        
     }
 
     private void example2() {

@@ -2,14 +2,14 @@ package thelang;
 
 import java.util.ArrayList;
 
-import frameworks.IWorkList;
+import frameworks.IWorklist;
 import frameworks.reachingDefinitions.ReachingDefinitions;
 import org.antlr.runtime.tree.*;
 
 import ast.ILabelable;
 import frameworks.ILatticeValue;
-import frameworks.worklists.SetWorkList;
-import frameworks.WorkListAlgorithm;
+import frameworks.worklists.SetWorklist;
+import frameworks.WorklistAlgorithm;
 import graph.FlowGraph;
 import graph.FlowGraphEdge;
 
@@ -18,8 +18,8 @@ public class Main {
 	public static void main(String args[]) throws Exception {
 
 		ReachingDefinitions RD = new ReachingDefinitions(null);
-		IWorkList workList = new SetWorkList();
-		WorkListAlgorithm workListAlgorithm = new WorkListAlgorithm(workList, RD);
+		IWorklist workList = new SetWorklist();
+		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
 		System.out.println("Final values:");
         for (int i = 0; i < result.size(); i++) {
