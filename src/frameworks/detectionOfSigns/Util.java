@@ -7,13 +7,13 @@ import java.util.*;
 
 public class Util {
 
-    private static final PowerSetOfSigns EMPTY_SET =
+    public static final PowerSetOfSigns EMPTY_SET =
             new PowerSetOfSigns();
-    private static final PowerSetOfSigns NEGATIVE_ONLY =
+    public static final PowerSetOfSigns NEGATIVE_ONLY =
             new PowerSetOfSigns(Signs.negative);
-    private static final PowerSetOfSigns ZERO_ONLY =
+    public static final PowerSetOfSigns ZERO_ONLY =
             new PowerSetOfSigns(Signs.zero);
-    private static final PowerSetOfSigns POSITIVE_ONLY =
+    public static final PowerSetOfSigns POSITIVE_ONLY =
             new PowerSetOfSigns(Signs.positive);
     private static final PowerSetOfSigns ALL;
     private static final PowerSetOfSigns[][] ADDITION_TABLE;
@@ -54,7 +54,7 @@ public class Util {
                 {NEGATIVE_ONLY, EMPTY_SET, POSITIVE_ONLY}
         };
         DIVISION_TABLE = divisionTable;
-        
+
     }
 
 	public static PowerSetOfSigns evalDSArithmeticExpression(

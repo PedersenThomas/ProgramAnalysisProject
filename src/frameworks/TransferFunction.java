@@ -9,10 +9,14 @@ import java.util.Set;
  */
 public abstract class TransferFunction implements IConstraint {
 
-    protected final int inputIndex;
+    private final int inputIndex;
 
     public TransferFunction(int inputIndex) {
         this.inputIndex = inputIndex;
+    }
+
+    public int getInputIndex() {
+        return inputIndex;
     }
 
     @Override

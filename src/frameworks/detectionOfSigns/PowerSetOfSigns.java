@@ -1,5 +1,6 @@
 package frameworks.detectionOfSigns;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import frameworks.ILatticeValue;
 
 public class PowerSetOfSigns {
 
-	private Set<Signs> signs;
+	private final Set<Signs> signs;
 
 	public PowerSetOfSigns() {
 		this.signs = new HashSet<Signs>();
@@ -24,7 +25,7 @@ public class PowerSetOfSigns {
 	}
 
     public Set<Signs> getSigns() {
-        return signs;
+        return Collections.unmodifiableSet(signs);
     }
 
     public boolean isSubset(PowerSetOfSigns other) {
