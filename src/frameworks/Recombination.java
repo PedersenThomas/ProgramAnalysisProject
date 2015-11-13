@@ -4,24 +4,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BranchMerge implements IConstraint {
+public class Recombination implements IConstraint {
 
 	private Set<Integer> freeVariables;
 
-    public BranchMerge(int singletonFreeVariable) {
+    public Recombination(int singletonFreeVariable) {
         Set<Integer> singletonSet = new HashSet<>();
         singletonSet.add(singletonFreeVariable);
         this.freeVariables = singletonSet;
     }
 
-    public BranchMerge(int[] freeVariables) {
+    public Recombination(int[] freeVariables) {
         this.freeVariables = new HashSet<Integer>();
         for (int i : freeVariables) {
             this.freeVariables.add(i);
         }
     }
 
-	public BranchMerge(Set<Integer> freeVariables) {
+	public Recombination(Set<Integer> freeVariables) {
 		this.freeVariables = freeVariables;
 	}
 

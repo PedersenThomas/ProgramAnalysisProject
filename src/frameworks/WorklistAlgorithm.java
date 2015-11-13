@@ -20,7 +20,7 @@ public class WorkListAlgorithm {
 
 		for (int i = 0; i < constrains.size(); i++) {
 			this.worklist.insert(i);
-			this.analysis.add(framework.getButtom());
+			this.analysis.add(framework.getBottom());
 			this.influenceList.add(new HashSet<Integer>());
 		}
 

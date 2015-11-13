@@ -1,4 +1,4 @@
-package frameworks.worklists;
+package frameworks.workLists;
 
 import frameworks.IWorkList;
 

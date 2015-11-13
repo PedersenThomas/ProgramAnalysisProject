@@ -1,67 +1,97 @@
 package frameworks.detectionOfSigns;
 
-import java.util.HashSet;
+import frameworks.ILatticeValue;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
-import frameworks.ILatticeValue;
-import frameworks.Util;
-
+/**
+ * Created by PatrickKasting on 13/11/15.
+ */
 public class DSLatticeValue implements ILatticeValue {
-	private Set<Signs> signs;
 
-	public DSLatticeValue() {
-		this.signs = new HashSet<Signs>();
-	}
+    private Map<String, PowerSetOfSigns> signState;
 
-	public DSLatticeValue(Set<Signs> signs) {
-		this.signs = signs;
-	}
+    public Map<String, PowerSetOfSigns> getSignState() {
+        return signState;
+    }
 
-	public DSLatticeValue(Signs sign) {
-		Set<Signs> value = new HashSet<Signs>();
-		value.add(sign);
-		this.signs = value;
-	}
+    /** Do not make an empty constructor!
+     *  We need to know all the variables.
+     **/
 
-	/**
-	 * Is this a subset of PARAM
-	 */
-	@Override
-	public boolean isSubset(ILatticeValue obj) {
-		DSLatticeValue other = (DSLatticeValue) obj;
-		// The signs is stored as sets, so if "this" has more elements
-		// than other then it is not a subset for sure.
-		if (this.signs.size() > other.signs.size()) {
-			return false;
-		}
+    public DSLatticeValue(Set<String> variables) {
+        Map<String, PowerSetOfSigns> signState =
+                new HashMap<String, PowerSetOfSigns>();
+        for(String variable : variables) {
+            signState.put(variable, new PowerSetOfSigns());
+        }
+        this.signState = signState;
+    }
 
-		// Checks if all elements of "this" is in others.
-		for (Signs sign : signs) {
-			if (!other.signs.contains(sign)) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public DSLatticeValue(Map<String, PowerSetOfSigns> signState) {
+        this.signState = signState;
+    }
 
-	@Override
-	public boolean isEqual(ILatticeValue obj) {
-		if (!(obj instanceof DSLatticeValue)) {
-			return false;
-		}
+    @Override
+    public boolean isSubset(ILatticeValue other) {
+        DSLatticeValue otherDSLatticeValue = (DSLatticeValue) other;
 
-		DSLatticeValue other = (DSLatticeValue) obj;
-		return this.signs.equals(other.signs);
-	}
+        for (Map.Entry<String, PowerSetOfSigns> entry
+                : this.signState.entrySet()) {
+            PowerSetOfSigns otherPowerSetOfSigns =
+                    otherDSLatticeValue.signState.get(entry.getKey());
+            if (!entry.getValue().isSubset(otherPowerSetOfSigns)) {
+                return false;
+            }
+        }
 
-	@Override
-	public ILatticeValue join(ILatticeValue obj) {
-		DSLatticeValue other = (DSLatticeValue) obj;
-		return new DSLatticeValue(Util.Union(signs, other.signs));
-	}
-	
-	@Override
-	public String toString() {
-		return Util.join(signs, " ");
-	}
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof DSLatticeValue)) {
+            return false;
+        }
+
+        DSLatticeValue otherDSLatticeValue = (DSLatticeValue) other;
+
+        for (Map.Entry<String, PowerSetOfSigns> entry
+                : this.signState.entrySet()) {
+            PowerSetOfSigns otherPowerSetOfSigns =
+                    otherDSLatticeValue.signState.get(entry.getKey());
+            if (!entry.getValue().equals(otherPowerSetOfSigns)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public ILatticeValue join(ILatticeValue other) {
+        DSLatticeValue otherDSLatticeValue = (DSLatticeValue) other;
+
+        Map<String, PowerSetOfSigns> resultSignState =
+                new HashMap<String, PowerSetOfSigns>();
+
+        for (Map.Entry<String, PowerSetOfSigns> entry
+                : this.signState.entrySet()) {
+            PowerSetOfSigns otherPowerSetOfSigns =
+                    otherDSLatticeValue.signState.get(entry.getKey());
+            resultSignState.put(entry.getKey(),
+                    entry.getValue().union(otherPowerSetOfSigns));
+        }
+
+        return new DSLatticeValue(resultSignState);
+    }
+
+    @Override
+    public String toString() {
+        return "DSLatticeValue{" +
+                "signState=" + signState +
+                '}';
+    }
 }

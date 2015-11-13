@@ -1,14 +1,20 @@
 package thelang;
 
-import java.util.ArrayList;
+import java.util.*;
 
+import ast.AstBuilder;
+import ast.Program;
+import frameworks.IMonotoneFramework;
 import frameworks.IWorkList;
+import frameworks.detectionOfSigns.DetectionOfSigns;
 import frameworks.reachingDefinitions.ReachingDefinitions;
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.*;
 
 import ast.ILabelable;
 import frameworks.ILatticeValue;
-import frameworks.worklists.SetWorkList;
+import frameworks.workLists.SetWorkList;
 import frameworks.WorkListAlgorithm;
 import graph.FlowGraph;
 import graph.FlowGraphEdge;
@@ -26,40 +32,36 @@ public class Main {
             System.out.println("Variable " + i + ": " + result.get(i));
         }
 
-		/*
+        /*
 		TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[0]));
 		CommonTokenStream tokens = new CommonTokenStream(lex);
 		TheLangParser parser = new TheLangParser(tokens);
 
-		try {
-			program_return parserResult = parser.program();
-			System.out.println(parserResult);
-			if (parserResult != null) {
-				CommonTree tree = parserResult.tree;
-				printTree(tree, 0);
-				System.out.println("-----------------------------------------");
+        TheLangParser.program_return parserResult = parser.program();
+        System.out.println(parserResult);
+        if (parserResult != null) {
+            CommonTree tree = parserResult.tree;
+            printTree(tree, 0);
+            System.out.println("-----------------------------------------");
 
-				Program theProgram = AstBuilder.build(tree);
-				System.out.println(theProgram);
+            Program theProgram = AstBuilder.build(tree);
+            System.out.println(theProgram);
 
-				FlowGraph graph = new FlowGraph(theProgram);
+            FlowGraph graph = new FlowGraph(theProgram);
 
-				printGraphInfo(graph);
+            printGraphInfo(graph);
 
-				System.out.println("////////////// Detection of Signs ////////////////////////////");
-				IMonotoneFramework dsFramework = new DSMonotoneFramework(graph);
-				IWorkList workList = new SetWorkList();
-				WorkListAlgorithm algo = new WorkListAlgorithm(workList, dsFramework);
-				List<ILatticeValue> result = algo.Run();
-				for (ILatticeValue value : result) {
-					System.out.println(value);
-				}
+            System.out.println("////////////// Detection of Signs ////////////////////////////");
+            IMonotoneFramework dsFramework = new DetectionOfSigns(null);
+            IWorkList workList = new SetWorkList();
+            WorkListAlgorithm algorithm = new WorkListAlgorithm(workList, dsFramework);
+            List<ILatticeValue> result = algorithm.Run();
+            for (ILatticeValue value : result) {
+                System.out.println(value);
+            }
 
-			}
-		} catch (RecognitionException e) {
-			e.printStackTrace();
-		}
-		*/
+        }
+        */
 	}
 
 	public static void printGraphInfo(FlowGraph graph) {
