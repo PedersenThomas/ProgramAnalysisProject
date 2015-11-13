@@ -19,7 +19,25 @@ public class ReachingDefinitions implements IMonotoneFramework {
         //example1();
         example2();
 
+        if(this.constraints.isEmpty()) {
+        	BuildConstraints(flowGraph);	
+        }
+    }
+    
+    private void BuildConstraints(FlowGraph flowGraph) {
+    	// Get a handle to all the variables 
+    	Map<String, Integer> declarations = new HashMap<String, Integer>();
+    	// Adds all the variables as "?"
+    	for (String variable : flowGraph.getFreeVariables()) {
+    		declarations.put(variable, declarations.size());
+		}
+    	
+    	// Adds the initial Constraint
+    	BitSet initial = new BitSet();
+        initial.set(0);
+        this.constraints.add(new InitialConstraint(new RDLatticeValue(initial)));
         
+        // Iterate over all Declarations and Assignments.
     }
 
     private void example2() {
