@@ -13,6 +13,11 @@ public class ReadArray extends Statement {
 		this.token = token;
 	}
 	
+	public String getArrayname() {
+		return array;
+	}
+	
+	@Override
 	public Token getToken() {
 		return this.token;
 	}

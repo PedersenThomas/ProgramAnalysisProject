@@ -15,6 +15,11 @@ public class ArrayAssignment extends Statement {
 		this.token = token;
 	}
 	
+	public String getArrayName() {
+		return this.array;
+	}
+	
+	@Override
 	public Token getToken() {
 		return this.token;
 	}

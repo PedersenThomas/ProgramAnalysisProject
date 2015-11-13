@@ -11,6 +11,11 @@ public class ReadVariable extends Statement {
 		this.token = token;
 	}
 	
+	public String getName() {
+		return identifier;
+	}
+	
+	@Override
 	public Token getToken() {
 		return this.token;
 	}

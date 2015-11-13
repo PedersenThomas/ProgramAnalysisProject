@@ -11,12 +11,14 @@ public class VariableDeclaration extends Declaration {
 		this.token = token;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
+	@Override
 	public Token getToken() {
 		return this.token;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override

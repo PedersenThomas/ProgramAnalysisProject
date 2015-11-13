@@ -13,12 +13,13 @@ public class ArrayDeclaration extends Declaration {
 		this.token = token;
 	}
 	
-	public String getArrayName() {
-		return array;
-	}
-	
 	public Token getToken() {
 		return this.token;
+	}
+	
+	@Override
+	public String getName() {
+		return array;
 	}
 
 	@Override

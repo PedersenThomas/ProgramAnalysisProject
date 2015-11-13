@@ -8,6 +8,10 @@ public class Recombination implements IConstraint {
 
 	private Set<Integer> freeVariables;
 
+	public Recombination() {
+		this.freeVariables = new HashSet<Integer>();
+	}
+	
     public Recombination(int singletonFreeVariable) {
         Set<Integer> singletonSet = new HashSet<>();
         singletonSet.add(singletonFreeVariable);
@@ -40,10 +44,18 @@ public class Recombination implements IConstraint {
         }
 		return current;
 	}
+	
+	public void insertFreeVariable(int label) {
+		this.freeVariables.add(label);
+	}
 
 	@Override
 	public Set<Integer> getFreeVariables() {
 		return freeVariables;
 	}
-
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + " " + freeVariables;
+	}
 }

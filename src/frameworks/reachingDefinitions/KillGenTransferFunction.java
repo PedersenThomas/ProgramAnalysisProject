@@ -39,4 +39,9 @@ public class KillGenTransferFunction implements IConstraint {
         freeVariables.add(inputIndex);
         return freeVariables;
     }
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + " InputIndex" + inputIndex + " GenSet:" + genSet + " KillSet:" + killSet;
+	}
 }

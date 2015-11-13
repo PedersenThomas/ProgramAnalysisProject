@@ -23,6 +23,7 @@ public class Main {
 
 	public static void main(String args[]) throws Exception {
 
+		/*
 		ReachingDefinitions RD = new ReachingDefinitions(null);
 		IWorklist workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
@@ -31,37 +32,47 @@ public class Main {
         for (int i = 0; i < result.size(); i++) {
             System.out.println("Variable " + i + ": " + result.get(i));
         }
-
-        /*
+		*/
+		
 		TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[0]));
 		CommonTokenStream tokens = new CommonTokenStream(lex);
 		TheLangParser parser = new TheLangParser(tokens);
 
         TheLangParser.program_return parserResult = parser.program();
-        System.out.println(parserResult);
         if (parserResult != null) {
             CommonTree tree = parserResult.tree;
-            printTree(tree, 0);
-            System.out.println("-----------------------------------------");
+//            printTree(tree, 0);
+//            System.out.println("-----------------------------------------");
 
             Program theProgram = AstBuilder.build(tree);
-            System.out.println(theProgram);
+            //System.out.println(theProgram);
 
             FlowGraph graph = new FlowGraph(theProgram);
+            RunReachingDefinitions(graph);
+            
+            //printGraphInfo(graph);
 
-            printGraphInfo(graph);
-
-            System.out.println("////////////// Detection of Signs ////////////////////////////");
-            IMonotoneFramework dsFramework = new DetectionOfSigns(null);
-            IWorkList workList = new SetWorkList();
-            WorkListAlgorithm algorithm = new WorkListAlgorithm(workList, dsFramework);
-            List<ILatticeValue> result = algorithm.Run();
-            for (ILatticeValue value : result) {
-                System.out.println(value);
-            }
+//            System.out.println("////////////// Detection of Signs ////////////////////////////");
+//            IMonotoneFramework dsFramework = new DetectionOfSigns(null);
+//            IWorklist workList = new SetWorklist();
+//            WorklistAlgorithm algorithm = new WorklistAlgorithm(workList, dsFramework);
+//            List<ILatticeValue> result = algorithm.Run();
+//            for (ILatticeValue value : result) {
+//                System.out.println(value);
+//            }
 
         }
-        */
+	}
+	
+	public static void RunReachingDefinitions(FlowGraph flowgraph) {
+		ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
+		IWorklist workList = new SetWorklist();
+		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
+		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
+		System.out.println("Final values:");
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println("Variable " + i + ": " + result.get(i));
+        }
 	}
 
 	public static void printGraphInfo(FlowGraph graph) {

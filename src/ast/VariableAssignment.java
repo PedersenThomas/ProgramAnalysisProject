@@ -13,6 +13,11 @@ public class VariableAssignment extends Statement {
 		this.token = token;
 	}
 	
+	public String getVariableName() {
+		return this.left;
+	}
+	
+	@Override
 	public Token getToken() {
 		return this.token;
 	}

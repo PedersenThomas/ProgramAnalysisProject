@@ -21,4 +21,9 @@ public class InitialConstraint implements IConstraint {
 	public Set<Integer> getFreeVariables() {
 		return new HashSet<>();
 	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + " " + initialValue;
+	}
 }

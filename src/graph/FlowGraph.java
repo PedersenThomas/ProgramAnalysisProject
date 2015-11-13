@@ -71,15 +71,27 @@ public class FlowGraph {
 		convertStatements(previous, program.statements);
 	}
 
-	public List<FlowGraphEdge> getNodeEdges(int programPoint) {
-		List<FlowGraphEdge> result = new ArrayList<FlowGraphEdge>();
+	public List<Integer> getNodeOutNodes(int label) {
+		List<Integer> result = new ArrayList<Integer>();
 
 		for (FlowGraphEdge edge : getFlowEdges()) {
-			if (edge.getLabel1() == programPoint) {
-				result.add(edge);
+			if (edge.getLabel1() == label) {
+				result.add(edge.getLabel2());
 			}
 		}
 
+		return result;
+	}
+	
+	public List<Integer> getNodeInNodes(int label) {
+		List<Integer> result = new ArrayList<Integer>();
+		
+		for (FlowGraphEdge edge : getFlowEdges()) {
+			if (edge.getLabel2() == label) {
+				result.add(edge.getLabel1());
+			}
+		}
+		
 		return result;
 	}
 
@@ -170,7 +182,7 @@ public class FlowGraph {
 			this.freeVariables.add(((VariableDeclaration) declaration).getName());
 
 		} else if (declaration instanceof ArrayDeclaration) {
-			this.freeVariables.add(((ArrayDeclaration) declaration).getArrayName());
+			this.freeVariables.add(((ArrayDeclaration) declaration).getName());
 		}
 	}
 }
