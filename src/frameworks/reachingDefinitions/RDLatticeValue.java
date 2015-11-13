@@ -36,32 +36,27 @@ public class RDLatticeValue implements ILatticeValue {
 
     @Override
     public boolean isSubset(ILatticeValue other) {
-        try {
-            BitSet cloneOfThisBitSet = (BitSet) this.bitSet.clone();
-            RDLatticeValue otherRDLatticeValue = (RDLatticeValue) other;
-            cloneOfThisBitSet.andNot(otherRDLatticeValue.bitSet);
-            return cloneOfThisBitSet.isEmpty();
-        } catch (Exception e) {
-            throw new RuntimeException("Bad unboxing in RDLatticeValue.isSubset!");
-        }
+        BitSet cloneOfThisBitSet = (BitSet) this.bitSet.clone();
+        RDLatticeValue otherRDLatticeValue = (RDLatticeValue) other;
+        cloneOfThisBitSet.andNot(otherRDLatticeValue.bitSet);
+        return cloneOfThisBitSet.isEmpty();
     }
 
     @Override
-    public boolean isEqual(ILatticeValue other) {
+    public boolean equals(Object other) {
+        if (!(other instanceof RDLatticeValue)) {
+            return false;
+        }
         RDLatticeValue otherRDLatticeValue = (RDLatticeValue) other;
         return this.bitSet.equals(otherRDLatticeValue.bitSet);
     }
 
     @Override
     public ILatticeValue join(ILatticeValue other) {
-        try {
-            BitSet cloneOfThisBitSet = (BitSet) this.bitSet.clone();
-            RDLatticeValue otherRDLatticeValue = (RDLatticeValue) other;
-            cloneOfThisBitSet.or(otherRDLatticeValue.bitSet);
-            return new RDLatticeValue(cloneOfThisBitSet);
-        } catch (Exception e) {
-            throw new RuntimeException("Bad unboxing in RDLatticeValue.join!");
-        }
+        BitSet cloneOfThisBitSet = (BitSet) this.bitSet.clone();
+        RDLatticeValue otherRDLatticeValue = (RDLatticeValue) other;
+        cloneOfThisBitSet.or(otherRDLatticeValue.bitSet);
+        return new RDLatticeValue(cloneOfThisBitSet);
     }
 
 }

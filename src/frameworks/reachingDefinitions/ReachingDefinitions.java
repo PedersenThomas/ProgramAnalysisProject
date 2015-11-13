@@ -62,12 +62,12 @@ public class ReachingDefinitions implements IMonotoneFramework {
         gen4.set(4);
 
         this.constraints.add(new KillGenTransferFunction(0, kill, gen1));  // 1
-        this.constraints.add(new BranchMerge(1));  // 2
+        this.constraints.add(new Recombination(1));  // 2
         this.constraints.add(new KillGenTransferFunction(2, kill, gen2));  // 3
         int[] merge4 = {3, 7};
-        this.constraints.add(new BranchMerge(merge4));  // 4
+        this.constraints.add(new Recombination(merge4));  // 4
         this.constraints.add(new KillGenTransferFunction(0, kill, gen1));  // 5
-        this.constraints.add(new BranchMerge(5));  // 6
+        this.constraints.add(new Recombination(5));  // 6
         this.constraints.add(new KillGenTransferFunction(6, kill, gen3));  // 7
         this.constraints.add(new KillGenTransferFunction(4, kill, gen4)); // 8
 
@@ -87,7 +87,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 
         Set<Integer> free2 = new HashSet<>();
         free2.add(1);
-        this.constraints.add(new BranchMerge(free2));
+        this.constraints.add(new Recombination(free2));
 
         BitSet kill2 = new BitSet();
         kill2.set(0); kill2.set(1); kill2.set(2);
@@ -98,7 +98,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
     }
 
     @Override
-    public ILatticeValue getButtom() {
+    public ILatticeValue getBottom() {
         return new RDLatticeValue();
     }
 

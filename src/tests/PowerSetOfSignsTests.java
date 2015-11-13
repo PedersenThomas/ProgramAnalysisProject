@@ -6,35 +6,35 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import frameworks.detectionOfSigns.DSLatticeValue;
+import frameworks.detectionOfSigns.PowerSetOfSigns;
 import frameworks.detectionOfSigns.Signs;
 
-public class LaticeValue {
+public class PowerSetOfSignsTests {
 
 	@Test
 	public void IsSumSet_pos_neg() {
-		DSLatticeValue a = new DSLatticeValue(Signs.negative);
-		DSLatticeValue b = new DSLatticeValue(Signs.positive);
+		PowerSetOfSigns a = new PowerSetOfSigns(Signs.negative);
+		PowerSetOfSigns b = new PowerSetOfSigns(Signs.positive);
 
 		Assert.assertFalse(a.isSubset(b));
 	}
 
 	@Test
 	public void IsSumSet_pos_pos() {
-		DSLatticeValue a = new DSLatticeValue(Signs.positive);
-		DSLatticeValue b = new DSLatticeValue(Signs.positive);
+		PowerSetOfSigns a = new PowerSetOfSigns(Signs.positive);
+		PowerSetOfSigns b = new PowerSetOfSigns(Signs.positive);
 
 		Assert.assertTrue(a.isSubset(b));
 	}
 
 	@Test
 	public void IsSumSet_pos_set() {
-		DSLatticeValue a = new DSLatticeValue(Signs.positive);
+		PowerSetOfSigns a = new PowerSetOfSigns(Signs.positive);
 
 		Set<Signs> values = new HashSet<Signs>();
 		values.add(Signs.zero);
 		values.add(Signs.positive);
-		DSLatticeValue b = new DSLatticeValue(values);
+		PowerSetOfSigns b = new PowerSetOfSigns(values);
 
 		Assert.assertTrue(a.isSubset(b));
 	}
@@ -42,20 +42,20 @@ public class LaticeValue {
 	@Test
 	public void IsSumSet_empty_empty() {
 		Set<Signs> aValues = new HashSet<Signs>();
-		DSLatticeValue a = new DSLatticeValue(aValues);
+		PowerSetOfSigns a = new PowerSetOfSigns(aValues);
 
 		Set<Signs> bValues = new HashSet<Signs>();
-		DSLatticeValue b = new DSLatticeValue(bValues);
+		PowerSetOfSigns b = new PowerSetOfSigns(bValues);
 
 		Assert.assertTrue(a.isSubset(b));
 	}
 
 	@Test
 	public void IsEqual_bot_bot() {
-		DSLatticeValue a = new DSLatticeValue();
-		DSLatticeValue b = new DSLatticeValue();
+		PowerSetOfSigns a = new PowerSetOfSigns();
+		PowerSetOfSigns b = new PowerSetOfSigns();
 
 		Assert.assertTrue(a.isSubset(b));
-		Assert.assertTrue(a.isEqual(b));
+		Assert.assertTrue(a.equals(b));
 	}
 }
