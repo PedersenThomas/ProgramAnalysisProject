@@ -15,7 +15,11 @@ public class WriteStatement extends Statement {
 		return this.token;
 	}
 
-	@Override
+    public ArithmeticExpression getExpression() {
+        return expression;
+    }
+
+    @Override
 	public String toString() {
 		return "write " + expression;
 	}

@@ -1,7 +1,16 @@
 package ast;
 
 public class ArithmeticArray extends ArithmeticExpression {
-	String array; 
+	String array;
+
+	public String getArray() {
+		return array;
+	}
+
+	public ArithmeticExpression getIndex() {
+		return index;
+	}
+
 	ArithmeticExpression index;
 	
 	public ArithmeticArray(String array, ArithmeticExpression index) {

@@ -1,7 +1,12 @@
 package ast;
 
 public class Identifier extends ArithmeticExpression {
-	String name;
+
+	public String getName() {
+		return name;
+	}
+
+	private String name;
 	
 	public Identifier(String name) {
 		this.name = name;

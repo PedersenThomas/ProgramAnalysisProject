@@ -6,6 +6,7 @@ import java.util.Set;
 import frameworks.ILatticeValue;
 
 public class PowerSetOfSigns {
+
 	private Set<Signs> signs;
 
 	public PowerSetOfSigns() {
@@ -22,7 +23,11 @@ public class PowerSetOfSigns {
 		this.signs = value;
 	}
 
-	public boolean isSubset(PowerSetOfSigns other) {
+    public Set<Signs> getSigns() {
+        return signs;
+    }
+
+    public boolean isSubset(PowerSetOfSigns other) {
 		// Checks if all elements of "this" is in others.
 		for (Signs sign : this.signs) {
 			if (!other.signs.contains(sign)) {

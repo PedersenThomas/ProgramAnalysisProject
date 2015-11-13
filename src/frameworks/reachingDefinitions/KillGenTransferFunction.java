@@ -1,25 +1,21 @@
 package frameworks.reachingDefinitions;
 
-import frameworks.IConstraint;
 import frameworks.ILatticeValue;
+import frameworks.TransferFunction;
 
 import java.util.BitSet;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by PatrickKasting on 09/11/15.
  */
-public class KillGenTransferFunction implements IConstraint {
-
-    private final int inputIndex;
+public class KillGenTransferFunction extends TransferFunction {
 
     private final BitSet killSet;
     private final BitSet genSet;
 
     public KillGenTransferFunction(int inputIndex, BitSet killSet, BitSet genSet) {
-        this.inputIndex = inputIndex;
+        super(inputIndex);
         this.killSet = killSet;
         this.genSet = genSet;
     }
@@ -33,10 +29,4 @@ public class KillGenTransferFunction implements IConstraint {
         return new RDLatticeValue(cloneOfDependencyBitSet);
     }
 
-    @Override
-    public Set<Integer> getFreeVariables() {
-        Set<Integer> freeVariables = new HashSet<>();
-        freeVariables.add(inputIndex);
-        return freeVariables;
-    }
 }
