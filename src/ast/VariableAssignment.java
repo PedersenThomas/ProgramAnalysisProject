@@ -3,6 +3,7 @@ package ast;
 import org.antlr.runtime.Token;
 
 public class VariableAssignment extends Statement {
+
 	private Token token;
 	String left;
 	ArithmeticExpression right;
@@ -16,9 +17,13 @@ public class VariableAssignment extends Statement {
 	public String getVariableName() {
 		return this.left;
 	}
-	
-	@Override
-	public Token getToken() {
+
+    public ArithmeticExpression getRight() {
+        return right;
+    }
+    
+    @Override
+    public Token getToken() {
 		return this.token;
 	}
 

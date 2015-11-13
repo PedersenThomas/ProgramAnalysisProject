@@ -13,10 +13,6 @@ public class DSLatticeValue implements ILatticeValue {
 
     private Map<String, PowerSetOfSigns> signState;
 
-    public Map<String, PowerSetOfSigns> getSignState() {
-        return signState;
-    }
-
     /** Do not make an empty constructor!
      *  We need to know all the variables.
      **/
@@ -32,6 +28,14 @@ public class DSLatticeValue implements ILatticeValue {
 
     public DSLatticeValue(Map<String, PowerSetOfSigns> signState) {
         this.signState = signState;
+    }
+
+    public Map<String, PowerSetOfSigns> getSignState() {
+        return signState;
+    }
+
+    public Set<String> getVariables() {
+        return this.signState.keySet();
     }
 
     @Override

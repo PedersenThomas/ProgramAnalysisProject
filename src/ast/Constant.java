@@ -1,6 +1,10 @@
 package ast;
 
 public class Constant extends ArithmeticExpression {
+	public int getNumber() {
+		return number;
+	}
+
 	int number;
 	
 	public Constant(int number) {

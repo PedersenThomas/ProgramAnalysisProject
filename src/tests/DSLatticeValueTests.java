@@ -4,12 +4,12 @@ import frameworks.ILatticeValue;
 import frameworks.detectionOfSigns.DSLatticeValue;
 import frameworks.detectionOfSigns.PowerSetOfSigns;
 import frameworks.detectionOfSigns.Signs;
-import frameworks.reachingDefinitions.RDLatticeValue;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
 
 import static org.junit.Assert.*;
 
@@ -192,7 +192,6 @@ public class DSLatticeValueTests {
         DSLatticeValue resultLatticeValue =
                 new DSLatticeValue(resultSignState);
         assertEquals(resultLatticeValue, joined3);
-
 
     }
 
