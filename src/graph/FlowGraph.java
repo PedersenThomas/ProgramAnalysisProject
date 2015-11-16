@@ -1,8 +1,10 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ast.ArrayDeclaration;
 import ast.Declaration;
@@ -18,15 +20,12 @@ public class FlowGraph {
 	private static int labelcount = 1;
 	private HashMap<Integer, ILabelable> labelMapping = new HashMap<Integer, ILabelable>();
 
-	private ArrayList<FlowGraphEdge> flowEdges = new ArrayList<FlowGraphEdge>();
+	private Map<Integer, List<Integer>> flowForward  = new HashMap<Integer, List<Integer>>();
+	private Map<Integer, List<Integer>> flowBackward = new HashMap<Integer, List<Integer>>();
 	private ArrayList<String> freeVariables = new ArrayList<String>();
 
 	public HashMap<Integer, ILabelable> getLabelMapping() {
 		return labelMapping;
-	}
-
-	public ArrayList<FlowGraphEdge> getFlowEdges() {
-		return flowEdges;
 	}
 
 	public ArrayList<String> getFreeVariables() {
@@ -72,27 +71,19 @@ public class FlowGraph {
 	}
 
 	public List<Integer> getNodeOutNodes(int label) {
-		List<Integer> result = new ArrayList<Integer>();
-
-		for (FlowGraphEdge edge : getFlowEdges()) {
-			if (edge.getLabel1() == label) {
-				result.add(edge.getLabel2());
-			}
+		if (flowForward.containsKey(label)) {
+			return Collections.unmodifiableList(flowForward.get(label));
+		} else {
+			return new ArrayList<Integer>();
 		}
-
-		return result;
 	}
 	
 	public List<Integer> getNodeInNodes(int label) {
-		List<Integer> result = new ArrayList<Integer>();
-		
-		for (FlowGraphEdge edge : getFlowEdges()) {
-			if (edge.getLabel2() == label) {
-				result.add(edge.getLabel1());
-			}
+		if (flowBackward.containsKey(label)) {
+			return Collections.unmodifiableList(flowBackward.get(label));
+		} else {
+			return new ArrayList<Integer>();
 		}
-		
-		return result;
 	}
 
 	private List<Integer> convertStatement(List<Integer> previous, Statement statement) {
@@ -161,7 +152,15 @@ public class FlowGraph {
 	}
 
 	private void AddFlowNode(Integer label1, Integer label2) {
-		flowEdges.add(new FlowGraphEdge(label1, label2));
+		if (!flowForward.containsKey(label1)) {
+			flowForward.put(label1, new ArrayList<Integer>());
+		}
+		flowForward.get(label1).add(label2);
+		
+		if (!flowBackward.containsKey(label2)) {
+			flowBackward.put(label2, new ArrayList<Integer>());
+		}
+		flowBackward.get(label2).add(label1);
 	}
 
 	/**
