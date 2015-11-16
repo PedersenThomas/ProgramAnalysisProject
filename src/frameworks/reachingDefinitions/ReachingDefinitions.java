@@ -2,11 +2,9 @@ package frameworks.reachingDefinitions;
 
 import frameworks.*;
 import graph.FlowGraph;
-import graph.FlowGraphEdge;
 
 import java.util.*;
 
-import ast.ArithmeticOperator;
 import ast.ArrayAssignment;
 import ast.Declaration;
 import ast.ILabelable;
@@ -27,7 +25,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		// example1();
 		// example2();
 
-		if (this.constraints.isEmpty()) {
+		if (this.constraints.isEmpty()) { //Only used for not interfering with the examples. TODO REMOVE before shipping
 			BuildConstraints(flowGraph);
 		}
 		
@@ -73,7 +71,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		this.constraints.add(new InitialConstraint(new RDLatticeValue(initial)));
 		Map<Integer, ILabelable> flowGraphMapping = flowgraph.getLabelMapping();
 		
-		// Don't construct for the initialNode
+		// Don't construct for the initialNode. Therefore the size()-1
 		for (int i = 0; i < flowGraphMapping.keySet().size()-1; i++) {
 			IConstraint recombination = new Recombination();
 			this.constraints.add(recombination);
@@ -132,6 +130,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		
 	}
 
+	// Constructs a table for knowing where label a variable is assigned at.
 	private List<AssignmentTableEntry> getAssignmentTable(FlowGraph flowgraph) {
 		List<AssignmentTableEntry> labels = new ArrayList<AssignmentTableEntry>();
 
@@ -163,6 +162,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		return labels;
 	}
 
+	//TODO REMOVE
 	private void example2() {
 
 		BitSet initial = new BitSet();
@@ -196,6 +196,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 
 	}
 
+	//TODO REMOVE
 	private void example1() {
 
 		BitSet initial = new BitSet();
