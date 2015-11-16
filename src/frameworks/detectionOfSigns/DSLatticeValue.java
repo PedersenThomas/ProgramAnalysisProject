@@ -2,6 +2,7 @@ package frameworks.detectionOfSigns;
 
 import frameworks.ILatticeValue;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,11 +32,22 @@ public class DSLatticeValue implements ILatticeValue {
     }
 
     public Map<String, PowerSetOfSigns> getSignState() {
-        return signState;
+        return Collections.unmodifiableMap(signState);
     }
 
     public Set<String> getVariables() {
-        return this.signState.keySet();
+        return Collections.unmodifiableSet(this.signState.keySet());
+    }
+
+    public boolean isBottom() {
+        PowerSetOfSigns empty = new PowerSetOfSigns();
+        for(Map.Entry<String, PowerSetOfSigns> entry
+                : this.signState.entrySet()) {
+            if (!entry.getValue().isSubset(empty)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

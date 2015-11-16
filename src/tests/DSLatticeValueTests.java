@@ -123,14 +123,17 @@ public class DSLatticeValueTests {
         assertTrue(latticeValue1.isSubset(latticeValue2));
         assertFalse(latticeValue2.isSubset(latticeValue1));
 
-        latticeValue1.getSignState().put(
-                "a", new PowerSetOfSigns(signs2));
+        signState1.put("a", new PowerSetOfSigns(signs2));
+        latticeValue1 = new DSLatticeValue(signState1);
 
         assertTrue(latticeValue1.isSubset(latticeValue2));
         assertTrue(latticeValue2.isSubset(latticeValue1));
 
-        latticeValue1.getSignState().put("a", new PowerSetOfSigns(signs1));
-        latticeValue2.getSignState().put("c", new PowerSetOfSigns(signs3));
+        signState1.put("a", new PowerSetOfSigns(signs1));
+        signState2.put("c", new PowerSetOfSigns(signs3));
+
+        latticeValue1 = new DSLatticeValue(signState1);
+        latticeValue2 = new DSLatticeValue(signState2);
 
         assertTrue(latticeValue1.isSubset(latticeValue2));
         assertFalse(latticeValue2.isSubset(latticeValue1));
@@ -192,6 +195,38 @@ public class DSLatticeValueTests {
         DSLatticeValue resultLatticeValue =
                 new DSLatticeValue(resultSignState);
         assertEquals(resultLatticeValue, joined3);
+
+    }
+
+    @Test
+    public void testIsBottom() {
+
+        Set<String> variables = new HashSet<String>();
+        variables.add("a");
+        variables.add("b");
+        variables.add("c");
+        DSLatticeValue bottom1 = new DSLatticeValue(variables);
+
+        assertTrue(bottom1.isBottom());
+
+        Set<Signs> signs1 = new HashSet<>();
+        signs1.add(Signs.negative);
+
+        Set<Signs> signs2 = new HashSet<>();
+        signs2.add(Signs.negative);
+        signs2.add(Signs.zero);
+
+        Set<Signs> signs3 = new HashSet<>();
+        signs3.add(Signs.positive);
+
+        HashMap<String, PowerSetOfSigns> signState1 =
+                new HashMap<>();
+        signState1.put("a", new PowerSetOfSigns(signs1));
+        signState1.put("b", new PowerSetOfSigns(signs2));
+        signState1.put("c", new PowerSetOfSigns(signs3));
+
+        DSLatticeValue nonBottom = new DSLatticeValue(signState1);
+        assertFalse(nonBottom.isBottom());
 
     }
 
