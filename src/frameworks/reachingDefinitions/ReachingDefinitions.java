@@ -3,33 +3,42 @@ package frameworks.reachingDefinitions;
 import frameworks.*;
 import graph.FlowGraph;
 import graph.Variable;
+import graph.VariableType;
 
 import java.util.*;
 
 import ast.ArrayAssignment;
+import ast.ArrayDeclaration;
 import ast.Declaration;
 import ast.ILabelable;
 import ast.ReadArray;
 import ast.ReadVariable;
 import ast.VariableAssignment;
+import ast.VariableDeclaration;
 
 /**
  * Created by PatrickKasting on 09/11/15.
  */
 public class ReachingDefinitions implements IMonotoneFramework {
 	private List<IConstraint> constraints;
+	private List<AssignmentTableEntry> assignmentTable;
+	
+	public List<AssignmentTableEntry> getAssignmentTable() {
+		return Collections.unmodifiableList(this.assignmentTable);
+	}
 
 	public ReachingDefinitions(FlowGraph flowGraph) {
-
 		this.constraints = new ArrayList<IConstraint>(4);
-		
+
 		// example1();
 		// example2();
 
-		if (this.constraints.isEmpty()) { //Only used for not interfering with the examples. TODO REMOVE before shipping
+		if (this.constraints.isEmpty()) { // Only used for not interfering with
+											// the examples. TODO REMOVE before
+											// shipping
 			BuildConstraints(flowGraph);
 		}
-		
+
 		for (int i = 0; i < constraints.size(); i++) {
 			System.out.println("" + i + " " + constraints.get(i));
 		}
@@ -38,7 +47,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 	private void BuildConstraints(FlowGraph flowgraph) {
 		List<AssignmentTableEntry> assignmentTable = getAssignmentTable(flowgraph);
 		Map<String, List<Integer>> killSets = new HashMap<String, List<Integer>>();
-		
+
 		for (int index = 0; index < assignmentTable.size(); index++) {
 			AssignmentTableEntry entry = assignmentTable.get(index);
 			String variable = entry.getVariable();
@@ -55,13 +64,12 @@ public class ReachingDefinitions implements IMonotoneFramework {
 			System.out.println("" + i + " " + assignmentTableEntry);
 		}
 		System.out.println("-------assignmentTable END------");
-		
+
 		System.out.println("-------KillSets START------");
 		for (String key : killSets.keySet()) {
 			System.out.println(key + " - " + killSets.get(key));
 		}
 		System.out.println("-------KillSets END------");
-		
 
 		BitSet initial = new BitSet();
 		for (int index = 0; index < assignmentTable.size(); index++) {
@@ -71,64 +79,70 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		}
 		this.constraints.add(new InitialConstraint(new RDLatticeValue(initial)));
 		Map<Integer, ILabelable> flowGraphMapping = flowgraph.getLabelMapping();
-		
+
 		// Don't construct for the initialNode. Therefore the size()-1
-		for (int i = 0; i < flowGraphMapping.keySet().size()-1; i++) {
+		for (int i = 0; i < flowGraphMapping.keySet().size() - 1; i++) {
 			IConstraint recombination = new Recombination();
 			this.constraints.add(recombination);
 		}
-		
+
 		for (int label : flowGraphMapping.keySet()) {
-			//Construct Entering State
+			// Construct Entering State
 			List<Integer> edges = flowgraph.getNodeInNodes(label);
-			
+
 			for (Integer edge : edges) {
 				// Construct Leaving state
-				int inputIndex = edge-1;
-				BitSet killSet = new BitSet();				
+				int inputIndex = edge - 1;
+				BitSet killSet = new BitSet();
 				BitSet genSet = new BitSet();
 				for (int i = 0; i < assignmentTable.size(); i++) {
 					AssignmentTableEntry assignmentTableEntry = assignmentTable.get(i);
-					if(assignmentTableEntry.getLabel() == edge) {
+					if (assignmentTableEntry.getLabel() == edge) {
 						// Build GetSet
 						genSet.set(i);
-						
-						// Build up KillSet
+
+						// Build up KillSet for variables
+						if (assignmentTableEntry.getType() == VariableType.Variable || 
+								flowgraph.getLabelMapping().get(assignmentTableEntry.getLabel()) instanceof ArrayDeclaration) {
+							for (Integer index : killSets.get(assignmentTableEntry.getVariable())) {
+								killSet.set(index);
+							}
+						}
+					}
+				}
+				IConstraint transferFunction = new KillGenTransferFunction(inputIndex, killSet, genSet);
+
+				int constraintIndex = this.constraints.size();
+				this.constraints.add(transferFunction);
+
+				((Recombination) this.constraints.get(label - 1)).insertFreeVariable(constraintIndex);
+			}
+		}
+
+		{
+			int lastLabel = Collections.max(flowGraphMapping.keySet());
+			BitSet killSet = new BitSet();
+			BitSet genSet = new BitSet();
+			for (int i = 0; i < assignmentTable.size(); i++) {
+				AssignmentTableEntry assignmentTableEntry = assignmentTable.get(i);
+				if (assignmentTableEntry.getLabel() == lastLabel) {
+					// Build GetSet
+					genSet.set(i);
+
+					// Build up KillSet for variables
+					if (assignmentTableEntry.getType() != VariableType.Array) {
 						for (Integer index : killSets.get(assignmentTableEntry.getVariable())) {
 							killSet.set(index);
 						}
 					}
 				}
-				IConstraint transferFunction = new KillGenTransferFunction(inputIndex, killSet, genSet);
-				
-				int constraintIndex = this.constraints.size();
-				this.constraints.add(transferFunction);
-				
-				((Recombination)this.constraints.get(label-1)).insertFreeVariable(constraintIndex);
 			}
-		}
-		
-		{
-			int lastLabel = Collections.max(flowGraphMapping.keySet());
-			BitSet killSet = new BitSet();				
-			BitSet genSet = new BitSet();
-			for (int i = 0; i < assignmentTable.size(); i++) {
-				AssignmentTableEntry assignmentTableEntry = assignmentTable.get(i);
-				if(assignmentTableEntry.getLabel() == lastLabel) {
-					// Build GetSet
-					genSet.set(i);
-					
-					// Build up KillSet
-					for (Integer index : killSets.get(assignmentTableEntry.getVariable())) {
-						killSet.set(index);
-					}
-				}
-			}
-			IConstraint transferFunction = new KillGenTransferFunction(lastLabel-1, killSet, genSet);
-			
+			IConstraint transferFunction = new KillGenTransferFunction(lastLabel - 1, killSet, genSet);
+
 			this.constraints.add(transferFunction);
 		}
 		
+		this.assignmentTable = assignmentTable;
 	}
 
 	// Constructs a table for knowing where label a variable is assigned at.
@@ -136,34 +150,37 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		List<AssignmentTableEntry> labels = new ArrayList<AssignmentTableEntry>();
 
 		for (Variable variable : flowgraph.getFreeVariables()) {
-			labels.add(new AssignmentTableEntry(variable.getName(), -1));
+			labels.add(new AssignmentTableEntry(variable.getName(), variable.getType(), -1));
 		}
-		
+
 		Map<Integer, ILabelable> mapping = flowgraph.getLabelMapping();
 		for (Integer label : mapping.keySet()) {
 			ILabelable astObj = mapping.get(label);
 
-			if (astObj instanceof Declaration) {
-				labels.add( new AssignmentTableEntry( ((Declaration)astObj).getName(), label ) );
+			if (astObj instanceof ArrayDeclaration) {
+				labels.add(new AssignmentTableEntry(((Declaration) astObj).getName(), VariableType.Array, label));
+
+			} else if (astObj instanceof VariableDeclaration){
+				labels.add(new AssignmentTableEntry(((Declaration) astObj).getName(), VariableType.Variable, label));
 				
 			} else if (astObj instanceof ArrayAssignment) {
-				labels.add( new AssignmentTableEntry( ((ArrayAssignment)astObj).getArrayName(), label ) );
-				
+				labels.add(new AssignmentTableEntry(((ArrayAssignment) astObj).getArrayName(), VariableType.Array, label));
+
 			} else if (astObj instanceof VariableAssignment) {
-				labels.add( new AssignmentTableEntry( ((VariableAssignment)astObj).getVariableName(), label ) );
-				
+				labels.add(new AssignmentTableEntry(((VariableAssignment) astObj).getVariableName(), VariableType.Variable, label));
+
 			} else if (astObj instanceof ReadArray) {
-				labels.add( new AssignmentTableEntry( ((ReadArray)astObj).getArrayname(), label ) );
-				
+				labels.add(new AssignmentTableEntry(((ReadArray) astObj).getArrayname(), VariableType.Array, label));
+
 			} else if (astObj instanceof ReadVariable) {
-				labels.add( new AssignmentTableEntry( ((ReadVariable)astObj).getName(), label ) );
+				labels.add(new AssignmentTableEntry(((ReadVariable) astObj).getName(), VariableType.Variable, label));
 			}
 		}
 
 		return labels;
 	}
 
-	//TODO REMOVE
+	// TODO REMOVE
 	private void example2() {
 
 		BitSet initial = new BitSet();
@@ -197,7 +214,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 
 	}
 
-	//TODO REMOVE
+	// TODO REMOVE
 	private void example1() {
 
 		BitSet initial = new BitSet();
