@@ -1,6 +1,8 @@
 package frameworks.detectionOfSigns;
 
 import ast.*;
+import graph.Variable;
+import graph.VariableType;
 
 import java.util.*;
 
@@ -43,11 +45,11 @@ public class Util {
 	}
 
 	public static PowerSetOfSigns evalDSArithmeticExpression(ArithmeticExpression expression,
-			Map<String, PowerSetOfSigns> signState) {
+			Map<Variable, PowerSetOfSigns> signState) {
 
 		if (expression instanceof Identifier) {
 			Identifier id = (Identifier) expression;
-			return signState.get(id.getName());
+            return signState.get(new Variable(id.getName(), VariableType.Variable));
 		} else if (expression instanceof Constant) {
 			Constant con = (Constant) expression;
 			int value = con.getNumber();
@@ -66,13 +68,13 @@ public class Util {
 			if (signsOfIndex.equals(EMPTY_SET) || signsOfIndex.equals(NEGATIVE_ONLY)) {
 				return new PowerSetOfSigns(); // Empty set
 			} else { // Legal index
-				return signState.get(id);
+				return signState.get(new Variable(id, VariableType.Array));
 			}
 		} else if (expression instanceof ArithmeticOperation) {
 			ArithmeticOperation arithOp = (ArithmeticOperation) expression;
-			PowerSetOfSigns leftResult = evalDSArithmeticExpression(arithOp.getLeft(), signState);
+            PowerSetOfSigns leftResult = evalDSArithmeticExpression(arithOp.getLeft(), signState);
 			PowerSetOfSigns rightResult = evalDSArithmeticExpression(arithOp.getRight(), signState);
-			return combine(arithOp.getOperator(), leftResult, rightResult);
+            return combine(arithOp.getOperator(), leftResult, rightResult);
 		} else if (expression instanceof UnaryMinus) {
 			UnaryMinus unary = (UnaryMinus) expression;
 			ArithmeticExpression right = unary.getExpression();
@@ -126,38 +128,44 @@ public class Util {
 		}
 	}
 
-    public static Set<Map<String, PowerSetOfSigns>>
-            atom(Map<String, PowerSetOfSigns> signState) {
-        HashMap<String, PowerSetOfSigns> clone = new HashMap<>(signState);
+    public static Set<Map<Variable, PowerSetOfSigns>>
+            atom(Map<Variable, PowerSetOfSigns> signState) {
+        HashMap<Variable, PowerSetOfSigns> clone = new HashMap<>(signState);
         return atomRecursive(clone);
     }
 
-    private static Set<Map<String, PowerSetOfSigns>>
-            atomRecursive(Map<String, PowerSetOfSigns> signState) {
+    private static Set<Map<Variable, PowerSetOfSigns>>
+            atomRecursive(Map<Variable, PowerSetOfSigns> signState) {
         if (signState.isEmpty()) {
-            Map<String, PowerSetOfSigns> empty = new HashMap<>();
-            Set<Map<String, PowerSetOfSigns>> singleton = new HashSet<>();
+            Map<Variable, PowerSetOfSigns> empty = new HashMap<>();
+            Set<Map<Variable, PowerSetOfSigns>> singleton = new HashSet<>();
             singleton.add(empty);
             return singleton;
         }
 
-        Set<Map<String, PowerSetOfSigns>> result = new HashSet<>();
+        Set<Map<Variable, PowerSetOfSigns>> result = new HashSet<>();
 
-        Map.Entry<String, PowerSetOfSigns> firstEntry = null;
-        for (Map.Entry<String, PowerSetOfSigns> entry : signState.entrySet()) {
+        Map.Entry<Variable, PowerSetOfSigns> firstEntry = null;
+        for (Map.Entry<Variable, PowerSetOfSigns> entry : signState.entrySet()) {
             firstEntry = entry;
             break;
         }
 
         PowerSetOfSigns firstSetOfSigns = signState.remove(firstEntry.getKey());
-        Set<Map<String, PowerSetOfSigns>> atomsOfTail =
+        Set<Map<Variable, PowerSetOfSigns>> atomsOfTail =
                 atomRecursive(signState);
 
-        for (Map<String, PowerSetOfSigns> atom : atomsOfTail) {
-            for (Signs sign : firstSetOfSigns.getSigns()) {
-                Map<String, PowerSetOfSigns> clone = new HashMap<>(atom);
-                clone.put(firstEntry.getKey(), new PowerSetOfSigns(sign));
+        for (Map<Variable, PowerSetOfSigns> atom : atomsOfTail) {
+            if (firstEntry.getKey().getType().equals(VariableType.Array)) {
+                Map<Variable, PowerSetOfSigns> clone = new HashMap<>(atom);
+                clone.put(firstEntry.getKey(), firstEntry.getValue());
                 result.add(clone);
+            } else {
+                for (Signs sign : firstSetOfSigns.getSigns()) {
+                    Map<Variable, PowerSetOfSigns> clone = new HashMap<>(atom);
+                    clone.put(firstEntry.getKey(), new PowerSetOfSigns(sign));
+                    result.add(clone);
+                }
             }
         }
 

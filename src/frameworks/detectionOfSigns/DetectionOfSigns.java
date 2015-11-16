@@ -7,12 +7,13 @@ import frameworks.IConstraint;
 import frameworks.ILatticeValue;
 import frameworks.IMonotoneFramework;
 import graph.FlowGraph;
+import graph.Variable;
 
 public class DetectionOfSigns implements IMonotoneFramework {
 
-    private Set<String> variables;
+    private Set<Variable> variables;
 
-    public DetectionOfSigns(Set<String> variables) {
+    public DetectionOfSigns(Set<Variable> variables) {
         this.variables = variables;
     }
 

@@ -8,6 +8,8 @@ import frameworks.IWorklist;
 import frameworks.detectionOfSigns.*;
 import frameworks.reachingDefinitions.ReachingDefinitions;
 
+import graph.Variable;
+import graph.VariableType;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.*;
@@ -34,6 +36,7 @@ public class Main {
             FlowGraph graph = new FlowGraph(theProgram);
             RunReachingDefinitions(graph);
 
+            testArithmeticExpressions(theProgram);
             testAtom();
 
             /*
@@ -54,9 +57,9 @@ public class Main {
         System.out.println("!#€%&/()=?` TEST OF ARITHMETIC EXPRESSIONS! !#€%&/()=?`");
         ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
         System.out.println(expression);
-        HashMap<String, PowerSetOfSigns> signState = new HashMap<>();
-        signState.put("A", new PowerSetOfSigns(Signs.zero));
-        signState.put("a", new PowerSetOfSigns(Signs.negative));
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
+        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
         System.out.println(Util.evalDSArithmeticExpression(expression, signState));
     }
 
@@ -84,12 +87,12 @@ public class Main {
         signs3.add(Signs.zero);
         signs3.add(Signs.positive);
 
-        HashMap<String, PowerSetOfSigns> signState = new HashMap<>();
-        signState.put("a", new PowerSetOfSigns(signs1));
-        signState.put("b", new PowerSetOfSigns(signs2));
-        signState.put("c", new PowerSetOfSigns(signs3));
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
+        signState.put(new Variable("b", VariableType.Array), new PowerSetOfSigns(signs3));
+        signState.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns(signs3));
 
-        Set<Map<String, PowerSetOfSigns>> atoms = Util.atom(signState);
+        Set<Map<Variable, PowerSetOfSigns>> atoms = Util.atom(signState);
 
         System.out.println("TEST OF ATOM:");
         System.out.println(atoms);

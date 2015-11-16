@@ -16,5 +16,5 @@ public class BooleanTransferFunction extends DSTransferFunction {
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
         return null;
     }
-    
+
 }

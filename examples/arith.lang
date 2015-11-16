@@ -1,4 +1,4 @@
 program
 int a;
-write (a - a) / (a - a);
+write (-2 + a) / (a - a);
 end
