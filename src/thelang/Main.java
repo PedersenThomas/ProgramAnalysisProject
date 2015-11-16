@@ -6,6 +6,7 @@ import ast.*;
 import frameworks.IMonotoneFramework;
 import frameworks.IWorklist;
 import frameworks.detectionOfSigns.*;
+import frameworks.reachingDefinitions.RDLatticeValue;
 import frameworks.reachingDefinitions.ReachingDefinitions;
 
 import org.antlr.runtime.ANTLRFileStream;
@@ -64,7 +65,14 @@ public class Main {
 		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
 		System.out.println("Final values:");
 	    for (int i = 0; i < result.size(); i++) {
-	    	System.out.println("Variable " + i + ": " + result.get(i));
+	    	StringBuilder buffer = new StringBuilder();
+	    	buffer.append("Variable " + i + ": {");
+	    	BitSet value = ((RDLatticeValue) result.get(i)).getBitSet();
+	    	for (int bitIndex = value.nextSetBit(0); bitIndex != -1; bitIndex = value.nextSetBit(bitIndex + 1)) {
+	    	    buffer.append("(" + RD.getAssignmentTable().get(bitIndex).toString() + "), ");
+	    	}
+	    	buffer.append("}");
+	    	System.out.println(buffer);
 	    }
 
 	}
