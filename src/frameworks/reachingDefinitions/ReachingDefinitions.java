@@ -2,6 +2,7 @@ package frameworks.reachingDefinitions;
 
 import frameworks.*;
 import graph.FlowGraph;
+import graph.Variable;
 
 import java.util.*;
 
@@ -134,8 +135,8 @@ public class ReachingDefinitions implements IMonotoneFramework {
 	private List<AssignmentTableEntry> getAssignmentTable(FlowGraph flowgraph) {
 		List<AssignmentTableEntry> labels = new ArrayList<AssignmentTableEntry>();
 
-		for (String variable : flowgraph.getFreeVariables()) {
-			labels.add(new AssignmentTableEntry(variable, -1));
+		for (Variable variable : flowgraph.getFreeVariables()) {
+			labels.add(new AssignmentTableEntry(variable.getName(), -1));
 		}
 		
 		Map<Integer, ILabelable> mapping = flowgraph.getLabelMapping();

@@ -1,5 +1,7 @@
 package frameworks.reachingDefinitions;
 
+import graph.Variable;
+
 public class AssignmentTableEntry {
 	private String variable;
 	private int label;

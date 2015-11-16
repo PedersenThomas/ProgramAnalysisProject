@@ -22,13 +22,13 @@ public class FlowGraph {
 
 	private Map<Integer, List<Integer>> flowForward  = new HashMap<Integer, List<Integer>>();
 	private Map<Integer, List<Integer>> flowBackward = new HashMap<Integer, List<Integer>>();
-	private ArrayList<String> freeVariables = new ArrayList<String>();
+	private ArrayList<Variable> freeVariables = new ArrayList<Variable>();
 
 	public HashMap<Integer, ILabelable> getLabelMapping() {
 		return labelMapping;
 	}
 
-	public ArrayList<String> getFreeVariables() {
+	public ArrayList<Variable> getFreeVariables() {
 		return freeVariables;
 	}
 
@@ -178,10 +178,10 @@ public class FlowGraph {
 
 	private void AddFreeVariable(Declaration declaration) {
 		if (declaration instanceof VariableDeclaration) {
-			this.freeVariables.add(((VariableDeclaration) declaration).getName());
+			this.freeVariables.add(new Variable(((VariableDeclaration) declaration).getName(), VariableType.Variable));
 
 		} else if (declaration instanceof ArrayDeclaration) {
-			this.freeVariables.add(((ArrayDeclaration) declaration).getName());
+			this.freeVariables.add(new Variable(((ArrayDeclaration) declaration).getName(), VariableType.Array));
 		}
 	}
 }
