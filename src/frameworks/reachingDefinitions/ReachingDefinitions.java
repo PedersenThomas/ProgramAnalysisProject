@@ -22,6 +22,7 @@ import ast.VariableDeclaration;
 public class ReachingDefinitions implements IMonotoneFramework {
 	private List<IConstraint> constraints;
 	private List<AssignmentTableEntry> assignmentTable;
+	private Map<Integer, List<Integer>> ConstraintToLabelsMapping = new HashMap<Integer, List<Integer>>();
 	
 	public List<AssignmentTableEntry> getAssignmentTable() {
 		return Collections.unmodifiableList(this.assignmentTable);
@@ -33,9 +34,9 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		// example1();
 		// example2();
 
-		if (this.constraints.isEmpty()) { // Only used for not interfering with
-											// the examples. TODO REMOVE before
-											// shipping
+		// Only used for not interfering with the examples. 
+		// TODO REMOVE before shipping
+		if (this.constraints.isEmpty()) { 
 			BuildConstraints(flowGraph);
 		}
 
@@ -44,6 +45,13 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		}
 	}
 
+	private void AddConstraintToLabelsMapping(Integer label, Integer Constraint) {
+		if (!ConstraintToLabelsMapping.containsKey(label)) {
+			ConstraintToLabelsMapping.put(label, new ArrayList<Integer>());
+		}
+		ConstraintToLabelsMapping.get(label).add(Constraint);
+	}
+	
 	private void BuildConstraints(FlowGraph flowgraph) {
 		List<AssignmentTableEntry> assignmentTable = getAssignmentTable(flowgraph);
 		Map<String, List<Integer>> killSets = new HashMap<String, List<Integer>>();
@@ -78,11 +86,15 @@ public class ReachingDefinitions implements IMonotoneFramework {
 			}
 		}
 		this.constraints.add(new InitialConstraint(new RDLatticeValue(initial)));
+		AddConstraintToLabelsMapping(-1, 0);
+		
 		Map<Integer, ILabelable> flowGraphMapping = flowgraph.getLabelMapping();
 
-		// Don't construct for the initialNode. Therefore the size()-1
-		for (int i = 0; i < flowGraphMapping.keySet().size() - 1; i++) {
+		// TODO Still Good??? Don't construct for the initialNode. Therefore the size()-1
+		for (int i = 1; i < flowGraphMapping.keySet().size(); i++) {
 			IConstraint recombination = new Recombination();
+			int constraintId = this.constraints.size();
+			AddConstraintToLabelsMapping(i, constraintId);
 			this.constraints.add(recombination);
 		}
 
@@ -114,33 +126,33 @@ public class ReachingDefinitions implements IMonotoneFramework {
 
 				int constraintIndex = this.constraints.size();
 				this.constraints.add(transferFunction);
-
+				AddConstraintToLabelsMapping(edge, constraintIndex);
 				((Recombination) this.constraints.get(label - 1)).insertFreeVariable(constraintIndex);
 			}
 		}
 
-		{
-			int lastLabel = Collections.max(flowGraphMapping.keySet());
-			BitSet killSet = new BitSet();
-			BitSet genSet = new BitSet();
-			for (int i = 0; i < assignmentTable.size(); i++) {
-				AssignmentTableEntry assignmentTableEntry = assignmentTable.get(i);
-				if (assignmentTableEntry.getLabel() == lastLabel) {
-					// Build GetSet
-					genSet.set(i);
+		int lastLabel = Collections.max(flowGraphMapping.keySet());
+		BitSet killSet = new BitSet();
+		BitSet genSet = new BitSet();
+		for (int i = 0; i < assignmentTable.size(); i++) {
+			AssignmentTableEntry assignmentTableEntry = assignmentTable.get(i);
+			if (assignmentTableEntry.getLabel() == lastLabel) {
+				// Build GetSet
+				genSet.set(i);
 
-					// Build up KillSet for variables
-					if (assignmentTableEntry.getType() != VariableType.Array) {
-						for (Integer index : killSets.get(assignmentTableEntry.getVariable())) {
-							killSet.set(index);
-						}
+				// Build up KillSet for variables
+				if (assignmentTableEntry.getType() != VariableType.Array) {
+					for (Integer index : killSets.get(assignmentTableEntry.getVariable())) {
+						killSet.set(index);
 					}
 				}
 			}
-			IConstraint transferFunction = new KillGenTransferFunction(lastLabel - 1, killSet, genSet);
-
-			this.constraints.add(transferFunction);
 		}
+		IConstraint transferFunction = new KillGenTransferFunction(lastLabel - 1, killSet, genSet);
+		int constraintIndex = this.constraints.size();
+		AddConstraintToLabelsMapping(lastLabel, constraintIndex);
+		this.constraints.add(transferFunction);
+		
 		
 		this.assignmentTable = assignmentTable;
 	}
@@ -250,6 +262,11 @@ public class ReachingDefinitions implements IMonotoneFramework {
 	@Override
 	public List<IConstraint> getConstrains() {
 		return Collections.unmodifiableList(this.constraints);
+	}
+
+	@Override
+	public List<Integer> LabelMapToConstraints(Integer label) {
+		return ConstraintToLabelsMapping.get(label);
 	}
 
 }

@@ -17,7 +17,8 @@ import ast.VariableDeclaration;
 import ast.WhileStatement;
 
 public class FlowGraph {
-	private static int labelcount = 1;
+	public static final int StartLabel = 1;
+	private static int labelcount = StartLabel;
 	private HashMap<Integer, ILabelable> labelMapping = new HashMap<Integer, ILabelable>();
 
 	private Map<Integer, List<Integer>> flowForward  = new HashMap<Integer, List<Integer>>();
@@ -152,6 +153,8 @@ public class FlowGraph {
 	}
 
 	private void AddFlowNode(Integer label1, Integer label2) {
+		System.out.println("Flow: (" + label1 + ","+label2+")");
+		
 		if (!flowForward.containsKey(label1)) {
 			flowForward.put(label1, new ArrayList<Integer>());
 		}

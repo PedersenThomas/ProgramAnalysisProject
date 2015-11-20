@@ -1,0 +1,12 @@
+program
+int i;
+int x;
+int A[2];
+while (i < 2) do
+write i;
+read x;
+A[i] := x;
+i := i + 1;
+od
+skip;
+end

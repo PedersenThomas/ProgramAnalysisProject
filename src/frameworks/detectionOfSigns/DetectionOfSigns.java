@@ -27,4 +27,9 @@ public class DetectionOfSigns implements IMonotoneFramework {
 		return null;
 	}
 
+	@Override
+	public List<Integer> LabelMapToConstraints(Integer label) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

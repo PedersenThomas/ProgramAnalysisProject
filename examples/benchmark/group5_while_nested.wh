@@ -1,0 +1,48 @@
+program
+  int i;
+  int j;
+  int x;
+  int y;
+  int z;
+  int v;
+  int w;
+
+  int s;
+  s:=-1;
+  i:=-2;
+
+  while i<10 do
+    i:=i+1;
+    j:=-2;
+    while j<10 do
+      j:=j+1;
+      x:=-2;
+      while x<10 do
+        x:=x+1;
+        y:=-2;
+        while y<10 do
+          y:=y+1;
+          z:=-2;
+          while z<10 do
+            z:=z+1;
+            v:=-2;
+            while v<10 do
+              v:=v+1;
+              w:=-2;
+              while w<10 do
+                w:=w+1;
+                if i=1 & j=2 & x=3 & y=4 & z=5 & v=6 & w=7 then
+                  s:=s+2;
+                else
+                  skip;
+                fi
+              od
+            od
+          od
+        od
+      od
+    od
+  od
+
+  write s;
+end

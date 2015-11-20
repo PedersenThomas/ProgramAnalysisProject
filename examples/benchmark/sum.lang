@@ -1,0 +1,11 @@
+program
+int A[10];
+int i;
+int sum;
+while i < 10 do
+   read A[i];
+   sum := sum + A[i];
+   i := i+1;
+od
+write sum;
+end

@@ -1,0 +1,27 @@
+program
+
+int a;
+int x;
+int y;
+
+a := -1;
+x := 10;
+
+while a <= 20 do
+	if x > 10 then
+		if x > 15 then
+			x := -2;
+		else
+			while x < 15 do
+				x :=  x + 1;
+			od
+		fi
+	else 
+		x :=4;
+		while a > x do
+			x := x -1;
+	fi
+	z := x/a;
+	y := x * x;
+	a := a + 1;
+od

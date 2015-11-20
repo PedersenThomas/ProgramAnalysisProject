@@ -33,8 +33,8 @@ public class Main {
         if (parserResult != null) {
             CommonTree tree = parserResult.tree;
             Program theProgram = AstBuilder.build(tree);
-
             FlowGraph graph = new FlowGraph(theProgram);
+            
             RunReachingDefinitions(graph);
 
             //testArithmeticExpressions(theProgram);
@@ -52,6 +52,13 @@ public class Main {
             }
             */
 
+//            System.out.println("!#€%&/()=?` TEST OF ARITHMETIC EXPRESSIONS! !#€%&/()=?`");
+//            ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
+//            System.out.println(expression);
+//            HashMap<String, PowerSetOfSigns> signState = new HashMap<>();
+//            signState.put("A", new PowerSetOfSigns(Signs.zero));
+//            signState.put("a", new PowerSetOfSigns(Signs.negative));
+//            System.out.println(Util.evalDSArithmeticExpression(expression, signState));
         }
 	}
 
@@ -83,7 +90,8 @@ public class Main {
 
     public static void RunReachingDefinitions(FlowGraph flowgraph) {
 		ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
-		IWorklist workList = new SetWorklist();
+		IWorklist workList = new RevPostOrderWorkList(flowgraph, RD);
+		workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
 		System.out.println("Final values:");
