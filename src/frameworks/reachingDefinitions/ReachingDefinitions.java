@@ -2,6 +2,7 @@ package frameworks.reachingDefinitions;
 
 import frameworks.*;
 import graph.FlowGraph;
+import graph.FlowGraphEdge;
 import graph.Variable;
 import graph.VariableType;
 
@@ -15,14 +16,15 @@ import ast.ReadArray;
 import ast.ReadVariable;
 import ast.VariableAssignment;
 import ast.VariableDeclaration;
+import ast.WhileStatement;
 
 /**
  * Created by PatrickKasting on 09/11/15.
  */
-public class ReachingDefinitions implements IMonotoneFramework {
+public class ReachingDefinitions extends MonotoneFramework {
 	private List<IConstraint> constraints;
 	private List<AssignmentTableEntry> assignmentTable;
-	private Map<Integer, List<Integer>> ConstraintToLabelsMapping = new HashMap<Integer, List<Integer>>();
+	private Map<Integer, Integer> ConstraintToLabelsMapping = new HashMap<Integer, Integer>();
 	
 	public List<AssignmentTableEntry> getAssignmentTable() {
 		return Collections.unmodifiableList(this.assignmentTable);
@@ -45,11 +47,8 @@ public class ReachingDefinitions implements IMonotoneFramework {
 		}
 	}
 
-	private void AddConstraintToLabelsMapping(Integer label, Integer Constraint) {
-		if (!ConstraintToLabelsMapping.containsKey(label)) {
-			ConstraintToLabelsMapping.put(label, new ArrayList<Integer>());
-		}
-		ConstraintToLabelsMapping.get(label).add(Constraint);
+	private void AddConstraintToLabelsMapping(Integer label, Integer constraint) {
+		ConstraintToLabelsMapping.put(constraint, label);
 	}
 	
 	private void BuildConstraints(FlowGraph flowgraph) {
@@ -100,16 +99,18 @@ public class ReachingDefinitions implements IMonotoneFramework {
 
 		for (int label : flowGraphMapping.keySet()) {
 			// Construct Entering State
-			List<Integer> edges = flowgraph.getNodeInNodes(label);
-
-			for (Integer edge : edges) {
+			List<FlowGraphEdge> edges = flowgraph.getNodeInNodes(label);
+			
+			for (FlowGraphEdge edge : edges) {
+				int edgeLabel = edge.getLabel2();
+				
 				// Construct Leaving state
-				int inputIndex = edge - 1;
+				int inputIndex = edgeLabel - 1;
 				BitSet killSet = new BitSet();
 				BitSet genSet = new BitSet();
 				for (int i = 0; i < assignmentTable.size(); i++) {
 					AssignmentTableEntry assignmentTableEntry = assignmentTable.get(i);
-					if (assignmentTableEntry.getLabel() == edge) {
+					if (assignmentTableEntry.getLabel() == edgeLabel) {
 						// Build GetSet
 						genSet.set(i);
 
@@ -122,11 +123,12 @@ public class ReachingDefinitions implements IMonotoneFramework {
 						}
 					}
 				}
-				IConstraint transferFunction = new KillGenTransferFunction(inputIndex, killSet, genSet);
+				String message = "Edge (" + edge + "," + label + ")";
+				IConstraint transferFunction = new KillGenTransferFunction(inputIndex, killSet, genSet, message);
 
 				int constraintIndex = this.constraints.size();
 				this.constraints.add(transferFunction);
-				AddConstraintToLabelsMapping(edge, constraintIndex);
+				AddConstraintToLabelsMapping(edgeLabel, constraintIndex);
 				((Recombination) this.constraints.get(label - 1)).insertFreeVariable(constraintIndex);
 			}
 		}
@@ -265,7 +267,7 @@ public class ReachingDefinitions implements IMonotoneFramework {
 	}
 
 	@Override
-	public List<Integer> LabelMapToConstraints(Integer label) {
+	public Integer ConstraintsMapToLabel(Integer label) {
 		return ConstraintToLabelsMapping.get(label);
 	}
 

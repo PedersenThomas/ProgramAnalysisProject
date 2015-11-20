@@ -3,7 +3,7 @@ package thelang;
 import java.util.*;
 
 import ast.*;
-import frameworks.IMonotoneFramework;
+import frameworks.MonotoneFramework;
 import frameworks.IWorklist;
 import frameworks.detectionOfSigns.*;
 import frameworks.reachingDefinitions.RDLatticeValue;
@@ -19,7 +19,6 @@ import frameworks.ILatticeValue;
 import frameworks.worklists.*;
 import frameworks.WorklistAlgorithm;
 import graph.FlowGraph;
-import graph.FlowGraphEdge;
 
 public class Main {
 
@@ -51,14 +50,6 @@ public class Main {
                 System.out.println(value);
             }
             */
-
-//            System.out.println("!#€%&/()=?` TEST OF ARITHMETIC EXPRESSIONS! !#€%&/()=?`");
-//            ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
-//            System.out.println(expression);
-//            HashMap<String, PowerSetOfSigns> signState = new HashMap<>();
-//            signState.put("A", new PowerSetOfSigns(Signs.zero));
-//            signState.put("a", new PowerSetOfSigns(Signs.negative));
-//            System.out.println(Util.evalDSArithmeticExpression(expression, signState));
         }
 	}
 
@@ -89,11 +80,13 @@ public class Main {
     }
 
     public static void RunReachingDefinitions(FlowGraph flowgraph) {
-		ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
+    	ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
 		IWorklist workList = new RevPostOrderWorkList(flowgraph, RD);
 		workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
+		
+		System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInserts() + " Extracts: " + workList.getNumberOfExtracts());
 		System.out.println("Final values:");
 	    for (int i = 0; i < result.size(); i++) {
 	    	StringBuilder buffer = new StringBuilder();
@@ -103,12 +96,27 @@ public class Main {
 	    	    buffer.append("(" + RD.getAssignmentTable().get(bitIndex).toString() + "), ");
 	    	}
 	    	buffer.append("}");
-	    	System.out.println(buffer);
+	    	//System.out.println(buffer);
+	    	
 	    }
+	    
+	    for (int label = -1; label <= flowgraph.getLabelMapping().size(); label++) {
+			//List<Integer> constraints = RD.LabelMapToConstraints(label);
+			String tokenText = "" + flowgraph.getLabelMapping().get(label);
+			ILabelable astObj = flowgraph.getLabelMapping().get(label);
+			if (astObj != null && astObj instanceof WhileStatement) {
+				WhileStatement ast = (WhileStatement)astObj;
+				tokenText = "While " + ast.getCondition() + " do";
+			} else if (astObj != null && astObj instanceof IfStatement) {
+				IfStatement ast = (IfStatement)astObj;
+				tokenText = "If " + ast.getCondition() + " then";
+			}
+			//System.out.println("Label: " + label + " Constraints: " + constraints + " Token: " + tokenText);
+		}
 	}
 
     public static void testAtom() {
-        Set<Signs> signs1 = new HashSet<>();
+        Set<Signs> signs1 = new HashSet<Signs>();
         signs1.add(Signs.negative);
         signs1.add(Signs.zero);
 

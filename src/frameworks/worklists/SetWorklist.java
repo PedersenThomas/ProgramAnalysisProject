@@ -8,13 +8,18 @@ import java.util.Set;
 public class SetWorklist implements IWorklist {
 	private Set<Integer> set = new HashSet<Integer>();
 
+	private int numberOfInserts = 0;
+	private int numberOfExtracts = 0;
+	
 	@Override
 	public void insert(int index) {
+		numberOfInserts += 1;
 		set.add(index);
 	}
 
 	@Override
 	public int extract() {
+		numberOfExtracts += 1;
 		// Finds an element in the set.
 		Integer item = null;
 		for (int t : set) {
@@ -39,5 +44,15 @@ public class SetWorklist implements IWorklist {
 	@Override
 	public boolean isEmpty() {
 		return set.isEmpty();
+	}
+
+	@Override
+	public int getNumberOfInserts() {
+		return numberOfInserts;
+	}
+
+	@Override
+	public int getNumberOfExtracts() {
+		return numberOfExtracts;
 	}
 }

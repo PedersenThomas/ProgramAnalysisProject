@@ -12,24 +12,17 @@ public class WorklistAlgorithm {
 	private List<IConstraint> constrains;
 
 	// Step 1
-	public WorklistAlgorithm(IWorklist worklist, IMonotoneFramework framework) {
+	public WorklistAlgorithm(IWorklist worklist, MonotoneFramework framework) {
 		this.worklist = worklist;
 		this.constrains = framework.getConstrains();
 		this.analysis = new ArrayList<ILatticeValue>(constrains.size());
-		this.influenceList = new ArrayList<Set<Integer>>(constrains.size());
+		this.influenceList = framework.getInfluenceList();
 
 		for (int i = 0; i < constrains.size(); i++) {
 			this.worklist.insert(i);
 			this.analysis.add(framework.getBottom());
-			this.influenceList.add(new HashSet<Integer>());
 		}
-
-		for (int i = 0; i < constrains.size(); i++) {
-			Set<Integer> freeVariables = this.constrains.get(i).getFreeVariables();
-            for (Integer n : freeVariables) {
-                influenceList.get(n).add(i);
-            }
-		}
+		
         System.out.println("Influence list:");
         System.out.println(influenceList);
     }
