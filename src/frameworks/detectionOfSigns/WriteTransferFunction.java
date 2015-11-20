@@ -24,4 +24,5 @@ public class WriteTransferFunction extends DSTransferFunction {
             return new DSLatticeValue(inputValue.getSignState());  // Exact copy
         }
     }
+
 }
