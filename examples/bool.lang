@@ -1,0 +1,8 @@
+program
+int a;
+if a = 1 / 0 | b > a / 0 then
+   write 0;
+else
+   write 1;
+fi
+end

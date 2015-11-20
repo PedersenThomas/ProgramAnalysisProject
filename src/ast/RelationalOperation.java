@@ -14,8 +14,20 @@ public class RelationalOperation extends BooleanExpression {
 		this.right = right;
 		this.token = token;
 	}
-	
-	public Token getToken() {
+
+    public ArithmeticExpression getLeft() {
+        return left;
+    }
+
+    public RelationalOperator getOperator() {
+        return operator;
+    }
+
+    public ArithmeticExpression getRight() {
+        return right;
+    }
+
+    public Token getToken() {
 		return this.token;
 	}
 

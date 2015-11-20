@@ -14,7 +14,19 @@ public class BooleanOperation extends BooleanExpression {
 		this.right = right;
 		this.token = token;
 	}
-	
+
+	public BooleanExpression getLeft() {
+		return left;
+	}
+
+	public BooleanOperator getOperator() {
+		return operator;
+	}
+
+	public BooleanExpression getRight() {
+		return right;
+	}
+
 	public Token getToken() {
 		return this.token;
 	}

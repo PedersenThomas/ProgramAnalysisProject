@@ -10,8 +10,12 @@ public class BooleanConstant extends BooleanExpression {
 		this.value = value;
 		this.token = token;
 	}
-	
-	public Token getToken() {
+
+    public boolean getValue() {
+        return value;
+    }
+
+    public Token getToken() {
 		return this.token;
 	}
 	

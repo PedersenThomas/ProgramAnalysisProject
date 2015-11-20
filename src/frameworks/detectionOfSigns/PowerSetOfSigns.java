@@ -28,6 +28,10 @@ public class PowerSetOfSigns {
         return Collections.unmodifiableSet(signs);
     }
 
+	public boolean isEmpty() {
+        return signs.isEmpty();
+    }
+
     public boolean isSubset(PowerSetOfSigns other) {
 		// Checks if all elements of "this" is in others.
 		for (Signs sign : this.signs) {

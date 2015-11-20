@@ -37,8 +37,9 @@ public class Main {
             FlowGraph graph = new FlowGraph(theProgram);
             RunReachingDefinitions(graph);
 
-            testArithmeticExpressions(theProgram);
-            testAtom();
+            //testArithmeticExpressions(theProgram);
+            testBooleanExpressions(theProgram);
+            //testAtom();
 
             /*
             System.out.println("////////////// Detection of Signs ////////////////////////////");
@@ -58,10 +59,26 @@ public class Main {
         System.out.println("!#€%&/()=?` TEST OF ARITHMETIC EXPRESSIONS! !#€%&/()=?`");
         ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
         System.out.println(expression);
+
         HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
         signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
         signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
+
         System.out.println(Util.evalDSArithmeticExpression(expression, signState));
+    }
+
+    public static void testBooleanExpressions(Program theProgram) {
+        System.out.println("!#€%&/()=?` TEST OF BOOLEAN EXPRESSIONS! !#€%&/()=?`");
+        BooleanExpression expression = ((IfStatement) theProgram.statements.get(0)).getCondition();
+        System.out.println("The expression:");
+        System.out.println(expression);
+
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
+        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
+        signState.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(Signs.positive));
+
+        System.out.println(Util.evalDSBooleanExpression(expression, signState));
     }
 
     public static void RunReachingDefinitions(FlowGraph flowgraph) {

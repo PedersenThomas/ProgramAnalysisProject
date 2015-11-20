@@ -40,6 +40,10 @@ public class DSLatticeValue implements ILatticeValue {
         return Collections.unmodifiableSet(this.signState.keySet());
     }
 
+    public PowerSetOfSigns lookUp(Variable variable) {
+        return this.signState.get(variable);
+    }
+
     public boolean isBottom() {
         PowerSetOfSigns empty = new PowerSetOfSigns();
         for(Map.Entry<Variable, PowerSetOfSigns> entry
@@ -85,6 +89,11 @@ public class DSLatticeValue implements ILatticeValue {
         }
 
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return signState.hashCode();
     }
 
     @Override
