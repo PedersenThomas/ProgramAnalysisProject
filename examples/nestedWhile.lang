@@ -1,0 +1,12 @@
+program
+int i;
+while i < 10 do
+	while i*2 < 100 do
+		if i = 7 then
+			write i;
+		else
+			skip;
+		fi
+	od
+od
+end
