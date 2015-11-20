@@ -1,15 +1,17 @@
 package frameworks.worklists;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
-import frameworks.IMonotoneFramework;
 import frameworks.IWorklist;
+import frameworks.MonotoneFramework;
 import graph.FlowGraph;
 
 public class RevPostOrderWorkList implements IWorklist {
@@ -21,26 +23,32 @@ public class RevPostOrderWorkList implements IWorklist {
 	private int numberOfInserts = 0;
 	private int numberOfExtracts = 0;
 	
-	public RevPostOrderWorkList(FlowGraph flowgraph, IMonotoneFramework framework) {
-		Stack<Integer> labels = new Stack<Integer>();
+	public RevPostOrderWorkList(FlowGraph flowgraph, MonotoneFramework framework) {
+		Stack<Integer> constraints = new Stack<Integer>();
 		HashSet<Integer> visited = new HashSet<Integer>();
-		labels.add(FlowGraph.StartLabel);
-		labels.add(-1);
-		while(!labels.isEmpty()) {
-			Integer currentLabel = labels.pop();
-			List<Integer> constraints = framework.LabelMapToConstraints(currentLabel);
-			Collections.sort(constraints);
-			for (Integer constraint : constraints) {
-				order.put(constraint, order.size());
+		List<Set<Integer>> graph = framework.getInfluenceList();
+		
+		constraints.add(0);
+		
+		while(!constraints.isEmpty()) {
+			Integer currentConstraint = constraints.pop();
+			order.put(currentConstraint, order.size());
+			
+			ArrayList<Integer> constraintsIds = new ArrayList<Integer>(graph.get(currentConstraint));
+			
+			for (Integer constraintID : constraintsIds) {
+				order.put(currentConstraint, order.size());
 			}
-			List<Integer> nodes = flowgraph.getNodeOutNodes(currentLabel);
-			Collections.sort(nodes);
-			Collections.reverse(nodes);
-			System.out.println(nodes);
-			for(Integer label: nodes) {
-				if(!visited.contains(label)) {
-					visited.add(label);
-					labels.push(label);
+			
+//			for (Integer constraint : constraints) {
+//				System.out.println("Label: " + currentLabel + " Constraint: " + constraint);
+//				order.put(constraint, order.size());
+//			}
+
+			for(Integer constraint: constraintsIds) {
+				if(!visited.contains(constraint)) {
+					visited.add(constraint);
+					constraints.push(constraint);
 				}
 			}
 		}

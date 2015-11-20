@@ -3,7 +3,7 @@ package thelang;
 import java.util.*;
 
 import ast.*;
-import frameworks.IMonotoneFramework;
+import frameworks.MonotoneFramework;
 import frameworks.IWorklist;
 import frameworks.detectionOfSigns.*;
 import frameworks.reachingDefinitions.RDLatticeValue;
@@ -19,7 +19,6 @@ import frameworks.ILatticeValue;
 import frameworks.worklists.*;
 import frameworks.WorklistAlgorithm;
 import graph.FlowGraph;
-import graph.FlowGraphEdge;
 
 public class Main {
 
@@ -66,7 +65,7 @@ public class Main {
     public static void RunReachingDefinitions(FlowGraph flowgraph) {
     	ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
 		IWorklist workList = new RevPostOrderWorkList(flowgraph, RD);
-		//workList = new SetWorklist();
+		workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
 		
@@ -85,8 +84,17 @@ public class Main {
 	    }
 	    
 	    for (int label = -1; label <= flowgraph.getLabelMapping().size(); label++) {
-			List<Integer> constraints = RD.LabelMapToConstraints(label);
-			System.out.println("Label: " + label + " Constraints: " + constraints + " Token: " + flowgraph.getLabelMapping().get(label));
+			//List<Integer> constraints = RD.LabelMapToConstraints(label);
+			String tokenText = "" + flowgraph.getLabelMapping().get(label);
+			ILabelable astObj = flowgraph.getLabelMapping().get(label);
+			if (astObj != null && astObj instanceof WhileStatement) {
+				WhileStatement ast = (WhileStatement)astObj;
+				tokenText = "While " + ast.getCondition() + " do";
+			} else if (astObj != null && astObj instanceof IfStatement) {
+				IfStatement ast = (IfStatement)astObj;
+				tokenText = "If " + ast.getCondition() + " then";
+			}
+			//System.out.println("Label: " + label + " Constraints: " + constraints + " Token: " + tokenText);
 		}
 	}
 

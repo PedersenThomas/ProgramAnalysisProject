@@ -5,11 +5,11 @@ import java.util.Set;
 
 import frameworks.IConstraint;
 import frameworks.ILatticeValue;
-import frameworks.IMonotoneFramework;
+import frameworks.MonotoneFramework;
 import graph.FlowGraph;
 import graph.Variable;
 
-public class DetectionOfSigns implements IMonotoneFramework {
+public class DetectionOfSigns extends MonotoneFramework {
 
     private Set<Variable> variables;
 
@@ -28,7 +28,7 @@ public class DetectionOfSigns implements IMonotoneFramework {
 	}
 
 	@Override
-	public List<Integer> LabelMapToConstraints(Integer label) {
+	public Integer ConstraintsMapToLabel(Integer label) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -21,8 +21,8 @@ public class FlowGraph {
 	private static int labelcount = StartLabel;
 	private HashMap<Integer, ILabelable> labelMapping = new HashMap<Integer, ILabelable>();
 
-	private Map<Integer, List<Integer>> flowForward  = new HashMap<Integer, List<Integer>>();
-	private Map<Integer, List<Integer>> flowBackward = new HashMap<Integer, List<Integer>>();
+	private Map<Integer, List<FlowGraphEdge>> flowForward  = new HashMap<Integer, List<FlowGraphEdge>>();
+	private Map<Integer, List<FlowGraphEdge>> flowBackward = new HashMap<Integer, List<FlowGraphEdge>>();
 	private ArrayList<Variable> freeVariables = new ArrayList<Variable>();
 
 	public HashMap<Integer, ILabelable> getLabelMapping() {
@@ -43,7 +43,7 @@ public class FlowGraph {
 			for (int i = 1; i < program.declarations.size(); i++) {
 				Declaration declaration = program.declarations.get(i);
 				int label = labelProgramPoint(declaration);
-				AddFlowNode(lastLabel, label);
+				AddFlowNode(lastLabel, label, EdgeType.None);
 				lastLabel = label;
 
 				// Store the name of the variable.
@@ -68,76 +68,89 @@ public class FlowGraph {
 		}
 
 		// Statements
-		convertStatements(previous, program.statements);
+		convertStatements(previous, program.statements, EdgeType.None);
 	}
 
-	public List<Integer> getNodeOutNodes(int label) {
+	public List<FlowGraphEdge> getNodeOutNodes(int label) {
 		if (flowForward.containsKey(label)) {
-			return new ArrayList<Integer>(flowForward.get(label));
+			return new ArrayList<FlowGraphEdge>(flowForward.get(label));
 		} else {
-			return new ArrayList<Integer>();
+			return new ArrayList<FlowGraphEdge>();
 		}
 	}
 	
-	public List<Integer> getNodeInNodes(int label) {
+	public List<FlowGraphEdge> getNodeInNodes(int label) {
 		if (flowBackward.containsKey(label)) {
-			return Collections.unmodifiableList(flowBackward.get(label));
+			return new ArrayList<FlowGraphEdge>(flowBackward.get(label));
 		} else {
-			return new ArrayList<Integer>();
+			return new ArrayList<FlowGraphEdge>();
 		}
 	}
 
-	private List<Integer> convertStatement(List<Integer> previous, Statement statement) {
+	private List<Integer> convertStatement(List<Integer> previous, Statement statement, EdgeType type) {
 		// Dispatching the statements
 		if (statement instanceof WhileStatement) {
-			return convertWhileStatement(previous, (WhileStatement) statement);
+			return convertWhileStatement(previous, (WhileStatement) statement, type);
 
 		} else if (statement instanceof IfStatement) {
-			return convertIfStatement(previous, (IfStatement) statement);
+			return convertIfStatement(previous, (IfStatement) statement, type);
 		}
 
 		// Base case where there are no special control flow
 		int label = labelProgramPoint(statement);
-		AddAllFlowNode(previous, label);
+		AddAllFlowNode(previous, label, type);
 		List<Integer> lastLabels = new ArrayList<Integer>();
 		lastLabels.add(label);
 		return lastLabels;
 	}
 
-	private List<Integer> convertStatements(List<Integer> previous, List<Statement> statements) {
+	private List<Integer> convertStatements(List<Integer> previous, List<Statement> statements, EdgeType type) {
 		List<Integer> prev = new ArrayList<Integer>();
 		if (!statements.isEmpty()) {
 			prev = previous;
 		}
-		for (int i = 0; i < statements.size(); i++) {
+		
+		prev = convertStatement(prev, statements.get(0), type);
+		
+		for (int i = 1; i < statements.size(); i++) {
+			EdgeType edgeType = EdgeType.None;
+			if(statements.get(i-1) instanceof WhileStatement) {
+				edgeType = EdgeType.False;
+			}
 			Statement statement = statements.get(i);
-			prev = convertStatement(prev, statement);
+			prev = convertStatement(prev, statement, edgeType);
 		}
 		return prev;
 	}
 
-	private List<Integer> convertWhileStatement(List<Integer> previous, WhileStatement statement) {
-		int conditionLabel = labelProgramPoint(statement.getCondition());
-		AddAllFlowNode(previous, conditionLabel);
+	private List<Integer> convertWhileStatement(List<Integer> previous, WhileStatement statement, EdgeType previousType) {
+		int conditionLabel = labelProgramPoint(statement);
+		AddAllFlowNode(previous, conditionLabel, previousType);
 
 		List<Integer> conditionPrevious = new ArrayList<Integer>();
 		conditionPrevious.add(conditionLabel);
-		List<Integer> prev = convertStatements(conditionPrevious, statement.getBody());
+		List<Integer> prev = convertStatements(conditionPrevious, statement.getBody(), EdgeType.True);
 
 		// Loopback from while body to condition
-		AddAllFlowNode(prev, conditionLabel);
+		for (Integer l : prev) {
+			EdgeType type = EdgeType.None;
+			if (labelMapping.get(l) instanceof WhileStatement) {
+				type = EdgeType.False;
+			}
+			AddFlowNode(l, conditionLabel, type);
+		}
 
 		return conditionPrevious;
 	}
 
-	private List<Integer> convertIfStatement(List<Integer> previous, IfStatement statement) {
-		int conditionLabel = labelProgramPoint(statement.getCondition());
-		AddAllFlowNode(previous, conditionLabel);
+	private List<Integer> convertIfStatement(List<Integer> previous, IfStatement statement, EdgeType previousType) {
+		int conditionLabel = labelProgramPoint(statement);
+		AddAllFlowNode(previous, conditionLabel, previousType);
 
 		List<Integer> conditionPrevious = new ArrayList<Integer>();
 		conditionPrevious.add(conditionLabel);
-		List<Integer> trueLabels = convertStatements(conditionPrevious, statement.getTrueBody());
-		List<Integer> falseLabels = convertStatements(conditionPrevious, statement.getFalseBody());
+		List<Integer> trueLabels = convertStatements(conditionPrevious, statement.getTrueBody(), EdgeType.True);
+		List<Integer> falseLabels = convertStatements(conditionPrevious, statement.getFalseBody(), EdgeType.False);
 
 		// Join the two ends together to one set.
 		List<Integer> lastLabels = new ArrayList<Integer>();
@@ -146,24 +159,24 @@ public class FlowGraph {
 		return lastLabels;
 	}
 
-	private void AddAllFlowNode(List<Integer> labels, Integer label) {
+	private void AddAllFlowNode(List<Integer> labels, Integer label, EdgeType type) {
 		for (Integer l : labels) {
-			AddFlowNode(l, label);
+			AddFlowNode(l, label, type);
 		}
 	}
 
-	private void AddFlowNode(Integer label1, Integer label2) {
-		System.out.println("Flow: (" + label1 + ","+label2+")");
+	private void AddFlowNode(Integer label1, Integer label2, EdgeType type) {
+		System.out.println("Flow: (" + label1 + ","+label2+"){"+type+"}");
 		
 		if (!flowForward.containsKey(label1)) {
-			flowForward.put(label1, new ArrayList<Integer>());
+			flowForward.put(label1, new ArrayList<FlowGraphEdge>());
 		}
-		flowForward.get(label1).add(label2);
+		flowForward.get(label1).add(new FlowGraphEdge(label1, label2, type));
 		
 		if (!flowBackward.containsKey(label2)) {
-			flowBackward.put(label2, new ArrayList<Integer>());
+			flowBackward.put(label2, new ArrayList<FlowGraphEdge>());
 		}
-		flowBackward.get(label2).add(label1);
+		flowBackward.get(label2).add(new FlowGraphEdge(label2, label1, type));
 	}
 
 	/**
