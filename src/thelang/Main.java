@@ -9,6 +9,8 @@ import frameworks.detectionOfSigns.*;
 import frameworks.reachingDefinitions.RDLatticeValue;
 import frameworks.reachingDefinitions.ReachingDefinitions;
 
+import graph.Variable;
+import graph.VariableType;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.*;
@@ -22,8 +24,6 @@ import graph.FlowGraphEdge;
 public class Main {
 
 	public static void main(String args[]) throws Exception {
-
-		
 		
 		TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[0]));
 		CommonTokenStream tokens = new CommonTokenStream(lex);
@@ -36,6 +36,9 @@ public class Main {
             FlowGraph graph = new FlowGraph(theProgram);
             
             RunReachingDefinitions(graph);
+
+            testArithmeticExpressions(theProgram);
+            testAtom();
 
             /*
             System.out.println("////////////// Detection of Signs ////////////////////////////");
@@ -58,7 +61,17 @@ public class Main {
         }
 	}
 
-	public static void RunReachingDefinitions(FlowGraph flowgraph) {
+    public static void testArithmeticExpressions(Program theProgram) {
+        System.out.println("!#€%&/()=?` TEST OF ARITHMETIC EXPRESSIONS! !#€%&/()=?`");
+        ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
+        System.out.println(expression);
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
+        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
+        System.out.println(Util.evalDSArithmeticExpression(expression, signState));
+    }
+
+    public static void RunReachingDefinitions(FlowGraph flowgraph) {
 		ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
 		IWorklist workList = new RevPostOrderWorkList(flowgraph, RD);
 		workList = new SetWorklist();
@@ -75,6 +88,31 @@ public class Main {
 	    	buffer.append("}");
 	    	System.out.println(buffer);
 	    }
-
 	}
+
+    public static void testAtom() {
+        Set<Signs> signs1 = new HashSet<>();
+        signs1.add(Signs.negative);
+        signs1.add(Signs.zero);
+
+        Set<Signs> signs2 = new HashSet<>();
+        signs2.add(Signs.positive);
+
+        Set<Signs> signs3 = new HashSet<>();
+        signs3.add(Signs.negative);
+        signs3.add(Signs.zero);
+        signs3.add(Signs.positive);
+
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
+        signState.put(new Variable("b", VariableType.Array), new PowerSetOfSigns(signs3));
+        signState.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns(signs3));
+
+        Set<Map<Variable, PowerSetOfSigns>> atoms = Util.atom(signState);
+
+        System.out.println("TEST OF ATOM:");
+        System.out.println(atoms);
+        System.out.println(atoms.size());
+    }
+
 }

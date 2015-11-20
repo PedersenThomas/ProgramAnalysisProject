@@ -36,6 +36,12 @@ public class Variable {
 	
 	@Override
 	public String toString() {
-		return name + " " + type;
+		String type;
+        if (this.type.equals(VariableType.Variable)) {
+            type = "var";
+        } else {
+            type = "arr";
+        }
+		return name + ":" + type;
 	}
 }

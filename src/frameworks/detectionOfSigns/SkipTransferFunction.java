@@ -2,6 +2,7 @@ package frameworks.detectionOfSigns;
 
 import frameworks.ILatticeValue;
 import frameworks.TransferFunction;
+import graph.Variable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,17 +10,15 @@ import java.util.List;
 /**
  * Created by PatrickKasting on 13/11/15.
  */
-public class SkipTransferFunction extends TransferFunction {
+public class SkipTransferFunction extends DSTransferFunction {
 
     public SkipTransferFunction(int inputIndex) {
         super(inputIndex);
     }
 
     @Override
-    public ILatticeValue eval(List<ILatticeValue> analysisList) {
-        DSLatticeValue inputValue =
-                (DSLatticeValue) analysisList.get(this.getInputIndex());
-        HashMap<String, PowerSetOfSigns> clone =
+    public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
+        HashMap<Variable, PowerSetOfSigns> clone =
                 new HashMap<>(inputValue.getSignState());
         return new DSLatticeValue(clone);
     }
