@@ -10,8 +10,12 @@ public class BooleanNotExpression extends BooleanExpression {
 		this.expression = expression;
 		this.token = token;
 	}
-	
-	public Token getToken() {
+
+    public BooleanExpression getExpression() {
+        return expression;
+    }
+
+    public Token getToken() {
 		return this.token;
 	}
 

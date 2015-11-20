@@ -29,7 +29,7 @@ public class AssignmentTransferFunction extends DSTransferFunction {
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
         PowerSetOfSigns signsOfRight =
                 Util.evalDSArithmeticExpression(right, inputValue.getSignState());
-        if (signsOfRight.equals(Util.EMPTY_SET)) {
+        if (signsOfRight.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {  // The right hand side is not the empty set of signs.
             Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
