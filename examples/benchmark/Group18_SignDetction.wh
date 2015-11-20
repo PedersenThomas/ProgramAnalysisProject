@@ -1,0 +1,20 @@
+program
+int a[30];
+int i;
+low int x;
+x:=2;
+a[1]:=-2;
+read a[5];
+if x>1
+then
+    x:=x-1;
+else
+   	write x;
+fi 
+i:=-3;
+a[i]:=2;
+read i;
+a[i]:=4;
+end
+
+

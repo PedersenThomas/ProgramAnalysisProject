@@ -1,0 +1,16 @@
+program
+int x;
+high int A[20];
+A[3]:=6;
+low int y;
+y:=1;
+while x>1
+do
+    A[3]:=6;
+    x:=x-1;
+    read A[5];
+od
+y:=0;
+A[1]:=-2;
+end
+

@@ -1,0 +1,121 @@
+program
+  int x;
+  int y[20];
+
+  read x;
+  if x=0 then
+    y[1]:=1;
+  else
+    y[1]:=-1;
+  fi
+
+  if y[1]=1 then
+    y[2]:=-1;
+  else
+    y[2]:=1;
+  fi
+
+  if y[2]=1 then
+    y[3]:=1;
+  else
+    y[3]:=-1;
+  fi
+
+  if y[3]=1 then
+    y[4]:=-1;
+  else
+    y[4]:=1;
+  fi
+
+  if y[4]=1 then
+    y[5]:=1;
+  else
+    y[5]:=-1;
+  fi
+
+  if y[5]=1 then
+    y[6]:=-1;
+  else
+    y[6]:=1;
+  fi
+
+  if y[6]=1 then
+    y[7]:=1;
+  else
+    y[7]:=-1;
+  fi
+
+  if y[7]=1 then
+    y[8]:=-1;
+  else
+    y[8]:=1;
+  fi
+
+  if y[8]=1 then
+    y[9]:=1;
+  else
+    y[9]:=-1;
+  fi
+
+  if y[9]=1 then
+    y[10]:=-1;
+  else
+    y[10]:=1;
+  fi
+
+  if y[10]=1 then
+    y[11]:=1;
+  else
+    y[11]:=-1;
+  fi
+
+  if y[11]=1 then
+    y[12]:=-1;
+  else
+    y[12]:=1;
+  fi
+
+  if y[12]=1 then
+    y[13]:=1;
+  else
+    y[13]:=-1;
+  fi
+
+  if y[13]=1 then
+    y[14]:=-1;
+  else
+    y[14]:=1;
+  fi
+
+  if y[14]=1 then
+    y[15]:=1;
+  else
+    y[15]:=-1;
+  fi
+
+  if y[15]=1 then
+    y[16]:=-1;
+  else
+    y[16]:=1;
+  fi
+
+  if y[16]=1 then
+    y[17]:=1;
+  else
+    y[17]:=-1;
+  fi
+
+  if y[17]=1 then
+    y[18]:=-1;
+  else
+    y[18]:=1;
+  fi
+
+  if y[18]=1 then
+    y[19]:=1;
+  else
+    y[19]:=-1;
+  fi
+
+  write y[19];
+end

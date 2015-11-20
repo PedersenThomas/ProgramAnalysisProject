@@ -1,0 +1,17 @@
+(* Test program for 02242 by group 6 *)
+(* Test if the program can handle a while within a while*)
+program
+int y;
+int z;
+
+y:=37;
+z:=6;
+
+while y < z do
+	while y > 7 do
+	y:=y-1;
+	od
+z:=z+1;
+read z;
+od
+end
