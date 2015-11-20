@@ -24,6 +24,6 @@ public class InitialConstraint implements IConstraint {
 	
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " " + initialValue;
+		return this.getClass().getSimpleName() + ": " + initialValue;
 	}
 }

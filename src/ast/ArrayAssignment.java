@@ -14,7 +14,15 @@ public class ArrayAssignment extends Statement {
 		this.value = value;
 		this.token = token;
 	}
-	
+
+	public ArithmeticExpression getIndex() {
+		return index;
+	}
+
+	public ArithmeticExpression getValue() {
+		return value;
+	}
+
 	public String getArrayName() {
 		return this.array;
 	}

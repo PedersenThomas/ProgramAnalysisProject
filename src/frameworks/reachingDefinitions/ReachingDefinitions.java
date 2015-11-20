@@ -16,7 +16,6 @@ import ast.ReadArray;
 import ast.ReadVariable;
 import ast.VariableAssignment;
 import ast.VariableDeclaration;
-import ast.WhileStatement;
 
 /**
  * Created by PatrickKasting on 09/11/15.
@@ -184,7 +183,7 @@ public class ReachingDefinitions extends MonotoneFramework {
 				labels.add(new AssignmentTableEntry(((VariableAssignment) astObj).getVariableName(), VariableType.Variable, label));
 
 			} else if (astObj instanceof ReadArray) {
-				labels.add(new AssignmentTableEntry(((ReadArray) astObj).getArrayname(), VariableType.Array, label));
+				labels.add(new AssignmentTableEntry(((ReadArray) astObj).getArrayName(), VariableType.Array, label));
 
 			} else if (astObj instanceof ReadVariable) {
 				labels.add(new AssignmentTableEntry(((ReadVariable) astObj).getName(), VariableType.Variable, label));
@@ -262,7 +261,7 @@ public class ReachingDefinitions extends MonotoneFramework {
 	}
 
 	@Override
-	public List<IConstraint> getConstrains() {
+	public List<IConstraint> getConstraints() {
 		return Collections.unmodifiableList(this.constraints);
 	}
 

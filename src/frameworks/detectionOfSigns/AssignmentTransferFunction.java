@@ -38,4 +38,8 @@ public class AssignmentTransferFunction extends DSTransferFunction {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + ": " + left + " = " + right;
+    }
 }

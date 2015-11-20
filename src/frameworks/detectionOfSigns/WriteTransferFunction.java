@@ -25,4 +25,8 @@ public class WriteTransferFunction extends DSTransferFunction {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + ": write " + expression;
+    }
 }

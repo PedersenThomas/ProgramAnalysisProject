@@ -22,4 +22,9 @@ public class SkipTransferFunction extends DSTransferFunction {
                 new HashMap<>(inputValue.getSignState());
         return new DSLatticeValue(clone);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

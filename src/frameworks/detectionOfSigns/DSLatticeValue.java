@@ -116,8 +116,6 @@ public class DSLatticeValue implements ILatticeValue {
 
     @Override
     public String toString() {
-        return "DSLatticeValue{" +
-                "signState=" + signState +
-                '}';
+        return signState.toString();
     }
 }

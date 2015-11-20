@@ -46,4 +46,8 @@ public abstract class BooleanTransferFunction extends DSTransferFunction {
 
     }
 
+    @Override
+    public String toString() {
+        return expression.toString();
+    }
 }

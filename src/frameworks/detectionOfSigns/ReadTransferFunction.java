@@ -26,4 +26,9 @@ public class ReadTransferFunction extends DSTransferFunction {
         clone.put(variable, Util.ALL);
         return new DSLatticeValue(clone);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + ": read " + variable;
+    }
 }

@@ -56,6 +56,6 @@ public class Recombination implements IConstraint {
 	
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " freeVariables:" + freeVariables;
+		return this.getClass().getSimpleName() + ": " + freeVariables;
 	}
 }

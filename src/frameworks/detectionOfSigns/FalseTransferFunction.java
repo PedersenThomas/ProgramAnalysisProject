@@ -11,4 +11,8 @@ public class FalseTransferFunction extends BooleanTransferFunction {
         super(inputIndex, false, expression);
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + ": " + super.toString();
+    }
 }

@@ -32,4 +32,9 @@ public class ArrayDeclarationTransferFunction extends DSTransferFunction {
             return new DSLatticeValue(clone);
         }
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + ": int " + array + "[" + size + "]";
+    }
 }

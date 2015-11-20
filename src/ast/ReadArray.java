@@ -12,8 +12,12 @@ public class ReadArray extends Statement {
 		this.index = index;
 		this.token = token;
 	}
-	
-	public String getArrayname() {
+
+    public ArithmeticExpression getIndex() {
+        return index;
+    }
+
+    public String getArrayName() {
 		return array;
 	}
 	

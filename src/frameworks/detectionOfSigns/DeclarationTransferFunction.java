@@ -23,4 +23,9 @@ public class DeclarationTransferFunction extends DSTransferFunction {
         clone.put(variable, Util.ZERO_ONLY);
         return new DSLatticeValue(clone);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + ": int " + variable;
+    }
 }

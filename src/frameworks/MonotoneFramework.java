@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class MonotoneFramework {
-	public abstract ILatticeValue getBottom();
-	public abstract List<IConstraint> getConstrains();
-	public abstract Integer ConstraintsMapToLabel(Integer label);
 	
 	private ArrayList<Set<Integer>> influenceList;
+
+	public abstract ILatticeValue getBottom();
+	public abstract List<IConstraint> getConstraints();
+	public abstract Integer ConstraintsMapToLabel(Integer label);
+
 	
 	public ArrayList<Set<Integer>> getInfluenceList() {
 		if (influenceList == null) {
-			List<IConstraint> constraints = getConstrains();
+			List<IConstraint> constraints = getConstraints();
 			this.influenceList = new ArrayList<Set<Integer>>(constraints.size());
 	
 			for (int i = 0; i < constraints.size(); i++) {
@@ -30,4 +32,5 @@ public abstract class MonotoneFramework {
 		}
 		return this.influenceList;
 	}
+	
 }
