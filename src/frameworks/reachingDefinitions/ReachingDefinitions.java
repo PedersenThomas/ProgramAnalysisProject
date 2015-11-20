@@ -122,7 +122,8 @@ public class ReachingDefinitions implements IMonotoneFramework {
 						}
 					}
 				}
-				IConstraint transferFunction = new KillGenTransferFunction(inputIndex, killSet, genSet);
+				String message = "Edge (" + edge + "," + label + ")";
+				IConstraint transferFunction = new KillGenTransferFunction(inputIndex, killSet, genSet, message);
 
 				int constraintIndex = this.constraints.size();
 				this.constraints.add(transferFunction);

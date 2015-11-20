@@ -15,8 +15,11 @@ import graph.FlowGraph;
 public class RevPostOrderWorkList implements IWorklist {
 	private List<Integer> current = new ArrayList<Integer>();
 	private List<Integer> pending = new ArrayList<Integer>();
-	// Constraint -> Label
+	// Constraint -> Order
 	private HashMap<Integer, Integer> order = new HashMap<Integer, Integer>();
+	
+	private int numberOfInserts = 0;
+	private int numberOfExtracts = 0;
 	
 	public RevPostOrderWorkList(FlowGraph flowgraph, IMonotoneFramework framework) {
 		Stack<Integer> labels = new Stack<Integer>();
@@ -28,20 +31,25 @@ public class RevPostOrderWorkList implements IWorklist {
 			List<Integer> constraints = framework.LabelMapToConstraints(currentLabel);
 			Collections.sort(constraints);
 			for (Integer constraint : constraints) {
-				order.put(constraint, currentLabel);
+				order.put(constraint, order.size());
 			}
-			System.out.println("Order: " + this.order);
-			for(Integer label: flowgraph.getNodeOutNodes(currentLabel)) {
+			List<Integer> nodes = flowgraph.getNodeOutNodes(currentLabel);
+			Collections.sort(nodes);
+			Collections.reverse(nodes);
+			System.out.println(nodes);
+			for(Integer label: nodes) {
 				if(!visited.contains(label)) {
 					visited.add(label);
 					labels.push(label);
 				}
 			}
 		}
+		System.out.println("Order: " + this.order);
 	}
 	
 	@Override
 	public void insert(int index) {
+		numberOfInserts += 1;
 		pending.add(index);
 	}
 
@@ -52,7 +60,7 @@ public class RevPostOrderWorkList implements IWorklist {
 	        public int compare(Integer c1, Integer c2) {
 	        	Integer l1 = order.get(c1);
 	        	Integer l2 = order.get(c2);
-	            return l1 == l2 ? c1.compareTo(c2) : l1.compareTo(c2);
+	            return l1 == l2 ? c1.compareTo(c2) : l1.compareTo(l2);
 	        }
 	    });
 		
@@ -61,6 +69,7 @@ public class RevPostOrderWorkList implements IWorklist {
 	
 	@Override
 	public int extract() {
+		numberOfExtracts += 1;
 		if(current.isEmpty()) {
 			current = sort(this.pending, this.order);
 			this.pending.clear();
@@ -72,5 +81,15 @@ public class RevPostOrderWorkList implements IWorklist {
 	@Override
 	public boolean isEmpty() {
 		return current.isEmpty() && pending.isEmpty();
+	}
+
+	@Override
+	public int getNumberOfInserts() {
+		return numberOfInserts;
+	}
+
+	@Override
+	public int getNumberOfExtracts() {
+		return numberOfExtracts;
 	}
 }

@@ -73,7 +73,7 @@ public class FlowGraph {
 
 	public List<Integer> getNodeOutNodes(int label) {
 		if (flowForward.containsKey(label)) {
-			return Collections.unmodifiableList(flowForward.get(label));
+			return new ArrayList<Integer>(flowForward.get(label));
 		} else {
 			return new ArrayList<Integer>();
 		}

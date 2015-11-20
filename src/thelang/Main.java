@@ -37,8 +37,8 @@ public class Main {
             
             RunReachingDefinitions(graph);
 
-            testArithmeticExpressions(theProgram);
-            testAtom();
+            // testArithmeticExpressions(theProgram);
+            // testAtom();
 
             /*
             System.out.println("////////////// Detection of Signs ////////////////////////////");
@@ -50,14 +50,6 @@ public class Main {
                 System.out.println(value);
             }
             */
-
-//            System.out.println("!#€%&/()=?` TEST OF ARITHMETIC EXPRESSIONS! !#€%&/()=?`");
-//            ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
-//            System.out.println(expression);
-//            HashMap<String, PowerSetOfSigns> signState = new HashMap<>();
-//            signState.put("A", new PowerSetOfSigns(Signs.zero));
-//            signState.put("a", new PowerSetOfSigns(Signs.negative));
-//            System.out.println(Util.evalDSArithmeticExpression(expression, signState));
         }
 	}
 
@@ -72,11 +64,13 @@ public class Main {
     }
 
     public static void RunReachingDefinitions(FlowGraph flowgraph) {
-		ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
+    	ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
 		IWorklist workList = new RevPostOrderWorkList(flowgraph, RD);
-		workList = new SetWorklist();
+		//workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.Run();
+		
+		System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInserts() + " Extracts: " + workList.getNumberOfExtracts());
 		System.out.println("Final values:");
 	    for (int i = 0; i < result.size(); i++) {
 	    	StringBuilder buffer = new StringBuilder();
@@ -86,12 +80,18 @@ public class Main {
 	    	    buffer.append("(" + RD.getAssignmentTable().get(bitIndex).toString() + "), ");
 	    	}
 	    	buffer.append("}");
-	    	System.out.println(buffer);
+	    	//System.out.println(buffer);
+	    	
 	    }
+	    
+	    for (int label = -1; label <= flowgraph.getLabelMapping().size(); label++) {
+			List<Integer> constraints = RD.LabelMapToConstraints(label);
+			System.out.println("Label: " + label + " Constraints: " + constraints + " Token: " + flowgraph.getLabelMapping().get(label));
+		}
 	}
 
     public static void testAtom() {
-        Set<Signs> signs1 = new HashSet<>();
+        Set<Signs> signs1 = new HashSet<Signs>();
         signs1.add(Signs.negative);
         signs1.add(Signs.zero);
 
