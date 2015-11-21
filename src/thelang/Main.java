@@ -94,7 +94,7 @@ public class Main {
 		IWorklist workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.run();
-        System.out.println(result);
+        System.out.println(workListAlgorithm);
 
         /*
         System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtracts());

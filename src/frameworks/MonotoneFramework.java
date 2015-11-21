@@ -1,9 +1,6 @@
 package frameworks;
 
 import ast.*;
-import frameworks.detectionOfSigns.DSLatticeValue;
-import frameworks.detectionOfSigns.PowerSetOfSigns;
-import frameworks.detectionOfSigns.Util;
 import graph.*;
 
 import java.util.*;
@@ -14,7 +11,7 @@ public abstract class MonotoneFramework {
 	private Set<Variable> variables;
 	private List<IConstraint> constraints;
 	private int numberOfLabels;
-	private Map<Integer, OutputConstraintsInfo> outputConstraintsMap;
+	private Map<Integer, OutputConstraints> outputConstraintsMap;
 	private ArrayList<Set<Integer>> influenceList;
 
 	public MonotoneFramework(FlowGraph flowGraph) {
@@ -30,28 +27,28 @@ public abstract class MonotoneFramework {
 		constructConstraints();
 	}
 
-	public Set<Variable> getVariables() {
+	public final Set<Variable> getVariables() {
 		return Collections.unmodifiableSet(variables);
 	}
 
-	public int getNumberOfLabels() {
+	public final int getNumberOfLabels() {
 		return numberOfLabels;
 	}
 
-	public Map<Integer, OutputConstraintsInfo> getOutputConstraintsMap() {
+	public final Map<Integer, OutputConstraints> getOutputConstraintsMap() {
 		if (outputConstraintsMap == null) {
 			throw new Error("This Monotone Framework has not been initialized.");
 		}
 		return Collections.unmodifiableMap(outputConstraintsMap);
 	}
 
-	public Map<Integer, ILabelable> getFlowGraphLabelMap() {
+	public final Map<Integer, ILabelable> getFlowGraphLabelMap() {
 		return Collections.unmodifiableMap(flowGraph.getLabelMap());
 	}
 
 	private void constructConstraintMap() {
         for (int i = FlowGraph.StartLabel; i < numberOfLabels + FlowGraph.StartLabel; i++) {
-            outputConstraintsMap.put(i, new OutputConstraintsInfo());
+            outputConstraintsMap.put(i, new OutputConstraints());
         }
     }
 
@@ -258,8 +255,14 @@ public abstract class MonotoneFramework {
 
 	public abstract String formatResult(List<ILatticeValue> result);
 	
-	public ArrayList<Set<Integer>> getInfluenceList() {
+	public final ArrayList<Set<Integer>> getInfluenceList() {
+
 		if (influenceList == null) {
+
+			if (constraints == null) {
+				throw new Error("This Monotone Framework has not been initialized");
+			}
+
 			List<IConstraint> constraints = getConstraints();
 			this.influenceList = new ArrayList<Set<Integer>>(constraints.size());
 	
@@ -274,10 +277,12 @@ public abstract class MonotoneFramework {
 	            }
 			}
 		}
+
 		return this.influenceList;
+
 	}
 
-	protected String labelsTable() {
+	public final String labelsTable() {
 
 		int digitsInNumberOfLabels = 1 + (int) Math.log10(numberOfLabels);
 		StringBuilder result = new StringBuilder();

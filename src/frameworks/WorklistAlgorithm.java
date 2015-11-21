@@ -62,7 +62,8 @@ public class WorklistAlgorithm {
 			return "This Worklist Algorithm has not been run.";
 		} else {
 			StringBuilder result = new StringBuilder();
-			result.append("Result of " + framework + " using a " + worklist.getName() + ":\n\n");
+			result.append("Result of " + framework + " using a " + worklist.getName() + ":\n");
+			result.append("\n" + framework.labelsTable() + "\n");
 			result.append(framework.formatResult(this.analysis));
 			result.append("\nPerformance:\n");
 			result.append("* Worklist insertions: " + worklist.getNumberOfInsertions() + "\n");

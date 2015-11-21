@@ -3,13 +3,13 @@ package frameworks;
 /**
  * Created by PatrickKasting on 21/11/15.
  */
-public class OutputConstraintsInfo {
+public class OutputConstraints {
 
     private int outputConstraintIndex;
     private int trueConstraintIndex;
     private int falseConstraintIndex;
 
-    public OutputConstraintsInfo() {
+    public OutputConstraints() {
         this.outputConstraintIndex = -1;
         this.trueConstraintIndex = -1;
         this.falseConstraintIndex = -1;

@@ -2,13 +2,10 @@ package frameworks.reachingDefinitions;
 
 import ast.*;
 import frameworks.*;
-import frameworks.detectionOfSigns.AssignmentTransferFunction;
 import graph.FlowGraph;
-import graph.FlowGraphEdge;
 import graph.Variable;
 import graph.VariableType;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -27,7 +24,6 @@ public class ReachingDefinitions extends MonotoneFramework {
 		constructKillSets();
 	}
 
-	// Constructs a table for knowing where label a variable is assigned at.
 	private void constructAssignmentTable() {
 
 		assignmentTable = new ArrayList<>();
@@ -175,7 +171,62 @@ public class ReachingDefinitions extends MonotoneFramework {
 
 	@Override
 	public String formatResult(List<ILatticeValue> result) {
-		return result.toString();
+
+		int digitsInNumberOfLabels = 1 + (int) Math.log10(getNumberOfLabels());
+
+		StringBuilder stringBuilder = new StringBuilder();
+		String formatString = "%" + digitsInNumberOfLabels + "d: ";
+
+		appendEntries(result, stringBuilder, formatString);
+		appendExits(result, stringBuilder, formatString);
+
+		return stringBuilder.toString();
+
+	}
+
+	private void appendExits(List<ILatticeValue> result, StringBuilder stringBuilder, String formatString) {
+		stringBuilder.append("\nReaching Definitions at Exits:\n");
+		for (int i = 0; i < getNumberOfLabels(); i++) {
+			OutputConstraints outputConstraints = getOutputConstraintsMap().get(i + FlowGraph.StartLabel);
+			int outputConstraint;
+			if (outputConstraints.getOutputConstraintIndex() != -1) {
+				outputConstraint = outputConstraints.getOutputConstraintIndex();
+			} else {
+				assert (outputConstraints.getTrueConstraintIndex() != -1);
+				outputConstraint = outputConstraints.getTrueConstraintIndex();
+			}
+			appendLine(result, stringBuilder, formatString, i + FlowGraph.StartLabel, outputConstraint);
+		}
+	}
+
+	private void appendEntries(List<ILatticeValue> result, StringBuilder stringBuilder, String formatString) {
+		stringBuilder.append("Reaching Definitions at Entries:\n");
+		for (int i = 0; i < getNumberOfLabels(); i++) {
+			appendLine(result, stringBuilder, formatString, i + FlowGraph.StartLabel, i);
+		}
+	}
+
+	private void appendLine(
+			List<ILatticeValue> result, StringBuilder stringBuilder, String formatString,
+			int label, int constrintIndex) {
+		stringBuilder.append(String.format(formatString, label));
+		appendBitSetAsString(stringBuilder, result.get(constrintIndex));
+		stringBuilder.append("\n");
+	}
+
+	private void appendBitSetAsString(StringBuilder stringBuilder, ILatticeValue value) {
+
+		BitSet bitSet = ((RDLatticeValue) value).getBitSet();
+		if (bitSet.isEmpty()) {
+			stringBuilder.append("{}");
+		}
+
+		stringBuilder.append("{");
+		for (int i = bitSet.nextSetBit(0); i != -1; i = bitSet.nextSetBit(i + 1)) {
+			stringBuilder.append(assignmentTable.get(i) + ", ");
+		}
+		stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
+		stringBuilder.append("}");
 	}
 
 	@Override

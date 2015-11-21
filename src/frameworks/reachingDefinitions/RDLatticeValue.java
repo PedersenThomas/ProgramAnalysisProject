@@ -19,11 +19,6 @@ public class RDLatticeValue implements ILatticeValue {
         return bitSet;
     }
 
-    @Override
-    public String toString() {
-        return "" + bitSet;
-    }
-
     public RDLatticeValue(BitSet bitSet) {
         this.bitSet = bitSet;
     }
@@ -59,4 +54,8 @@ public class RDLatticeValue implements ILatticeValue {
         return new RDLatticeValue(cloneOfThisBitSet);
     }
 
+    @Override
+    public String toString() {
+        return bitSet.toString();
+    }
 }

@@ -91,25 +91,18 @@ public class DetectionOfSigns extends MonotoneFramework {
         int widthOfTopSet = Util.ALL.toString().length();
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(labelsTable());
-        appendSignStates(result, digitsInNumberOfLabels, numberOfVariables, widthOfTopSet, stringBuilder);
-
-        return stringBuilder.toString();
-
-    }
-
-    private void appendSignStates(List<ILatticeValue> result, int digitsInNumberOfLabels,
-                                  int numberOfVariables, int widthOfTopSet, StringBuilder stringBuilder) {
-        stringBuilder.append("\nSign States:\n");
+        stringBuilder.append("Sign States:\n");
         appendHeader(digitsInNumberOfLabels, numberOfVariables, widthOfTopSet, stringBuilder);
         appendSignStateTable(result, digitsInNumberOfLabels, widthOfTopSet, stringBuilder);
+        return stringBuilder.toString();
+
     }
 
     private void appendSignStateTable(List<ILatticeValue> result, int digitsInNumberOfLabels,
                                       int widthOfTopSet, StringBuilder stringBuilder) {
         String formatString = "%" + digitsInNumberOfLabels + "d%1s: ";
         for (int i = FlowGraph.StartLabel; i < getNumberOfLabels() + FlowGraph.StartLabel; i++) {
-            OutputConstraintsInfo outputConstraintsIndices = getOutputConstraintsMap().get(i);
+            OutputConstraints outputConstraintsIndices = getOutputConstraintsMap().get(i);
             if (outputConstraintsIndices.getOutputConstraintIndex() != -1) {  // Non-branching
                 appendSignStateLine(result, stringBuilder, widthOfTopSet, i,
                         outputConstraintsIndices.getOutputConstraintIndex(), formatString, "");
