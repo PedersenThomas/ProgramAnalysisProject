@@ -6,5 +6,25 @@ public enum RelationalOperator {
 	LessThanOrEqual,
 	GreaterThanOrEqual,
 	Equal,
-	NotEqual
+	NotEqual;
+
+	@Override
+	public String toString() {
+		switch (this.name()) {
+			case "LessThan":
+				return "<";
+			case "GreaterThan":
+				return ">";
+			case "LessThanOrEqual":
+				return "<=";
+			case "GreaterThanOrEqual":
+				return ">=";
+			case "Equal":
+				return "=";
+			case "NotEqual":
+				return "!=";
+			default:
+				throw new IllegalArgumentException("Unknown relational operator.");
+		}
+	}
 }

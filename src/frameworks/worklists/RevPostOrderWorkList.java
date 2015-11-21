@@ -92,7 +92,12 @@ public class RevPostOrderWorkList implements IWorklist {
 	}
 
 	@Override
-	public int getNumberOfInserts() {
+	public String getName() {
+		return "Reverse Post-Order Worklist";
+	}
+
+	@Override
+	public int getNumberOfInsertions() {
 		return numberOfInserts;
 	}
 

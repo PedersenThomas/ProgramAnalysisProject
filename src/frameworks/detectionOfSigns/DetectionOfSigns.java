@@ -6,29 +6,46 @@ import java.util.List;
 import ast.*;
 import frameworks.*;
 import graph.*;
+import org.apache.commons.lang3.StringUtils;
 
 public class DetectionOfSigns extends MonotoneFramework {
 
     private FlowGraph flowGraph;
     private Set<Variable> variables;
     private List<IConstraint> constraints;
+    private int numberOfLabels;
+    private Map<Integer, OutputConstraintsInfo> outputConstraintsMap;
 
     public DetectionOfSigns(FlowGraph flowGraph) {
         this.flowGraph = flowGraph;
         this.variables = new HashSet<>(flowGraph.getFreeVariables());
         this.constraints = new ArrayList<>();
+        this.numberOfLabels = flowGraph.getLabelMapping().size();
+        this.outputConstraintsMap = new HashMap<>();
+        constructConstraintMap();
         constructConstraints();
     }
 
+    private void constructConstraintMap() {
+        for (int i = FlowGraph.StartLabel; i < numberOfLabels + FlowGraph.StartLabel; i++) {
+            outputConstraintsMap.put(i, new OutputConstraintsInfo());
+        }
+    }
+
     private void constructConstraints() {
-        int numberOfLabels = flowGraph.getLabelMapping().size();
         createInitialConstraint();
-        createRecombinations(numberOfLabels);
-        createTransferFunctions(numberOfLabels);
+        createRecombinations();
+        createTransferFunctions();
 
     }
 
-    private void createTransferFunctions(int numberOfLabels) {
+    private void createRecombinations() {
+        for (int i = FlowGraph.StartLabel + 1; i < numberOfLabels + FlowGraph.StartLabel; i++) {
+            constraints.add(new Recombination());
+        }
+    }
+
+    private void createTransferFunctions() {
         HashMap<Integer, ILabelable> labelMapping = flowGraph.getLabelMapping();
         for (int i = FlowGraph.StartLabel; i < numberOfLabels + FlowGraph.StartLabel; i++) {
             ILabelable block = labelMapping.get(i);
@@ -64,33 +81,33 @@ public class DetectionOfSigns extends MonotoneFramework {
         Variable array = new Variable(arrayDeclaration.getName(), VariableType.Array);
         ArithmeticExpression size = new Constant(arrayDeclaration.getSize());
         IConstraint exitConstraint = new ArrayDeclarationTransferFunction(inputIndex, array, size);
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
     private void createVariableDeclarationConstraint(
             int inputIndex, VariableDeclaration variableDeclaration) {
         Variable variable = new Variable(variableDeclaration.getName(), VariableType.Variable);
         IConstraint exitConstraint = new DeclarationTransferFunction(inputIndex, variable);
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
     private void createWriteStatementConstraint(int inputIndex, WriteStatement writeStatement) {
         ArithmeticExpression expression = writeStatement.getExpression();
         IConstraint exitConstraint = new WriteTransferFunction(inputIndex, expression);
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
     private void createReadArrayStatementConstraint(int inputIndex, ReadArray readArrayStatement) {
         Variable readArray = new Variable(readArrayStatement.getArrayName(), VariableType.Array);
         ArithmeticExpression index = readArrayStatement.getIndex();
         IConstraint exitConstraint = new ArrayReadTransferFunction(inputIndex, readArray, index);
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
     private void createReadStatementConstraint(int inputIndex, ReadVariable readStatement) {
         Variable readVariable = new Variable(readStatement.getName(), VariableType.Variable);
         IConstraint exitConstraint = new ReadTransferFunction(inputIndex, readVariable);
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
     private void createArrayAssignmantConstraint(int inputIndex, ArrayAssignment arrayAssignment) {
@@ -99,7 +116,7 @@ public class DetectionOfSigns extends MonotoneFramework {
         ArithmeticExpression value = arrayAssignment.getValue();
         IConstraint exitConstraint =
                 new ArrayAssignmentTransferFunction(inputIndex, array, index, value);
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
     private void createWhileStatementConstraint(int inputIndex, WhileStatement whileStatement) {
@@ -130,13 +147,7 @@ public class DetectionOfSigns extends MonotoneFramework {
                 default:
                     throw new IllegalArgumentException("Unexpected type of edge.");
             }
-            addExitConstraint(edge, exitConstraint);
-        }
-    }
-
-    private void createRecombinations(int numberOfLabels) {
-        for (int i = FlowGraph.StartLabel + 1; i < numberOfLabels + FlowGraph.StartLabel; i++) {
-            constraints.add(new Recombination());
+            addBooleanExitConstraint(edge, exitConstraint);
         }
     }
 
@@ -151,31 +162,39 @@ public class DetectionOfSigns extends MonotoneFramework {
 
     private void createSkipConstraint(int inputIndex) {
         IConstraint exitConstraint = new SkipTransferFunction(inputIndex);
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
     private void createVariableAssignmentConstraint(int inputIndex, VariableAssignment assignment) {
         IConstraint exitConstraint = new AssignmentTransferFunction(
                 inputIndex, new Variable(assignment.getVariableName(), VariableType.Variable),
                 assignment.getRight());
-        addExitConstraint(inputIndex, exitConstraint);
+        addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
-    private void addExitConstraint(int inputIndex, IConstraint exitConstraint) {
+    private void addNonBooleanExitConstraint(int inputIndex, IConstraint exitConstraint) {
         constraints.add(exitConstraint);
-        handleNonBooleanEdge(inputIndex + FlowGraph.StartLabel, constraints.size() - 1);
-    }
-
-    private void addExitConstraint(FlowGraphEdge outEdge, IConstraint exitConstraint) {
-        constraints.add(exitConstraint);
-        updateRecombinationConstraints(outEdge, constraints.size() - 1);
-    }
-
-    private void handleNonBooleanEdge(int originLabel, int newConstraintIndex) {
-        List<FlowGraphEdge> outEdges = flowGraph.getNodeOutNodes(originLabel);
+        int outputConstraintIndex = constraints.size() - 1;
+        List<FlowGraphEdge> outEdges = flowGraph.getNodeOutNodes(inputIndex + FlowGraph.StartLabel);
         if (!outEdges.isEmpty()) {
             assert (outEdges.size() == 1);
-            updateRecombinationConstraints(outEdges.get(0), newConstraintIndex);
+            updateRecombinationConstraints(outEdges.get(0), outputConstraintIndex);
+        }
+        outputConstraintsMap.get(inputIndex + FlowGraph.StartLabel)
+                .setOutputConstraintIndex(outputConstraintIndex);
+    }
+
+    private void addBooleanExitConstraint(FlowGraphEdge outEdge, IConstraint exitConstraint) {
+        constraints.add(exitConstraint);
+        int outputConstraintIndex = constraints.size() - 1;
+        updateRecombinationConstraints(outEdge, outputConstraintIndex);
+        assert (!outEdge.getType().equals(EdgeType.None));
+        if (outEdge.getType().equals(EdgeType.True)) {
+            outputConstraintsMap.get(outEdge.getLabel1())
+                    .setTrueConstraintIndex(outputConstraintIndex);
+        } else {
+            outputConstraintsMap.get(outEdge.getLabel1())
+                    .setFalseConstraintIndex(outputConstraintIndex);
         }
     }
 
@@ -200,4 +219,110 @@ public class DetectionOfSigns extends MonotoneFramework {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public String formatResult(List<ILatticeValue> result) {
+
+        int digitsInNumberOfLabels = 1 + (int) Math.log10(numberOfLabels);
+        int numberOfVariables = variables.size();
+        int widthOfTopSet = Util.ALL.toString().length();
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        appendLabelsTable(digitsInNumberOfLabels, stringBuilder);
+
+        stringBuilder.append("\nSign States:\n");
+
+        stringBuilder.append(StringUtils.repeat(' ', digitsInNumberOfLabels + 3));
+        stringBuilder.append(StringUtils.center("Entry", (widthOfTopSet + 1) * numberOfVariables - 1));
+        stringBuilder.append(StringUtils.repeat(' ', 3));
+        stringBuilder.append(StringUtils.center("Exit", (widthOfTopSet + 1) * numberOfVariables - 1));
+        stringBuilder.append("\n");
+        stringBuilder.append(StringUtils.repeat(' ', digitsInNumberOfLabels + 3));
+        appendVariables(stringBuilder, widthOfTopSet);
+        stringBuilder.append("| ");
+        appendVariables(stringBuilder, widthOfTopSet);
+        stringBuilder.append("\n");
+
+        String formatString = "%" + digitsInNumberOfLabels + "d%1s: ";
+        for (int i = FlowGraph.StartLabel; i < numberOfLabels + FlowGraph.StartLabel; i++) {
+            OutputConstraintsInfo outputConstraintsIndices = outputConstraintsMap.get(i);
+            if (outputConstraintsIndices.getOutputConstraintIndex() != -1) {  // Non-branching
+                appendSignStateLine(result, stringBuilder, widthOfTopSet, i,
+                        outputConstraintsIndices.getOutputConstraintIndex(), formatString, "");
+            } else {  // Branching
+                assert (outputConstraintsIndices.getTrueConstraintIndex() != -1);
+                appendSignStateLine(result, stringBuilder, widthOfTopSet, i,
+                        outputConstraintsIndices.getTrueConstraintIndex(), formatString, "t");
+                if (outputConstraintsIndices.getFalseConstraintIndex() != -1) {
+                    appendSignStateLine(result, stringBuilder, widthOfTopSet, i,
+                            outputConstraintsIndices.getFalseConstraintIndex(), formatString, "f");
+                }
+            }
+        }
+
+        return stringBuilder.toString();
+
+    }
+
+    private void appendVariables(StringBuilder stringBuilder, int widthOfTopSet) {
+        for (Variable variable : variables) {
+            String name = variable.getName();
+            if (name.length() > 7) {
+                name = name.substring(0, widthOfTopSet);
+            }
+            stringBuilder.append(StringUtils.center(name, widthOfTopSet) + " ");
+        }
+    }
+
+    private void appendSignStateLine(
+            List<ILatticeValue> result, StringBuilder stringBuilder,
+            int columnWidth, int label, int outputConstraint,
+            String labelColumnFormatString, String branchAnnotation) {
+        appendLabelColumnEntry(stringBuilder, label, labelColumnFormatString, branchAnnotation);
+        appendValues(result, stringBuilder, columnWidth, label - FlowGraph.StartLabel);
+        stringBuilder.append("| ");
+        appendValues(result, stringBuilder, columnWidth, outputConstraint);
+        stringBuilder.append("\n");
+    }
+
+    private void appendValues(
+            List<ILatticeValue> result, StringBuilder stringBuilder, int columnWidth, int constraint) {
+        DSLatticeValue value = (DSLatticeValue) result.get(constraint);
+        for (Variable variable : variables) {
+            stringBuilder.append(
+                    StringUtils.center(
+                            value.getSignState().get(variable).toString(),
+                            columnWidth) + " ");
+        }
+    }
+
+    private void appendLabelColumnEntry(
+            StringBuilder stringBuilder, int label,
+            String labelColumnFormatString, String branchAnnotation) {
+        stringBuilder.append(String.format(labelColumnFormatString, label, branchAnnotation));
+    }
+
+    private void appendLabelsTable(int digitsInNumberOfLabels, StringBuilder stringBuilder) {
+        Map<Integer, ILabelable> lableMap = flowGraph.getLabelMapping();
+        stringBuilder.append("Labels:\n");
+        for (int i = FlowGraph.StartLabel; i < numberOfLabels + FlowGraph.StartLabel; i++) {
+            String block;
+            ILabelable astObject = lableMap.get(i);
+            if (astObject instanceof IfStatement) {
+                block = ((IfStatement) astObject).getCondition().toString();
+            } else if (astObject instanceof WhileStatement) {
+                block = ((WhileStatement) astObject).getCondition().toString();
+            } else {
+                block = astObject.toString();
+            }
+            String formatString = "%" + digitsInNumberOfLabels + "d: %s\n";
+            stringBuilder.append(String.format(formatString, i, block));
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Detection of Signs";
+    }
 }

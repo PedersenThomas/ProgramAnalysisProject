@@ -55,14 +55,10 @@ public class Main {
 
     private static void runDetectionOfSigns(FlowGraph flowGraph) {
         DetectionOfSigns DS = new DetectionOfSigns(flowGraph);
-        System.out.println(DS.getConstraints());
         IWorklist worklist = new SetWorklist();
         WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, DS);
         List<ILatticeValue> result = worklistAlgorithm.run();
-        System.out.println("Result of Detection of Signs:");
-        for (int i = 0; i < result.size(); i++) {
-            System.out.printf("%2d: " + result.get(i) + "\n", i + 1);
-        }
+        System.out.println(worklistAlgorithm);
     }
 
     public static void testArithmeticExpressions(Program theProgram) {
@@ -98,7 +94,7 @@ public class Main {
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.run();
 		
-		System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInserts() + " Extracts: " + workList.getNumberOfExtracts());
+		System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtracts());
 		System.out.println("Final values:");
 	    for (int i = 0; i < result.size(); i++) {
 	    	StringBuilder buffer = new StringBuilder();

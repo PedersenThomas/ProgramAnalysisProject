@@ -12,7 +12,7 @@ public abstract class MonotoneFramework {
 	public abstract ILatticeValue getBottom();
 	public abstract List<IConstraint> getConstraints();
 	public abstract Integer ConstraintsMapToLabel(Integer label);
-
+	public abstract String formatResult(List<ILatticeValue> result);
 	
 	public ArrayList<Set<Integer>> getInfluenceList() {
 		if (influenceList == null) {
@@ -32,5 +32,5 @@ public abstract class MonotoneFramework {
 		}
 		return this.influenceList;
 	}
-	
+
 }

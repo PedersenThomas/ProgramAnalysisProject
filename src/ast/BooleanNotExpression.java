@@ -21,6 +21,6 @@ public class BooleanNotExpression extends BooleanExpression {
 
 	@Override
 	public String toString() {
-		return "!" + expression;
+		return "!(" + expression + ")";
 	}
 }

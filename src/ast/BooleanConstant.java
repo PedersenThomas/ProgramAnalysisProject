@@ -21,6 +21,6 @@ public class BooleanConstant extends BooleanExpression {
 	
 	@Override
 	public String toString() {
-		return ""+value;
+		return "" + value;
 	}
 }

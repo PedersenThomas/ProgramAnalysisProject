@@ -8,7 +8,9 @@ public class RelationalOperation extends BooleanExpression {
 	RelationalOperator operator;
 	ArithmeticExpression right;
 	
-	public RelationalOperation(ArithmeticExpression left, RelationalOperator operator, ArithmeticExpression right, Token token){
+	public RelationalOperation(
+			ArithmeticExpression left, RelationalOperator operator,
+			ArithmeticExpression right, Token token){
 		this.left = left;
 		this.operator = operator;
 		this.right = right;
@@ -33,6 +35,6 @@ public class RelationalOperation extends BooleanExpression {
 
 	@Override
 	public String toString() {
-		return "" + left + " " + operator + " " + right;
+		return "" + left + " " + operator + " " + right + "";
 	}
 }

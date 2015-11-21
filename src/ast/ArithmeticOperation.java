@@ -26,6 +26,6 @@ public class ArithmeticOperation extends ArithmeticExpression {
 
 	@Override
 	public String toString() {
-		return "" + left + " " + Operator + " " + right;
+		return "(" + left + ") " + Operator + " (" + right + ")";
 	}
 }

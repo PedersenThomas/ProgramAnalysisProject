@@ -13,6 +13,6 @@ public class UnaryMinus extends ArithmeticExpression {
 
 	@Override
 	public String toString() {
-		return "-" + expression;
+		return "-(" + expression + ")";
 	}
 }

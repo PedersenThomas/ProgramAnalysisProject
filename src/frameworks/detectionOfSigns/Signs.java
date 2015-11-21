@@ -6,12 +6,15 @@ public enum Signs {
 	positive;
 
 	public String toString() {
-        if (name().equals("negative")) {
-            return "-";
-        } else if (name().equals("zero")) {
-            return "0";
-        } else {
-            return "+";
+        switch (this.name()) {
+            case "negative":
+                return "-";
+            case "zero":
+                return "0";
+            case "positive":
+                return "+";
+            default:
+                throw new IllegalArgumentException("Unknown sign.");
         }
     }
 }

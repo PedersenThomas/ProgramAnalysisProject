@@ -270,4 +270,13 @@ public class ReachingDefinitions extends MonotoneFramework {
 		return ConstraintToLabelsMapping.get(label);
 	}
 
+	@Override
+	public String formatResult(List<ILatticeValue> result) {
+		return result.toString();
+	}
+
+	@Override
+	public String toString() {
+		return "Reaching Definitions";
+	}
 }

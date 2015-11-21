@@ -47,7 +47,12 @@ public class SetWorklist implements IWorklist {
 	}
 
 	@Override
-	public int getNumberOfInserts() {
+	public String getName() {
+		return "Set Worklist";
+	}
+
+	@Override
+	public int getNumberOfInsertions() {
 		return numberOfInserts;
 	}
 
