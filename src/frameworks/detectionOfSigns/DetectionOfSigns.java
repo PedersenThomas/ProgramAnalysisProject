@@ -1,6 +1,8 @@
 package frameworks.detectionOfSigns;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ast.*;
 import frameworks.*;
@@ -11,6 +13,15 @@ public class DetectionOfSigns extends MonotoneFramework {
 
     public DetectionOfSigns(FlowGraph flowGraph) {
         super(flowGraph);
+    }
+
+    @Override
+    protected ILatticeValue getInitialLatticeValue() {
+        Map<Variable, PowerSetOfSigns> initialState = new HashMap<>();
+        for (Variable variable : getVariables()) {
+            initialState.put(variable, Util.ALL);
+        }
+        return new DSLatticeValue(initialState);
     }
 
     @Override

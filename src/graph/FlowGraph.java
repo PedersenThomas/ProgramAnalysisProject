@@ -25,7 +25,7 @@ public class FlowGraph {
 	private Map<Integer, List<FlowGraphEdge>> flowBackward = new HashMap<Integer, List<FlowGraphEdge>>();
 	private ArrayList<Variable> freeVariables = new ArrayList<Variable>();
 
-	public HashMap<Integer, ILabelable> getLabelMapping() {
+	public HashMap<Integer, ILabelable> getLabelMap() {
 		return labelMapping;
 	}
 

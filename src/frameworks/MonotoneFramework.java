@@ -1,7 +1,6 @@
 package frameworks;
 
 import ast.*;
-import frameworks.detectionOfSigns.AssignmentTransferFunction;
 import frameworks.detectionOfSigns.DSLatticeValue;
 import frameworks.detectionOfSigns.PowerSetOfSigns;
 import frameworks.detectionOfSigns.Util;
@@ -13,17 +12,20 @@ public abstract class MonotoneFramework {
 
 	private FlowGraph flowGraph;
 	private Set<Variable> variables;
-	private final List<IConstraint> constraints;
+	private List<IConstraint> constraints;
 	private int numberOfLabels;
 	private Map<Integer, OutputConstraintsInfo> outputConstraintsMap;
 	private ArrayList<Set<Integer>> influenceList;
 
 	public MonotoneFramework(FlowGraph flowGraph) {
+		this.flowGraph = flowGraph;
+		this.numberOfLabels = flowGraph.getLabelMap().size();
+		this.variables = new HashSet<>(flowGraph.getFreeVariables());
+	}
+
+	public final void initialize() {
 		this.outputConstraintsMap = new HashMap<>();
 		this.constraints = new ArrayList<>();
-		this.numberOfLabels = flowGraph.getLabelMapping().size();
-		this.flowGraph = flowGraph;
-		this.variables = new HashSet<>(flowGraph.getFreeVariables());
 		constructConstraintMap();
 		constructConstraints();
 	}
@@ -37,7 +39,14 @@ public abstract class MonotoneFramework {
 	}
 
 	public Map<Integer, OutputConstraintsInfo> getOutputConstraintsMap() {
+		if (outputConstraintsMap == null) {
+			throw new Error("This Monotone Framework has not been initialized.");
+		}
 		return Collections.unmodifiableMap(outputConstraintsMap);
+	}
+
+	public Map<Integer, ILabelable> getFlowGraphLabelMap() {
+		return Collections.unmodifiableMap(flowGraph.getLabelMap());
 	}
 
 	private void constructConstraintMap() {
@@ -50,17 +59,13 @@ public abstract class MonotoneFramework {
         createInitialConstraint();
         createRecombinations();
         createTransferFunctions();
-
     }
 
 	private void createInitialConstraint() {
-        Map<Variable, PowerSetOfSigns> initialState = new HashMap<>();
-        for (Variable variable : variables) {
-            initialState.put(variable, Util.ALL);
-        }
-        InitialConstraint initial = new InitialConstraint(new DSLatticeValue(initialState));
-        constraints.add(initial);
+        constraints.add(new InitialConstraint(getInitialLatticeValue()));
     }
+
+	protected abstract ILatticeValue getInitialLatticeValue();
 
 	private void createRecombinations() {
         for (int i = FlowGraph.StartLabel + 1; i < numberOfLabels + FlowGraph.StartLabel; i++) {
@@ -69,9 +74,9 @@ public abstract class MonotoneFramework {
     }
 
 	private void createTransferFunctions() {
-        HashMap<Integer, ILabelable> labelMapping = flowGraph.getLabelMapping();
+        Map<Integer, ILabelable> labelMap = flowGraph.getLabelMap();
         for (int i = FlowGraph.StartLabel; i < numberOfLabels + FlowGraph.StartLabel; i++) {
-            ILabelable block = labelMapping.get(i);
+            ILabelable block = labelMap.get(i);
             int inputIndex = i - FlowGraph.StartLabel;
             if (block instanceof VariableAssignment) {
                 createVariableAssignmentConstraint(inputIndex, (VariableAssignment) block);
@@ -207,7 +212,7 @@ public abstract class MonotoneFramework {
         addNonBooleanExitConstraint(inputIndex, exitConstraint);
     }
 
-	protected abstract AssignmentTransferFunction getAssignmentTransferFunction(
+	protected abstract TransferFunction getAssignmentTransferFunction(
 			int inputIndex, Variable variable, ArithmeticExpression right);
 
 	private void addNonBooleanExitConstraint(int inputIndex, IConstraint exitConstraint) {
@@ -243,7 +248,11 @@ public abstract class MonotoneFramework {
     }
 
 	public abstract ILatticeValue getBottom();
+
 	public final List<IConstraint> getConstraints() {
+		if (constraints == null) {
+			throw new Error("This Monotone Framework has not been initialized.");
+		}
 		return Collections.unmodifiableList(this.constraints);
 	}
 
@@ -273,7 +282,7 @@ public abstract class MonotoneFramework {
 		int digitsInNumberOfLabels = 1 + (int) Math.log10(numberOfLabels);
 		StringBuilder result = new StringBuilder();
 
-        Map<Integer, ILabelable> lableMap = flowGraph.getLabelMapping();
+        Map<Integer, ILabelable> lableMap = flowGraph.getLabelMap();
 		result.append("Labels:\n");
         for (int i = FlowGraph.StartLabel; i < numberOfLabels + FlowGraph.StartLabel; i++) {
             String block;

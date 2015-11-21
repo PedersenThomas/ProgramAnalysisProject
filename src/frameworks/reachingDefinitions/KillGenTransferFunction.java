@@ -12,23 +12,23 @@ import java.util.Set;
  * Created by PatrickKasting on 09/11/15.
  */
 public class KillGenTransferFunction extends TransferFunction {
+
     private final BitSet killSet;
     private final BitSet genSet;
-    
-    private String message = "";
     
     public KillGenTransferFunction(int inputIndex, BitSet killSet, BitSet genSet) {
         super(inputIndex);
         this.killSet = killSet;
         this.genSet = genSet;
     }
-    
-    public KillGenTransferFunction(int inputIndex, BitSet killSet, BitSet genSet, String message) {
+
+    public KillGenTransferFunction(int inputIndex, BitSet killSet, int gen) {
         super(inputIndex);
         this.killSet = killSet;
+
+        BitSet genSet = new BitSet();
+        genSet.set(gen);
         this.genSet = genSet;
-        
-        this.message = message;
     }
 
     @Override
@@ -50,7 +50,6 @@ public class KillGenTransferFunction extends TransferFunction {
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " WorksOnConstraint: " + 
-	           this.getInputIndex() + " GenSet:" + genSet + " KillSet:" + killSet + 
-	           " Message: " + message;
+	           this.getInputIndex() + " GenSet:" + genSet + " KillSet:" + killSet;
 	}
 }

@@ -13,13 +13,10 @@ public class WorklistAlgorithm {
 	private List<IConstraint> constraints;
 	private MonotoneFramework framework;
 
-	private long timer;
 	private boolean hasRun;
 
 	// Step 1
 	public WorklistAlgorithm(IWorklist worklist, MonotoneFramework framework) {
-
-		long constructorStartTime = System.currentTimeMillis();
 
 		this.framework = framework;
 
@@ -34,7 +31,6 @@ public class WorklistAlgorithm {
 		}
 
 		hasRun = false;
-		timer = System.currentTimeMillis() - constructorStartTime;
 
     }
 
@@ -56,7 +52,6 @@ public class WorklistAlgorithm {
 		}
 
 		hasRun = true;
-		timer += System.currentTimeMillis() - runStartTime;
 		return this.analysis;
 
 	}
@@ -72,7 +67,6 @@ public class WorklistAlgorithm {
 			result.append("\nPerformance:\n");
 			result.append("* Worklist insertions: " + worklist.getNumberOfInsertions() + "\n");
 			result.append("* Worklist extraction: " + worklist.getNumberOfExtracts() + "\n");
-			result.append(String.format(Locale.US, "* Running time: %.3f seconds\n", timer / 1000f));
 			return result.toString();
 		}
 	}

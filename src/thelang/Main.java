@@ -33,8 +33,8 @@ public class Main {
             Program theProgram = AstBuilder.build(tree);
             FlowGraph graph = new FlowGraph(theProgram);
             
-            //RunReachingDefinitions(graph);
-            runDetectionOfSigns(graph);
+            RunReachingDefinitions(graph);
+            //runDetectionOfSigns(graph);
 
             //testArithmeticExpressions(theProgram);
             //testBooleanExpressions(theProgram);
@@ -55,6 +55,7 @@ public class Main {
 
     private static void runDetectionOfSigns(FlowGraph flowGraph) {
         DetectionOfSigns DS = new DetectionOfSigns(flowGraph);
+        DS.initialize();
         IWorklist worklist = new SetWorklist();
         WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, DS);
         List<ILatticeValue> result = worklistAlgorithm.run();
@@ -87,32 +88,33 @@ public class Main {
         System.out.println(Util.evalDSBooleanExpression(expression, signState));
     }
 
-    /*
     public static void RunReachingDefinitions(FlowGraph flowgraph) {
     	ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
-		IWorklist workList = new RevPostOrderWorkList(flowgraph, RD);
-		workList = new SetWorklist();
+        RD.initialize();
+		IWorklist workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
 		ArrayList<ILatticeValue> result = workListAlgorithm.run();
-		
-		System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtracts());
+        System.out.println(result);
+
+        /*
+        System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtracts());
 		System.out.println("Final values:");
 	    for (int i = 0; i < result.size(); i++) {
 	    	StringBuilder buffer = new StringBuilder();
 	    	buffer.append("Variable " + i + ": {");
 	    	BitSet value = ((RDLatticeValue) result.get(i)).getBitSet();
 	    	for (int bitIndex = value.nextSetBit(0); bitIndex != -1; bitIndex = value.nextSetBit(bitIndex + 1)) {
-	    	    buffer.append("(" + RD.getAssignmentTable().get(bitIndex).toString() + "), ");
+	    	    buffer.append("(" + RD.constructAssignmentTable().get(bitIndex).toString() + "), ");
 	    	}
 	    	buffer.append("}");
 	    	//System.out.println(buffer);
 	    	
 	    }
 	    
-	    for (int label = -1; label <= flowgraph.getLabelMapping().size(); label++) {
+	    for (int label = -1; label <= flowgraph.getLabelMap().size(); label++) {
 			//List<Integer> constraints = RD.LabelMapToConstraints(label);
-			String tokenText = "" + flowgraph.getLabelMapping().get(label);
-			ILabelable astObj = flowgraph.getLabelMapping().get(label);
+			String tokenText = "" + flowgraph.getLabelMap().get(label);
+			ILabelable astObj = flowgraph.getLabelMap().get(label);
 			if (astObj != null && astObj instanceof WhileStatement) {
 				WhileStatement ast = (WhileStatement)astObj;
 				tokenText = "While " + ast.getCondition() + " do";
@@ -122,8 +124,8 @@ public class Main {
 			}
 			//System.out.println("Label: " + label + " Constraints: " + constraints + " Token: " + tokenText);
 		}
+		*/
 	}
-	*/
 
     public static void testAtom() {
         Set<Signs> signs1 = new HashSet<Signs>();
