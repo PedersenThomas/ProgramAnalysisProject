@@ -33,8 +33,8 @@ public class Main {
             Program theProgram = AstBuilder.build(tree);
             FlowGraph graph = new FlowGraph(theProgram);
             
-            RunReachingDefinitions(graph);
-            //runDetectionOfSigns(graph);
+            //RunReachingDefinitions(graph);
+            runDetectionOfSigns(graph);
 
             //testArithmeticExpressions(theProgram);
             //testBooleanExpressions(theProgram);
@@ -56,9 +56,9 @@ public class Main {
     private static void runDetectionOfSigns(FlowGraph flowGraph) {
         DetectionOfSigns DS = new DetectionOfSigns(flowGraph);
         DS.initialize();
-        IWorklist worklist = new SetWorklist();
+        IWorklist worklist = new RevPostOrderWorkList(DS.getInfluenceList());
         WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, DS);
-        List<ILatticeValue> result = worklistAlgorithm.run();
+        worklistAlgorithm.run();
         System.out.println(worklistAlgorithm);
     }
 
@@ -93,11 +93,11 @@ public class Main {
         RD.initialize();
 		IWorklist workList = new SetWorklist();
 		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
-		ArrayList<ILatticeValue> result = workListAlgorithm.run();
+		List<ILatticeValue> result = workListAlgorithm.run();
         System.out.println(workListAlgorithm);
 
         /*
-        System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtracts());
+        System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtractions());
 		System.out.println("Final values:");
 	    for (int i = 0; i < result.size(); i++) {
 	    	StringBuilder buffer = new StringBuilder();

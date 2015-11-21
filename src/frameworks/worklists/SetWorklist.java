@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SetWorklist implements IWorklist {
+
 	private Set<Integer> set = new HashSet<Integer>();
 
 	private int numberOfInserts = 0;
@@ -19,7 +20,9 @@ public class SetWorklist implements IWorklist {
 
 	@Override
 	public int extract() {
+
 		numberOfExtracts += 1;
+
 		// Finds an element in the set.
 		Integer item = null;
 		for (int t : set) {
@@ -31,14 +34,14 @@ public class SetWorklist implements IWorklist {
 		if (item != null) {
 			set.remove(item);
 		}
+
 		return item;
+
 	}
 
 	@Override
 	public String toString() {
-		return "SetWorkList{" +
-				"set=" + set +
-				'}';
+		return "set=" + set.toString() + ", size=" + set.size();
 	}
 
 	@Override
@@ -57,7 +60,7 @@ public class SetWorklist implements IWorklist {
 	}
 
 	@Override
-	public int getNumberOfExtracts() {
+	public int getNumberOfExtractions() {
 		return numberOfExtracts;
 	}
 }

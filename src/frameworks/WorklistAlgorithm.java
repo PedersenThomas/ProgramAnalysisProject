@@ -2,14 +2,13 @@ package frameworks;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 public class WorklistAlgorithm {
 
 	private IWorklist worklist;
-	private ArrayList<ILatticeValue> analysis;
-	private ArrayList<Set<Integer>> influenceList;
+	private List<ILatticeValue> analysis;
+	private List<Set<Integer>> influenceList;
 	private List<IConstraint> constraints;
 	private MonotoneFramework framework;
 
@@ -35,9 +34,7 @@ public class WorklistAlgorithm {
     }
 
 	// Step 2
-	public ArrayList<ILatticeValue> run() {
-
-		long runStartTime = System.currentTimeMillis();
+	public List<ILatticeValue> run() {
 
 		while (!worklist.isEmpty()) {
 			int index = worklist.extract();
@@ -67,7 +64,7 @@ public class WorklistAlgorithm {
 			result.append(framework.formatResult(this.analysis));
 			result.append("\nPerformance:\n");
 			result.append("* Worklist insertions: " + worklist.getNumberOfInsertions() + "\n");
-			result.append("* Worklist extraction: " + worklist.getNumberOfExtracts() + "\n");
+			result.append("* Worklist extractions: " + worklist.getNumberOfExtractions() + "\n");
 			return result.toString();
 		}
 	}

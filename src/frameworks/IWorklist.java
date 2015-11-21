@@ -7,5 +7,5 @@ public interface IWorklist {
 	String getName();
 	
 	int getNumberOfInsertions();
-	int getNumberOfExtracts();
+	int getNumberOfExtractions();
 }

@@ -255,7 +255,7 @@ public abstract class MonotoneFramework {
 
 	public abstract String formatResult(List<ILatticeValue> result);
 	
-	public final ArrayList<Set<Integer>> getInfluenceList() {
+	public final List<Set<Integer>> getInfluenceList() {
 
 		if (influenceList == null) {
 
