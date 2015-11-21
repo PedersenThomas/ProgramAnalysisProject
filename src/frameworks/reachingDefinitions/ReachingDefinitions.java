@@ -20,7 +20,7 @@ import ast.VariableDeclaration;
 /**
  * Created by PatrickKasting on 09/11/15.
  */
-public class ReachingDefinitions extends MonotoneFramework {
+public abstract class ReachingDefinitions extends MonotoneFramework {
 	private List<IConstraint> constraints;
 	private List<AssignmentTableEntry> assignmentTable;
 	private Map<Integer, Integer> ConstraintToLabelsMapping = new HashMap<Integer, Integer>();
@@ -30,6 +30,7 @@ public class ReachingDefinitions extends MonotoneFramework {
 	}
 
 	public ReachingDefinitions(FlowGraph flowGraph) {
+		super(flowGraph);
 		this.constraints = new ArrayList<IConstraint>(4);
 
 		// example1();
@@ -258,16 +259,6 @@ public class ReachingDefinitions extends MonotoneFramework {
 	@Override
 	public ILatticeValue getBottom() {
 		return new RDLatticeValue();
-	}
-
-	@Override
-	public List<IConstraint> getConstraints() {
-		return Collections.unmodifiableList(this.constraints);
-	}
-
-	@Override
-	public Integer ConstraintsMapToLabel(Integer label) {
-		return ConstraintToLabelsMapping.get(label);
 	}
 
 	@Override

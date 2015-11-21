@@ -87,6 +87,7 @@ public class Main {
         System.out.println(Util.evalDSBooleanExpression(expression, signState));
     }
 
+    /*
     public static void RunReachingDefinitions(FlowGraph flowgraph) {
     	ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
 		IWorklist workList = new RevPostOrderWorkList(flowgraph, RD);
@@ -122,6 +123,7 @@ public class Main {
 			//System.out.println("Label: " + label + " Constraints: " + constraints + " Token: " + tokenText);
 		}
 	}
+	*/
 
     public static void testAtom() {
         Set<Signs> signs1 = new HashSet<Signs>();
