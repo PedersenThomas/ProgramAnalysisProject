@@ -1,5 +1,7 @@
 package frameworks;
 
+import graph.OutType;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +19,11 @@ public abstract class TransferFunction implements IConstraint {
 
     public int getInputIndex() {
         return inputIndex;
+    }
+
+    @Override
+    public OutType getOutType() {
+        return OutType.None;
     }
 
     @Override

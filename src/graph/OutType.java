@@ -1,6 +1,6 @@
 package graph;
 
-public enum EdgeType {
+public enum OutType {
 	None,
 	True,
 	False

@@ -3,6 +3,7 @@ package frameworks.reachingDefinitions;
 import ast.*;
 import frameworks.*;
 import graph.FlowGraph;
+import graph.OutType;
 import graph.Variable;
 import graph.VariableType;
 
@@ -143,12 +144,12 @@ public class ReachingDefinitions extends MonotoneFramework {
 	@Override
 	protected TransferFunction getFalseTransferFunction(
 			int inputIndex, BooleanExpression condition) {
-		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet());
+		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet(), OutType.False);
 	}
 
 	@Override
 	protected TransferFunction getTrueTransferFunction(int inputIndex, BooleanExpression condition) {
-		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet());
+		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet(), OutType.True);
 	}
 
 	@Override

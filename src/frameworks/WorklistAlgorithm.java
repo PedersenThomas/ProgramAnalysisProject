@@ -16,6 +16,7 @@ public class WorklistAlgorithm {
 
 	// Step 1
 	public WorklistAlgorithm(IWorklist worklist, MonotoneFramework framework) {
+		assert (worklist.isEmpty() && framework != null);
 
 		this.framework = framework;
 
@@ -37,6 +38,7 @@ public class WorklistAlgorithm {
 	public List<ILatticeValue> run() {
 
 		while (!worklist.isEmpty()) {
+			System.out.println(worklist);
 			int index = worklist.extract();
             IConstraint constraint = constraints.get(index);
 			ILatticeValue newValue = constraint.eval(analysis);
@@ -45,6 +47,8 @@ public class WorklistAlgorithm {
 				for (int indexPrime : influenceList.get(index)) {
 					worklist.insert(indexPrime);
 				}
+			} else {
+				System.out.println("No update.");
 			}
 		}
 

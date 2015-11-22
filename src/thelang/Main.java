@@ -5,7 +5,6 @@ import java.util.*;
 import ast.*;
 import frameworks.IWorklist;
 import frameworks.detectionOfSigns.*;
-import frameworks.reachingDefinitions.RDLatticeValue;
 import frameworks.reachingDefinitions.ReachingDefinitions;
 
 import graph.Variable;
@@ -14,7 +13,6 @@ import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.*;
 
-import frameworks.ILatticeValue;
 import frameworks.worklists.*;
 import frameworks.WorklistAlgorithm;
 import graph.FlowGraph;
@@ -33,8 +31,8 @@ public class Main {
             Program theProgram = AstBuilder.build(tree);
             FlowGraph graph = new FlowGraph(theProgram);
             
-            //RunReachingDefinitions(graph);
-            runDetectionOfSigns(graph);
+            RunReachingDefinitions(graph);
+            //runDetectionOfSigns(graph);
 
             //testArithmeticExpressions(theProgram);
             //testBooleanExpressions(theProgram);
@@ -56,10 +54,24 @@ public class Main {
     private static void runDetectionOfSigns(FlowGraph flowGraph) {
         DetectionOfSigns DS = new DetectionOfSigns(flowGraph);
         DS.initialize();
-        IWorklist worklist = new RevPostOrderWorkList(DS.getInfluenceList());
+        IWorklist worklist = new FIFOWorklist();
         WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, DS);
         worklistAlgorithm.run();
         System.out.println(worklistAlgorithm);
+        /*
+        int[] order = worklist.getOrder();
+        System.out.println(ArrayUtils.toString(order));
+        List<IConstraint> constraints = DS.getConstraints();
+        for (int i = 0; i < order.length; i++) {
+            int j;
+            for (j = 0; j < order.length; j++) {
+                if (i == order[j]) {
+                    break;
+                }
+            }
+            System.out.println("" + j + " " + constraints.get(j));
+        }
+        */
     }
 
     public static void testArithmeticExpressions(Program theProgram) {
@@ -88,13 +100,13 @@ public class Main {
         System.out.println(Util.evalDSBooleanExpression(expression, signState));
     }
 
-    public static void RunReachingDefinitions(FlowGraph flowgraph) {
-    	ReachingDefinitions RD = new ReachingDefinitions(flowgraph);
+    public static void RunReachingDefinitions(FlowGraph flowGraph) {
+        ReachingDefinitions RD = new ReachingDefinitions(flowGraph);
         RD.initialize();
-		IWorklist workList = new SetWorklist();
-		WorklistAlgorithm workListAlgorithm = new WorklistAlgorithm(workList, RD);
-		List<ILatticeValue> result = workListAlgorithm.run();
-        System.out.println(workListAlgorithm);
+        IWorklist worklist = new SCCWorklist(RD.getInfluenceList());
+        WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, RD);
+        worklistAlgorithm.run();
+        System.out.println(worklistAlgorithm);
 
         /*
         System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtractions());

@@ -3,15 +3,15 @@ package graph;
 public class FlowGraphEdge {
 	private int label1;
 	private int label2;
-	private EdgeType type;
+	private OutType type;
 
-	public FlowGraphEdge(int label1, int label2, EdgeType type) {
+	public FlowGraphEdge(int label1, int label2, OutType type) {
 		this.label1 = label1;
 		this.label2 = label2;
 		this.type = type;
 	}
 	
-	public EdgeType getType() {
+	public OutType getType() {
 		return type;
 	}
 
