@@ -3,11 +3,14 @@ package frameworks.worklists;
 import java.util.*;
 import java.util.List;
 
+import frameworks.IConstraint;
 import frameworks.IWorklist;
+import graph.OutType;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class SCCWorklist implements IWorklist {
 
+	private List<IConstraint> constraints;
 	private List<Set<Integer>> influenceList;
 	private List<Set<Integer>> reverseInfluenceList;
 
@@ -27,8 +30,9 @@ public class SCCWorklist implements IWorklist {
 	private int numberOfInsertions = 0;
 	private int numberOfExtractions = 0;
 
-	public SCCWorklist(List<Set<Integer>> influenceList) {
+	public SCCWorklist(List<IConstraint> constraints, List<Set<Integer>> influenceList) {
 
+		this.constraints = constraints;
 		this.influenceList = influenceList;
 
 		comparator = new Comparator<Integer>() {
@@ -66,10 +70,12 @@ public class SCCWorklist implements IWorklist {
 		// Compute the reverse graph
 		computeReverseInfluenceList();
 
+		/*
 		System.out.println("Original influence list:");
 		System.out.println(influenceList);
 		System.out.println("Reversed:");
 		System.out.println(reverseInfluenceList);
+		*/
 
 		// Add all constraints to a list of constraints to be visited
 		List<Integer> constraintsToBeVisited = new ArrayList<>();
@@ -80,8 +86,10 @@ public class SCCWorklist implements IWorklist {
 		// Sort this list in ascending order
 		Collections.sort(constraintsToBeVisited, comparator);
 
+		/*
 		System.out.println("Order of finishing times:");
 		System.out.println(constraintsToBeVisited);
+		*/
 
 		// Find the strongly connected components
 		marks = new boolean[numberOfConstraints];  // Set all marks to false
@@ -99,10 +107,12 @@ public class SCCWorklist implements IWorklist {
 			}
 		}
 
+		/*
 		System.out.println("whichStronglyConnectedComponent:");
 		System.out.println(ArrayUtils.toString(whichStronglyConnectedComponent));
 		System.out.println("Strongly connected components");
 		System.out.println(stronglyConnectedComponents);
+		*/
 	}
 
 	private void depthFirstSearchComponent(
@@ -134,9 +144,30 @@ public class SCCWorklist implements IWorklist {
 
 	}
 
+	private void sortConstraintsBasedOnOutTypes(List<Integer> constraintIndices) {
+		Comparator<Integer> outTypeComparator = new Comparator<Integer>() {
+			@Override
+			public int compare(Integer i1, Integer i2) {
+				OutType o1 = constraints.get(i1).getOutType();
+				OutType o2 = constraints.get(i2).getOutType();
+				if (o1.equals(o2)) {
+					return 0;
+				} else if (o1.equals(OutType.False) || o2.equals(OutType.True)) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		};
+		Collections.sort(constraintIndices, outTypeComparator);
+	}
+
 	private void depthFirstSearchOrder(int constraint) {
 		marks[constraint] = true;
-		for (int incidentTo : influenceList.get(constraint)) {
+		List<Integer> incidentTos = new ArrayList<>(influenceList.get(constraint));
+		sortConstraintsBasedOnOutTypes(incidentTos);
+		for (int i = 0; i < incidentTos.size(); i++) {
+			int incidentTo = incidentTos.get(i);
 			if (!marks[incidentTo]) {
 				depthFirstSearchOrder(incidentTo);
 			}
@@ -152,20 +183,6 @@ public class SCCWorklist implements IWorklist {
 			pending.add(index);
 		}
 	}
-
-	/*
-	@Override
-	public int extract() {
-		numberOfExtractions += 1;
-		if(current.isEmpty()) {
-			current = new ArrayList<>(pending);
-			Collections.sort(current, comparator);
-			pending.clear();
-		}
-		return current.remove(0);
-	}
-	*/
-
 
 	@Override
 	public int extract() {

@@ -103,7 +103,7 @@ public class Main {
     public static void RunReachingDefinitions(FlowGraph flowGraph) {
         ReachingDefinitions RD = new ReachingDefinitions(flowGraph);
         RD.initialize();
-        IWorklist worklist = new SCCWorklist(RD.getInfluenceList());
+        IWorklist worklist = new SCCWorklist(RD.getConstraints(), RD.getInfluenceList());
         WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, RD);
         worklistAlgorithm.run();
         System.out.println(worklistAlgorithm);
