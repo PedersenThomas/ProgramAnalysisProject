@@ -1,12 +1,9 @@
 package frameworks.detectionOfSigns;
 
-import frameworks.reachingDefinitions.RDLatticeValue;
-import graph.Variable;
-
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+
+import graph.Variable;
 
 /**
  * Created by PatrickKasting on 20/11/15.

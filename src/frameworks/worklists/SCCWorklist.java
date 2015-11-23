@@ -6,7 +6,6 @@ import java.util.List;
 import frameworks.IConstraint;
 import frameworks.IWorklist;
 import graph.OutType;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class SCCWorklist implements IWorklist {
 

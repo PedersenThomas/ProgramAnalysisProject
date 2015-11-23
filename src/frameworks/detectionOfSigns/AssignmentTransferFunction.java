@@ -1,15 +1,10 @@
 package frameworks.detectionOfSigns;
 
-import ast.ArithmeticExpression;
-import ast.VariableAssignment;
-import frameworks.ILatticeValue;
-import frameworks.TransferFunction;
-import frameworks.reachingDefinitions.RDLatticeValue;
-import graph.Variable;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import ast.ArithmeticExpression;
+import graph.Variable;
 
 /**
  * Created by PatrickKasting on 13/11/15.

@@ -1,10 +1,9 @@
 package frameworks.detectionOfSigns;
 
+import java.util.List;
+
 import frameworks.ILatticeValue;
 import frameworks.TransferFunction;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by PatrickKasting on 16/11/15.

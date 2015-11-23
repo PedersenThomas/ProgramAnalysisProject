@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import frameworks.ILatticeValue;
-
 public class PowerSetOfSigns {
 
 	private final Set<Signs> signs;

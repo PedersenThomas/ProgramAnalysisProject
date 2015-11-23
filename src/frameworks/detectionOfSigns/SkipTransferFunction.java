@@ -1,11 +1,8 @@
 package frameworks.detectionOfSigns;
 
-import frameworks.ILatticeValue;
-import frameworks.TransferFunction;
-import graph.Variable;
-
 import java.util.HashMap;
-import java.util.List;
+
+import graph.Variable;
 
 /**
  * Created by PatrickKasting on 13/11/15.
