@@ -4,9 +4,6 @@ import frameworks.IWorklist;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * Created by PatrickKasting on 21/11/15.
- */
 public class FIFOWorklist implements IWorklist {
 
     Queue<Integer> queue;

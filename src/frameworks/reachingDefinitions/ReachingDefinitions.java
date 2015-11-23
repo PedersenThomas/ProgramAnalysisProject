@@ -10,9 +10,6 @@ import graph.VariableType;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by PatrickKasting on 09/11/15.
- */
 public class ReachingDefinitions extends MonotoneFramework {
 
 	private List<AssignmentTableEntry> assignmentTable;

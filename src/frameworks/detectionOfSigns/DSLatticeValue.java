@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 13/11/15.
- */
 public class DSLatticeValue implements ILatticeValue {
 
     private Map<Variable, SetOfSigns> signState;

@@ -15,9 +15,6 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by PatrickKasting on 13/11/15.
- */
 public class DSLatticeValueTests {
 
     @Test

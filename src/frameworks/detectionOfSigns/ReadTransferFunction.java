@@ -5,9 +5,6 @@ import java.util.Map;
 
 import graph.Variable;
 
-/**
- * Created by PatrickKasting on 20/11/15.
- */
 public class ReadTransferFunction extends DSTransferFunction {
 
     private Variable variable;

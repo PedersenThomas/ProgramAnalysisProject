@@ -5,9 +5,6 @@ import graph.Variable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by PatrickKasting on 20/11/15.
- */
 public class DeclarationTransferFunction extends DSTransferFunction {
 
     Variable variable;

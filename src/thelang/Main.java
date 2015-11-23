@@ -24,7 +24,7 @@ public class Main {
         TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(args[0]));
 		CommonTokenStream tokens = new CommonTokenStream(lex);
 		TheLangParser parser = new TheLangParser(tokens);
-
+		
         TheLangParser.program_return parserResult = parser.program();
         if (parserResult != null) {
             CommonTree tree = parserResult.tree;

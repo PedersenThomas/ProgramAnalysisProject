@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 20/11/15.
- */
 public class ArrayAssignmentTransferFunction extends DSTransferFunction {
 
     Variable array;

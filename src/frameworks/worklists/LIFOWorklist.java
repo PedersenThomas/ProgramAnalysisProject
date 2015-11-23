@@ -4,9 +4,6 @@ import frameworks.IWorklist;
 
 import java.util.Stack;
 
-/**
- * Created by PatrickKasting on 21/11/15.
- */
 public class LIFOWorklist implements IWorklist {
 
     Stack<Integer> stack;

@@ -4,9 +4,6 @@ import java.util.HashMap;
 
 import graph.Variable;
 
-/**
- * Created by PatrickKasting on 13/11/15.
- */
 public class SkipTransferFunction extends DSTransferFunction {
 
     public SkipTransferFunction(int inputIndex) {

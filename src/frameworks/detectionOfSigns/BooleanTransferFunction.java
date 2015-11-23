@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 16/11/15.
- */
 public abstract class BooleanTransferFunction extends DSTransferFunction {
 
     private boolean branch;

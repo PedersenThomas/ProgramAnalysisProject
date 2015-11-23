@@ -6,9 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 13/11/15.
- */
 public abstract class TransferFunction implements IConstraint {
 
     private final int inputIndex;

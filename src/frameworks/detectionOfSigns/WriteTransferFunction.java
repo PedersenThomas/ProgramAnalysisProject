@@ -2,9 +2,6 @@ package frameworks.detectionOfSigns;
 
 import ast.ArithmeticExpression;
 
-/**
- * Created by PatrickKasting on 20/11/15.
- */
 public class WriteTransferFunction extends DSTransferFunction {
 
     private ArithmeticExpression expression;

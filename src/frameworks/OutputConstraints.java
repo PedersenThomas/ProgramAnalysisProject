@@ -1,8 +1,5 @@
 package frameworks;
 
-/**
- * Created by PatrickKasting on 21/11/15.
- */
 public class OutputConstraints {
 
     private int outputConstraintIndex;

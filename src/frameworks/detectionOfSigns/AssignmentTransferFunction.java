@@ -6,9 +6,6 @@ import java.util.Map;
 import ast.ArithmeticExpression;
 import graph.Variable;
 
-/**
- * Created by PatrickKasting on 13/11/15.
- */
 public class AssignmentTransferFunction extends DSTransferFunction {
 
     private Variable left;

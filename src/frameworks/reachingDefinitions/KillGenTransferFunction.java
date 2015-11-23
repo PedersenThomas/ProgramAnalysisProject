@@ -9,9 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 09/11/15.
- */
 public class KillGenTransferFunction extends TransferFunction {
 
     private final BitSet killSet;

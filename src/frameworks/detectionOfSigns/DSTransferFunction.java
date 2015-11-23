@@ -5,9 +5,6 @@ import java.util.List;
 import frameworks.ILatticeValue;
 import frameworks.TransferFunction;
 
-/**
- * Created by PatrickKasting on 16/11/15.
- */
 public abstract class DSTransferFunction extends TransferFunction {
 
     public DSTransferFunction(int inputIndex) {
