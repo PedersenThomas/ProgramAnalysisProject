@@ -8,23 +8,23 @@ import java.util.*;
 
 public class Util {
 
-	public static final PowerSetOfSigns EMPTY_SET = new PowerSetOfSigns();
-	public static final PowerSetOfSigns NEGATIVE_ONLY = new PowerSetOfSigns(Signs.negative);
-	public static final PowerSetOfSigns ZERO_ONLY = new PowerSetOfSigns(Signs.zero);
-	public static final PowerSetOfSigns POSITIVE_ONLY = new PowerSetOfSigns(Signs.positive);
-	public static final PowerSetOfSigns ALL;
-	private static final PowerSetOfSigns[][] ADDITION_TABLE;
-	private static final PowerSetOfSigns[][] SUBTRACTION_TABLE;
-	private static final PowerSetOfSigns[][] MULTIPLICATION_TABLE;
-	private static final PowerSetOfSigns[][] DIVISION_TABLE;
+	public static final SetOfSigns EMPTY_SET = new SetOfSigns();
+	public static final SetOfSigns NEGATIVE_ONLY = new SetOfSigns(Signs.negative);
+	public static final SetOfSigns ZERO_ONLY = new SetOfSigns(Signs.zero);
+	public static final SetOfSigns POSITIVE_ONLY = new SetOfSigns(Signs.positive);
+	public static final SetOfSigns ALL;
+	private static final SetOfSigns[][] ADDITION_TABLE;
+	private static final SetOfSigns[][] SUBTRACTION_TABLE;
+	private static final SetOfSigns[][] MULTIPLICATION_TABLE;
+	private static final SetOfSigns[][] DIVISION_TABLE;
 
-    private static final PowerSetOfBooleans TRUE_ONLY;
-    private static final PowerSetOfBooleans FALSE_ONLY;
-    private static final PowerSetOfBooleans ALL_BOOLEAN;
-    private static final PowerSetOfBooleans[][] LESS_THAN_TABLE;
-    private static final PowerSetOfBooleans[][] LESS_THAN_EQUAL_TABLE;
-    private static final PowerSetOfBooleans[][] EQUAL_TABLE;
-    private static final PowerSetOfBooleans[][] NOT_EQUAL_TABLE;
+    private static final SetOfBooleans TRUE_ONLY;
+    private static final SetOfBooleans FALSE_ONLY;
+    private static final SetOfBooleans ALL_BOOLEAN;
+    private static final SetOfBooleans[][] LESS_THAN_TABLE;
+    private static final SetOfBooleans[][] LESS_THAN_EQUAL_TABLE;
+    private static final SetOfBooleans[][] EQUAL_TABLE;
+    private static final SetOfBooleans[][] NOT_EQUAL_TABLE;
 
 
 	static {
@@ -33,60 +33,60 @@ public class Util {
 		all.add(Signs.negative);
 		all.add(Signs.zero);
 		all.add(Signs.positive);
-		ALL = new PowerSetOfSigns(all);
+		ALL = new SetOfSigns(all);
 
-		PowerSetOfSigns[][] additionTable = { { NEGATIVE_ONLY, NEGATIVE_ONLY, ALL },
+		SetOfSigns[][] additionTable = { { NEGATIVE_ONLY, NEGATIVE_ONLY, ALL },
 				{ NEGATIVE_ONLY, ZERO_ONLY, POSITIVE_ONLY }, { ALL, POSITIVE_ONLY, POSITIVE_ONLY } };
 		ADDITION_TABLE = additionTable;
 
-		PowerSetOfSigns[][] subtractionTable = { { ALL, NEGATIVE_ONLY, NEGATIVE_ONLY },
+		SetOfSigns[][] subtractionTable = { { ALL, NEGATIVE_ONLY, NEGATIVE_ONLY },
 				{ POSITIVE_ONLY, ZERO_ONLY, NEGATIVE_ONLY }, { POSITIVE_ONLY, POSITIVE_ONLY, ALL } };
 		SUBTRACTION_TABLE = subtractionTable;
 
-		PowerSetOfSigns[][] multiplicationTable = { { POSITIVE_ONLY, ZERO_ONLY, NEGATIVE_ONLY },
+		SetOfSigns[][] multiplicationTable = { { POSITIVE_ONLY, ZERO_ONLY, NEGATIVE_ONLY },
 				{ ZERO_ONLY, ZERO_ONLY, ZERO_ONLY }, { NEGATIVE_ONLY, ZERO_ONLY, POSITIVE_ONLY } };
 		MULTIPLICATION_TABLE = multiplicationTable;
 
-		PowerSetOfSigns[][] divisionTable = { { POSITIVE_ONLY, EMPTY_SET, NEGATIVE_ONLY },
+		SetOfSigns[][] divisionTable = { { POSITIVE_ONLY, EMPTY_SET, NEGATIVE_ONLY },
 				{ ZERO_ONLY, EMPTY_SET, ZERO_ONLY }, { NEGATIVE_ONLY, EMPTY_SET, POSITIVE_ONLY } };
 		DIVISION_TABLE = divisionTable;
 
 
         Set<Boolean> trueOnly = new HashSet<Boolean>();
         trueOnly.add(true);
-        TRUE_ONLY = new PowerSetOfBooleans(trueOnly);
+        TRUE_ONLY = new SetOfBooleans(trueOnly);
 
         Set<Boolean> falseOnly = new HashSet<Boolean>();
         falseOnly.add(false);
-        FALSE_ONLY = new PowerSetOfBooleans(falseOnly);
+        FALSE_ONLY = new SetOfBooleans(falseOnly);
 
         Set<Boolean> allBoolean = new HashSet<Boolean>();
         allBoolean.add(false);
         allBoolean.add(true);
-        ALL_BOOLEAN = new PowerSetOfBooleans(allBoolean);
+        ALL_BOOLEAN = new SetOfBooleans(allBoolean);
 
-        PowerSetOfBooleans[][] lessThanTable = {
+        SetOfBooleans[][] lessThanTable = {
                 {ALL_BOOLEAN, TRUE_ONLY, TRUE_ONLY},
                 {FALSE_ONLY, FALSE_ONLY, TRUE_ONLY},
                 {FALSE_ONLY, FALSE_ONLY, ALL_BOOLEAN}
         };
         LESS_THAN_TABLE = lessThanTable;
 
-        PowerSetOfBooleans[][] lessThanEqualTable = {
+        SetOfBooleans[][] lessThanEqualTable = {
                 {ALL_BOOLEAN, TRUE_ONLY, TRUE_ONLY},
                 {FALSE_ONLY, TRUE_ONLY, TRUE_ONLY},
                 {FALSE_ONLY, FALSE_ONLY, ALL_BOOLEAN}
         };
         LESS_THAN_EQUAL_TABLE = lessThanEqualTable;
 
-        PowerSetOfBooleans[][] equalTable = {
+        SetOfBooleans[][] equalTable = {
                 {ALL_BOOLEAN, FALSE_ONLY, FALSE_ONLY},
                 {FALSE_ONLY, TRUE_ONLY, FALSE_ONLY},
                 {FALSE_ONLY, FALSE_ONLY, ALL_BOOLEAN},
         };
         EQUAL_TABLE = equalTable;
 
-        PowerSetOfBooleans[][] notEqualTable = {
+        SetOfBooleans[][] notEqualTable = {
                 {ALL_BOOLEAN, TRUE_ONLY, TRUE_ONLY},
                 {TRUE_ONLY, FALSE_ONLY, TRUE_ONLY},
                 {TRUE_ONLY, TRUE_ONLY, ALL_BOOLEAN},
@@ -95,8 +95,8 @@ public class Util {
 
 	}
 
-	public static PowerSetOfSigns evalDSArithmeticExpression(ArithmeticExpression expression,
-			Map<Variable, PowerSetOfSigns> signState) {
+	public static SetOfSigns evalDSArithmeticExpression(ArithmeticExpression expression,
+			Map<Variable, SetOfSigns> signState) {
 
 		if (expression instanceof Identifier) {
 			Identifier id = (Identifier) expression;
@@ -105,31 +105,31 @@ public class Util {
 			Constant con = (Constant) expression;
 			int value = con.getNumber();
 			if (value < 0) {
-				return new PowerSetOfSigns(Signs.negative);
+				return new SetOfSigns(Signs.negative);
 			} else if (value == 0) {
-				return new PowerSetOfSigns(Signs.zero);
+				return new SetOfSigns(Signs.zero);
 			} else { // Positive
-				return new PowerSetOfSigns(Signs.positive);
+				return new SetOfSigns(Signs.positive);
 			}
 		} else if (expression instanceof ArithmeticArray) {
 			ArithmeticArray aArray = (ArithmeticArray) expression;
 			String id = aArray.getArray();
 			ArithmeticExpression index = aArray.getIndex();
-			PowerSetOfSigns signsOfIndex = evalDSArithmeticExpression(index, signState);
+			SetOfSigns signsOfIndex = evalDSArithmeticExpression(index, signState);
 			if (signsOfIndex.equals(EMPTY_SET) || signsOfIndex.equals(NEGATIVE_ONLY)) {
-				return new PowerSetOfSigns(); // Empty set
+				return new SetOfSigns(); // Empty set
 			} else { // Legal index
 				return signState.get(new Variable(id, VariableType.Array));
 			}
 		} else if (expression instanceof ArithmeticOperation) {
 			ArithmeticOperation arithOp = (ArithmeticOperation) expression;
-            PowerSetOfSigns leftResult = evalDSArithmeticExpression(arithOp.getLeft(), signState);
-			PowerSetOfSigns rightResult = evalDSArithmeticExpression(arithOp.getRight(), signState);
+            SetOfSigns leftResult = evalDSArithmeticExpression(arithOp.getLeft(), signState);
+			SetOfSigns rightResult = evalDSArithmeticExpression(arithOp.getRight(), signState);
             return combine(arithOp.getOperator(), leftResult, rightResult);
 		} else if (expression instanceof UnaryMinus) {
 			UnaryMinus unary = (UnaryMinus) expression;
 			ArithmeticExpression right = unary.getExpression();
-			PowerSetOfSigns rightResult = evalDSArithmeticExpression(right, signState);
+			SetOfSigns rightResult = evalDSArithmeticExpression(right, signState);
 			return combine(ArithmeticOperator.Minus, ZERO_ONLY, rightResult);
 		} else {
 			throw new IllegalArgumentException("Unknown type of arithmetic expression.");
@@ -137,7 +137,7 @@ public class Util {
 
 	}
 
-	private static PowerSetOfSigns combine(ArithmeticOperator operator, PowerSetOfSigns left, PowerSetOfSigns right) {
+	private static SetOfSigns combine(ArithmeticOperator operator, SetOfSigns left, SetOfSigns right) {
 
 		Set<Signs> result = new HashSet<Signs>();
 
@@ -162,7 +162,7 @@ public class Util {
 			}
 		}
 
-		return new PowerSetOfSigns(result);
+		return new SetOfSigns(result);
 
 	}
 
@@ -179,42 +179,42 @@ public class Util {
 		}
 	}
 
-    public static Set<Map<Variable, PowerSetOfSigns>>
-            atom(Map<Variable, PowerSetOfSigns> signState) {
-        HashMap<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(signState);
+    public static Set<Map<Variable, SetOfSigns>>
+            atom(Map<Variable, SetOfSigns> signState) {
+        HashMap<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(signState);
         return atomRecursive(clone);
     }
 
-    private static Set<Map<Variable, PowerSetOfSigns>>
-            atomRecursive(Map<Variable, PowerSetOfSigns> signState) {
+    private static Set<Map<Variable, SetOfSigns>>
+            atomRecursive(Map<Variable, SetOfSigns> signState) {
         if (signState.isEmpty()) {
-            Map<Variable, PowerSetOfSigns> empty = new HashMap<Variable, PowerSetOfSigns>();
-            Set<Map<Variable, PowerSetOfSigns>> singleton = new HashSet<Map<Variable, PowerSetOfSigns>>();
+            Map<Variable, SetOfSigns> empty = new HashMap<Variable, SetOfSigns>();
+            Set<Map<Variable, SetOfSigns>> singleton = new HashSet<Map<Variable, SetOfSigns>>();
             singleton.add(empty);
             return singleton;
         }
 
-        Set<Map<Variable, PowerSetOfSigns>> result = new HashSet<Map<Variable, PowerSetOfSigns>>();
+        Set<Map<Variable, SetOfSigns>> result = new HashSet<Map<Variable, SetOfSigns>>();
 
-        Map.Entry<Variable, PowerSetOfSigns> firstEntry = null;
-        for (Map.Entry<Variable, PowerSetOfSigns> entry : signState.entrySet()) {
+        Map.Entry<Variable, SetOfSigns> firstEntry = null;
+        for (Map.Entry<Variable, SetOfSigns> entry : signState.entrySet()) {
             firstEntry = entry;
             break;
         }
 
-        PowerSetOfSigns firstSetOfSigns = signState.remove(firstEntry.getKey());
-        Set<Map<Variable, PowerSetOfSigns>> atomsOfTail =
+        SetOfSigns firstSetOfSigns = signState.remove(firstEntry.getKey());
+        Set<Map<Variable, SetOfSigns>> atomsOfTail =
                 atomRecursive(signState);
 
-        for (Map<Variable, PowerSetOfSigns> atom : atomsOfTail) {
+        for (Map<Variable, SetOfSigns> atom : atomsOfTail) {
             if (firstEntry.getKey().getType().equals(VariableType.Array)) {
-                Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(atom);
+                Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(atom);
                 clone.put(firstEntry.getKey(), firstEntry.getValue());
                 result.add(clone);
             } else {
                 for (Signs sign : firstSetOfSigns.getSigns()) {
-                    Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(atom);
-                    clone.put(firstEntry.getKey(), new PowerSetOfSigns(sign));
+                    Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(atom);
+                    clone.put(firstEntry.getKey(), new SetOfSigns(sign));
                     result.add(clone);
                 }
             }
@@ -223,8 +223,8 @@ public class Util {
         return result;
     }
 
-	public static PowerSetOfBooleans evalDSBooleanExpression(
-            BooleanExpression expression, Map<Variable, PowerSetOfSigns> signState) {
+	public static SetOfBooleans evalDSBooleanExpression(
+            BooleanExpression expression, Map<Variable, SetOfSigns> signState) {
 
         if (expression instanceof BooleanConstant) {
             BooleanConstant constant = (BooleanConstant) expression;
@@ -237,38 +237,38 @@ public class Util {
             RelationalOperation relationalOperation = (RelationalOperation) expression;
             ArithmeticExpression left = relationalOperation.getLeft();
             ArithmeticExpression right = relationalOperation.getRight();
-            PowerSetOfSigns signsOfLeft = evalDSArithmeticExpression(left, signState);
-            PowerSetOfSigns signsOfRight = evalDSArithmeticExpression(right, signState);
+            SetOfSigns signsOfLeft = evalDSArithmeticExpression(left, signState);
+            SetOfSigns signsOfRight = evalDSArithmeticExpression(right, signState);
             return combineRelational(relationalOperation.getOperator(), signsOfLeft, signsOfRight);
         } else if (expression instanceof BooleanOperation) {
             BooleanOperation booleanOperation = (BooleanOperation) expression;
             BooleanExpression left = booleanOperation.getLeft();
             BooleanExpression right = booleanOperation.getRight();
-            PowerSetOfBooleans boolsOfLeft = evalDSBooleanExpression(left, signState);
-            PowerSetOfBooleans boolsOfRight = evalDSBooleanExpression(right, signState);
+            SetOfBooleans boolsOfLeft = evalDSBooleanExpression(left, signState);
+            SetOfBooleans boolsOfRight = evalDSBooleanExpression(right, signState);
             return combineBoolean(booleanOperation.getOperator(), boolsOfLeft, boolsOfRight);
         } else if (expression instanceof BooleanNotExpression) {
             BooleanNotExpression notExpression = (BooleanNotExpression) expression;
             BooleanExpression innerExpression = notExpression.getExpression();
-            PowerSetOfBooleans boolsOfInner = evalDSBooleanExpression(innerExpression, signState);
+            SetOfBooleans boolsOfInner = evalDSBooleanExpression(innerExpression, signState);
             return negate(boolsOfInner);
         }
 
         return null;
     }
 
-    private static PowerSetOfBooleans negate(PowerSetOfBooleans bools) {
+    private static SetOfBooleans negate(SetOfBooleans bools) {
         Set<Boolean> result = new HashSet<Boolean>();
 
         for (Boolean bool : bools.getBooleans()) {
             result.add(!bool);
         }
 
-        return new PowerSetOfBooleans(result);
+        return new SetOfBooleans(result);
     }
 
-    private static PowerSetOfBooleans combineBoolean(
-            BooleanOperator operator, PowerSetOfBooleans boolsOfLeft, PowerSetOfBooleans boolsOfRight) {
+    private static SetOfBooleans combineBoolean(
+            BooleanOperator operator, SetOfBooleans boolsOfLeft, SetOfBooleans boolsOfRight) {
 
         Set<Boolean> result = new HashSet<Boolean>();
 
@@ -287,11 +287,11 @@ public class Util {
             }
         }
 
-        return new PowerSetOfBooleans(result);
+        return new SetOfBooleans(result);
     }
 
-    private static PowerSetOfBooleans combineRelational(
-            RelationalOperator operator, PowerSetOfSigns signsOfLeft, PowerSetOfSigns signsOfRight) {
+    private static SetOfBooleans combineRelational(
+            RelationalOperator operator, SetOfSigns signsOfLeft, SetOfSigns signsOfRight) {
 
         Set<Boolean> result = new HashSet<Boolean>();
 
@@ -322,7 +322,7 @@ public class Util {
             }
         }
 
-        return new PowerSetOfBooleans(result);
+        return new SetOfBooleans(result);
 
     }
 

@@ -4,19 +4,19 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PowerSetOfSigns {
+public class SetOfSigns {
 
 	private final Set<Signs> signs;
 
-	public PowerSetOfSigns() {
+	public SetOfSigns() {
 		this.signs = new HashSet<Signs>();
 	}
 
-	public PowerSetOfSigns(Set<Signs> signs) {
+	public SetOfSigns(Set<Signs> signs) {
 		this.signs = signs;
 	}
 
-	public PowerSetOfSigns(Signs sign) {
+	public SetOfSigns(Signs sign) {
 		Set<Signs> value = new HashSet<Signs>();
 		value.add(sign);
 		this.signs = value;
@@ -30,7 +30,7 @@ public class PowerSetOfSigns {
         return signs.isEmpty();
     }
 
-    public boolean isSubset(PowerSetOfSigns other) {
+    public boolean isSubset(SetOfSigns other) {
 		// Checks if all elements of "this" is in others.
 		for (Signs sign : this.signs) {
 			if (!other.signs.contains(sign)) {
@@ -42,16 +42,16 @@ public class PowerSetOfSigns {
 	}
 
 	public boolean equals(Object other) {
-        if (!(other instanceof PowerSetOfSigns)) {
+        if (!(other instanceof SetOfSigns)) {
             return false;
         }
-        PowerSetOfSigns otherPowerSetOfSigns =
-                (PowerSetOfSigns) other;
+        SetOfSigns otherPowerSetOfSigns =
+                (SetOfSigns) other;
 		return this.signs.equals(otherPowerSetOfSigns.signs);
 	}
 
-	public PowerSetOfSigns union(PowerSetOfSigns other) {
-		return new PowerSetOfSigns(Util.Union(signs, other.signs));
+	public SetOfSigns union(SetOfSigns other) {
+		return new SetOfSigns(Util.Union(signs, other.signs));
 	}
 
 	public String toString() {

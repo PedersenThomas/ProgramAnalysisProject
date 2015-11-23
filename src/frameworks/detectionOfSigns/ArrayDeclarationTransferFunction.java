@@ -22,12 +22,12 @@ public class ArrayDeclarationTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        PowerSetOfSigns signsOfSize =
+        SetOfSigns signsOfSize =
                 Util.evalDSArithmeticExpression(size, inputValue.getSignState());
         if (signsOfSize.equals(Util.NEGATIVE_ONLY) || signsOfSize.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
+            Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(inputValue.getSignState());
             clone.put(array, Util.ZERO_ONLY);
             return new DSLatticeValue(clone);
         }

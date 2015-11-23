@@ -23,11 +23,11 @@ public class ArrayReadTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        PowerSetOfSigns signsOfIndex = Util.evalDSArithmeticExpression(index, inputValue.getSignState());
+        SetOfSigns signsOfIndex = Util.evalDSArithmeticExpression(index, inputValue.getSignState());
         if (signsOfIndex.isEmpty() || signsOfIndex.equals(Util.NEGATIVE_ONLY)) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
+            Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(inputValue.getSignState());
             clone.put(array, Util.ALL);
             return new DSLatticeValue(clone);
         }

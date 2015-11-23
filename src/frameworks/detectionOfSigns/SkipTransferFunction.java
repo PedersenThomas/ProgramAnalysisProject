@@ -15,8 +15,8 @@ public class SkipTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        HashMap<Variable, PowerSetOfSigns> clone =
-                new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
+        HashMap<Variable, SetOfSigns> clone =
+                new HashMap<Variable, SetOfSigns>(inputValue.getSignState());
         return new DSLatticeValue(clone);
     }
 

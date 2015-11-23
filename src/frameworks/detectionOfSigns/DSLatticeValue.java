@@ -13,26 +13,26 @@ import java.util.Set;
  */
 public class DSLatticeValue implements ILatticeValue {
 
-    private Map<Variable, PowerSetOfSigns> signState;
+    private Map<Variable, SetOfSigns> signState;
 
     /** Do not make an empty constructor!
      *  We need to know all the variables.
      **/
 
     public DSLatticeValue(Set<Variable> variables) {
-        Map<Variable, PowerSetOfSigns> signState =
-                new HashMap<Variable, PowerSetOfSigns>();
+        Map<Variable, SetOfSigns> signState =
+                new HashMap<Variable, SetOfSigns>();
         for(Variable variable : variables) {
-            signState.put(variable, new PowerSetOfSigns());
+            signState.put(variable, new SetOfSigns());
         }
         this.signState = signState;
     }
 
-    public DSLatticeValue(Map<Variable, PowerSetOfSigns> signState) {
+    public DSLatticeValue(Map<Variable, SetOfSigns> signState) {
         this.signState = signState;
     }
 
-    public Map<Variable, PowerSetOfSigns> getSignState() {
+    public Map<Variable, SetOfSigns> getSignState() {
         return Collections.unmodifiableMap(signState);
     }
 
@@ -40,13 +40,13 @@ public class DSLatticeValue implements ILatticeValue {
         return Collections.unmodifiableSet(this.signState.keySet());
     }
 
-    public PowerSetOfSigns lookUp(Variable variable) {
+    public SetOfSigns lookUp(Variable variable) {
         return this.signState.get(variable);
     }
 
     public boolean isBottom() {
-        PowerSetOfSigns empty = new PowerSetOfSigns();
-        for(Map.Entry<Variable, PowerSetOfSigns> entry
+        SetOfSigns empty = new SetOfSigns();
+        for(Map.Entry<Variable, SetOfSigns> entry
                 : this.signState.entrySet()) {
             if (!entry.getValue().isSubset(empty)) {
                 return false;
@@ -59,9 +59,9 @@ public class DSLatticeValue implements ILatticeValue {
     public boolean isSubset(ILatticeValue other) {
         DSLatticeValue otherDSLatticeValue = (DSLatticeValue) other;
 
-        for (Map.Entry<Variable, PowerSetOfSigns> entry
+        for (Map.Entry<Variable, SetOfSigns> entry
                 : this.signState.entrySet()) {
-            PowerSetOfSigns otherPowerSetOfSigns =
+            SetOfSigns otherPowerSetOfSigns =
                     otherDSLatticeValue.signState.get(entry.getKey());
             if (!entry.getValue().isSubset(otherPowerSetOfSigns)) {
                 return false;
@@ -79,9 +79,9 @@ public class DSLatticeValue implements ILatticeValue {
 
         DSLatticeValue otherDSLatticeValue = (DSLatticeValue) other;
 
-        for (Map.Entry<Variable, PowerSetOfSigns> entry
+        for (Map.Entry<Variable, SetOfSigns> entry
                 : this.signState.entrySet()) {
-            PowerSetOfSigns otherPowerSetOfSigns =
+            SetOfSigns otherPowerSetOfSigns =
                     otherDSLatticeValue.signState.get(entry.getKey());
             if (!entry.getValue().equals(otherPowerSetOfSigns)) {
                 return false;
@@ -100,12 +100,12 @@ public class DSLatticeValue implements ILatticeValue {
     public ILatticeValue join(ILatticeValue other) {
         DSLatticeValue otherDSLatticeValue = (DSLatticeValue) other;
 
-        Map<Variable, PowerSetOfSigns> resultSignState =
-                new HashMap<Variable, PowerSetOfSigns>();
+        Map<Variable, SetOfSigns> resultSignState =
+                new HashMap<Variable, SetOfSigns>();
 
-        for (Map.Entry<Variable, PowerSetOfSigns> entry
+        for (Map.Entry<Variable, SetOfSigns> entry
                 : this.signState.entrySet()) {
-            PowerSetOfSigns otherPowerSetOfSigns =
+            SetOfSigns otherPowerSetOfSigns =
                     otherDSLatticeValue.signState.get(entry.getKey());
             resultSignState.put(entry.getKey(),
                     entry.getValue().union(otherPowerSetOfSigns));

@@ -16,7 +16,7 @@ public class WriteTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        PowerSetOfSigns signsOfExpression =
+        SetOfSigns signsOfExpression =
                 Util.evalDSArithmeticExpression(expression, inputValue.getSignState());
         if (signsOfExpression.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());  // Bottom

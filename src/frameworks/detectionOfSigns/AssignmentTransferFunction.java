@@ -22,12 +22,12 @@ public class AssignmentTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        PowerSetOfSigns signsOfRight =
+        SetOfSigns signsOfRight =
                 Util.evalDSArithmeticExpression(right, inputValue.getSignState());
         if (signsOfRight.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {  // The right hand side is not the empty set of signs.
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
+            Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(inputValue.getSignState());
             clone.put(left, signsOfRight);
             return new DSLatticeValue(clone);
         }

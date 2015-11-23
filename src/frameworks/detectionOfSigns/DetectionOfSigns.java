@@ -17,7 +17,7 @@ public class DetectionOfSigns extends MonotoneFramework {
 
     @Override
     protected ILatticeValue getInitialLatticeValue() {
-        Map<Variable, PowerSetOfSigns> initialState = new HashMap<Variable, PowerSetOfSigns>();
+        Map<Variable, SetOfSigns> initialState = new HashMap<Variable, SetOfSigns>();
         for (Variable variable : getVariables()) {
             initialState.put(variable, Util.ALL);
         }

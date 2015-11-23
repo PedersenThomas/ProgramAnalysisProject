@@ -7,19 +7,19 @@ import java.util.Set;
 /**
  * Created by PatrickKasting on 20/11/15.
  */
-public class PowerSetOfBooleans {
+public class SetOfBooleans {
 
     private final Set<Boolean> booleans;
 
-    public PowerSetOfBooleans() {
+    public SetOfBooleans() {
         this.booleans = new HashSet<Boolean>();
     }
 
-    public PowerSetOfBooleans(Set<Boolean> booleans) {
+    public SetOfBooleans(Set<Boolean> booleans) {
         this.booleans = booleans;
     }
 
-    public PowerSetOfBooleans(boolean bool) {
+    public SetOfBooleans(boolean bool) {
         Set<Boolean> singleton = new HashSet<Boolean>();
         singleton.add(bool);
         this.booleans = singleton;
