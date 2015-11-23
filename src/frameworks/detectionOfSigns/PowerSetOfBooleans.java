@@ -12,7 +12,7 @@ public class PowerSetOfBooleans {
     private final Set<Boolean> booleans;
 
     public PowerSetOfBooleans() {
-        this.booleans = new HashSet<>();
+        this.booleans = new HashSet<Boolean>();
     }
 
     public PowerSetOfBooleans(Set<Boolean> booleans) {
@@ -20,7 +20,7 @@ public class PowerSetOfBooleans {
     }
 
     public PowerSetOfBooleans(boolean bool) {
-        Set<Boolean> singleton = new HashSet<>();
+        Set<Boolean> singleton = new HashSet<Boolean>();
         singleton.add(bool);
         this.booleans = singleton;
     }

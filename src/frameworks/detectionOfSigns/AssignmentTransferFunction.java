@@ -32,7 +32,7 @@ public class AssignmentTransferFunction extends DSTransferFunction {
         if (signsOfRight.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {  // The right hand side is not the empty set of signs.
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
+            Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
             clone.put(left, signsOfRight);
             return new DSLatticeValue(clone);
         }

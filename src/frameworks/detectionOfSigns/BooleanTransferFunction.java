@@ -27,7 +27,7 @@ public abstract class BooleanTransferFunction extends DSTransferFunction {
 
         Set<Map<Variable, PowerSetOfSigns>> atoms = Util.atom(inputValue.getSignState());
 
-        Set<DSLatticeValue> relevantAtoms = new HashSet<>();
+        Set<DSLatticeValue> relevantAtoms = new HashSet<DSLatticeValue>();
 
         for (Map<Variable, PowerSetOfSigns> atom : atoms) {
             PowerSetOfBooleans bools = Util.evalDSBooleanExpression(expression, atom);

@@ -79,7 +79,7 @@ public class Main {
         ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
         System.out.println(expression);
 
-        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<Variable, PowerSetOfSigns>();
         signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
         signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
 
@@ -92,7 +92,7 @@ public class Main {
         System.out.println("The expression:");
         System.out.println(expression);
 
-        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<Variable, PowerSetOfSigns>();
         signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
         signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
         signState.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(Signs.positive));
@@ -144,15 +144,15 @@ public class Main {
         signs1.add(Signs.negative);
         signs1.add(Signs.zero);
 
-        Set<Signs> signs2 = new HashSet<>();
+        Set<Signs> signs2 = new HashSet<Signs>();
         signs2.add(Signs.positive);
 
-        Set<Signs> signs3 = new HashSet<>();
+        Set<Signs> signs3 = new HashSet<Signs>();
         signs3.add(Signs.negative);
         signs3.add(Signs.zero);
         signs3.add(Signs.positive);
 
-        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
+        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<Variable, PowerSetOfSigns>();
         signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
         signState.put(new Variable("b", VariableType.Array), new PowerSetOfSigns(signs3));
         signState.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns(signs3));

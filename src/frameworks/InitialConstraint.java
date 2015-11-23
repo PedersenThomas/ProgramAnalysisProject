@@ -21,7 +21,7 @@ public class InitialConstraint implements IConstraint {
 
 	@Override
 	public Set<Integer> getFreeVariables() {
-		return new HashSet<>();
+		return new HashSet<Integer>();
 	}
 
 	@Override

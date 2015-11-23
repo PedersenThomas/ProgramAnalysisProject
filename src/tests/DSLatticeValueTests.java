@@ -29,7 +29,7 @@ public class DSLatticeValueTests {
         variables.add(new Variable("c", VariableType.Variable));
         DSLatticeValue bottom = new DSLatticeValue(variables);
 
-        HashMap<Variable, PowerSetOfSigns> expectedSignState = new HashMap<>();
+        HashMap<Variable, PowerSetOfSigns> expectedSignState = new HashMap<Variable, PowerSetOfSigns>();
         expectedSignState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns());
         expectedSignState.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns());
         expectedSignState.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns());
@@ -55,11 +55,11 @@ public class DSLatticeValueTests {
         signs4.add(Signs.negative);
         signs4.add(Signs.zero);
 
-        HashMap<Variable, PowerSetOfSigns> signState1 = new HashMap<>();
+        HashMap<Variable, PowerSetOfSigns> signState1 = new HashMap<Variable, PowerSetOfSigns>();
         signState1.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
         signState1.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(signs2));
 
-        HashMap<Variable, PowerSetOfSigns> signState2 = new HashMap<>();
+        HashMap<Variable, PowerSetOfSigns> signState2 = new HashMap<Variable, PowerSetOfSigns>();
         signState2.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs3));
         signState2.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(signs4));
 
@@ -103,7 +103,7 @@ public class DSLatticeValueTests {
         signs4.add(Signs.zero);
 
         HashMap<Variable, PowerSetOfSigns> signState1 =
-                new HashMap<>();
+                new HashMap<Variable, PowerSetOfSigns>();
         signState1.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
         signState1.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(signs2));
         signState1.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns());
@@ -115,7 +115,7 @@ public class DSLatticeValueTests {
         assertFalse(latticeValue1.isSubset(bottom1));
 
         HashMap<Variable, PowerSetOfSigns> signState2 =
-                new HashMap<>();
+                new HashMap<Variable, PowerSetOfSigns>();
         signState2.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs4));
         signState2.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(signs4));
         signState2.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns());
@@ -151,18 +151,18 @@ public class DSLatticeValueTests {
         variables.add(new Variable("c", VariableType.Variable));
         DSLatticeValue bottom1 = new DSLatticeValue(variables);
 
-        Set<Signs> signs1 = new HashSet<>();
+        Set<Signs> signs1 = new HashSet<Signs>();
         signs1.add(Signs.negative);
 
-        Set<Signs> signs2 = new HashSet<>();
+        Set<Signs> signs2 = new HashSet<Signs>();
         signs2.add(Signs.negative);
         signs2.add(Signs.zero);
 
-        Set<Signs> signs3 = new HashSet<>();
+        Set<Signs> signs3 = new HashSet<Signs>();
         signs3.add(Signs.positive);
 
         HashMap<Variable, PowerSetOfSigns> signState1 =
-                new HashMap<>();
+                new HashMap<Variable, PowerSetOfSigns>();
         signState1.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
         signState1.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(signs2));
         signState1.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns(signs3));
@@ -175,7 +175,7 @@ public class DSLatticeValueTests {
         assertEquals(joined1, latticeValue1);
 
         HashMap<Variable, PowerSetOfSigns> signState2 =
-                new HashMap<>();
+                new HashMap<Variable, PowerSetOfSigns>();
         signState2.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs3));
         signState2.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(signs1));
         signState2.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns(signs3));
@@ -186,8 +186,8 @@ public class DSLatticeValueTests {
         assertEquals(joined3, joined4);
 
         HashMap<Variable, PowerSetOfSigns> resultSignState =
-                new HashMap<>();
-        HashSet<Signs> posNeg = new HashSet<>();
+                new HashMap<Variable, PowerSetOfSigns>();
+        HashSet<Signs> posNeg = new HashSet<Signs>();
         posNeg.add(Signs.positive);
         posNeg.add(Signs.negative);
         resultSignState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(posNeg));
@@ -211,18 +211,18 @@ public class DSLatticeValueTests {
 
         assertTrue(bottom1.isBottom());
 
-        Set<Signs> signs1 = new HashSet<>();
+        Set<Signs> signs1 = new HashSet<Signs>();
         signs1.add(Signs.negative);
 
-        Set<Signs> signs2 = new HashSet<>();
+        Set<Signs> signs2 = new HashSet<Signs>();
         signs2.add(Signs.negative);
         signs2.add(Signs.zero);
 
-        Set<Signs> signs3 = new HashSet<>();
+        Set<Signs> signs3 = new HashSet<Signs>();
         signs3.add(Signs.positive);
 
         HashMap<Variable, PowerSetOfSigns> signState1 =
-                new HashMap<>();
+                new HashMap<Variable, PowerSetOfSigns>();
         signState1.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
         signState1.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(signs2));
         signState1.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns(signs3));

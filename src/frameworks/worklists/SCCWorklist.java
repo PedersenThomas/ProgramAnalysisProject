@@ -52,8 +52,8 @@ public class SCCWorklist implements IWorklist {
 
 		numberOfConstraints = influenceList.size();
 
-		pending = new HashSet<>();
-		current = new LinkedList<>();
+		pending = new HashSet<Integer>();
+		current = new LinkedList<Integer>();
 
 		findStronglyConnectedComponents();
 
@@ -78,7 +78,7 @@ public class SCCWorklist implements IWorklist {
 		*/
 
 		// Add all constraints to a list of constraints to be visited
-		List<Integer> constraintsToBeVisited = new ArrayList<>();
+		List<Integer> constraintsToBeVisited = new ArrayList<Integer>();
 		for (int i = 0; i < numberOfConstraints; i++) {
 			constraintsToBeVisited.add(i);
 		}
@@ -94,12 +94,12 @@ public class SCCWorklist implements IWorklist {
 		// Find the strongly connected components
 		marks = new boolean[numberOfConstraints];  // Set all marks to false
 		whichStronglyConnectedComponent = new int[numberOfConstraints];
-		stronglyConnectedComponents = new ArrayList<>();
+		stronglyConnectedComponents = new ArrayList<Set<Integer>>();
 		int currentComponentIndex = 0;
 		for (int i = 0; i < constraintsToBeVisited.size(); i++) {
 			int constraint = constraintsToBeVisited.get(i);
 			if (!marks[constraint]) {
-				Set<Integer> currentComponent = new HashSet<>();
+				Set<Integer> currentComponent = new HashSet<Integer>();
 				stronglyConnectedComponents.add(currentComponent);
 				depthFirstSearchComponent(constraint, currentComponentIndex, currentComponent);
 				currentComponentIndex++;
@@ -129,9 +129,9 @@ public class SCCWorklist implements IWorklist {
 
 	private void computeReverseInfluenceList() {
 
-		reverseInfluenceList = new ArrayList<>();
+		reverseInfluenceList = new ArrayList<Set<Integer>>();
 		for (int i = 0; i < influenceList.size(); i++) {
-			reverseInfluenceList.add(new HashSet<>());
+			reverseInfluenceList.add(new HashSet<Integer>());
 		}
 
 		assert (influenceList.size() == reverseInfluenceList.size());
@@ -164,7 +164,7 @@ public class SCCWorklist implements IWorklist {
 
 	private void depthFirstSearchOrder(int constraint) {
 		marks[constraint] = true;
-		List<Integer> incidentTos = new ArrayList<>(influenceList.get(constraint));
+		List<Integer> incidentTos = new ArrayList<Integer>(influenceList.get(constraint));
 		sortConstraintsBasedOnOutTypes(incidentTos);
 		for (int i = 0; i < incidentTos.size(); i++) {
 			int incidentTo = incidentTos.get(i);

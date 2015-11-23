@@ -15,7 +15,7 @@ public class LIFOWorklist implements IWorklist {
     int extractions = 0;
 
     public LIFOWorklist() {
-        this.stack = new Stack<>();
+        this.stack = new Stack<Integer>();
     }
 
     @Override

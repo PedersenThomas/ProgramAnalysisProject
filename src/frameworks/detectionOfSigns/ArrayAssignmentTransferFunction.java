@@ -36,8 +36,8 @@ public class ArrayAssignmentTransferFunction extends DSTransferFunction {
                 || signsOfRight.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
-            Set<Signs> newSigns = new HashSet<>(inputValue.lookUp(array).getSigns());
+            Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
+            Set<Signs> newSigns = new HashSet<Signs>(inputValue.lookUp(array).getSigns());
             newSigns.addAll(signsOfRight.getSigns());
             clone.put(array, new PowerSetOfSigns(newSigns));
             return new DSLatticeValue(clone);

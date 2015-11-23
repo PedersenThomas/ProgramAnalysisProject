@@ -29,7 +29,7 @@ public class Util {
 
 	static {
 
-		Set<Signs> all = new HashSet<>();
+		Set<Signs> all = new HashSet<Signs>();
 		all.add(Signs.negative);
 		all.add(Signs.zero);
 		all.add(Signs.positive);
@@ -52,15 +52,15 @@ public class Util {
 		DIVISION_TABLE = divisionTable;
 
 
-        Set<Boolean> trueOnly = new HashSet<>();
+        Set<Boolean> trueOnly = new HashSet<Boolean>();
         trueOnly.add(true);
         TRUE_ONLY = new PowerSetOfBooleans(trueOnly);
 
-        Set<Boolean> falseOnly = new HashSet<>();
+        Set<Boolean> falseOnly = new HashSet<Boolean>();
         falseOnly.add(false);
         FALSE_ONLY = new PowerSetOfBooleans(falseOnly);
 
-        Set<Boolean> allBoolean = new HashSet<>();
+        Set<Boolean> allBoolean = new HashSet<Boolean>();
         allBoolean.add(false);
         allBoolean.add(true);
         ALL_BOOLEAN = new PowerSetOfBooleans(allBoolean);
@@ -139,7 +139,7 @@ public class Util {
 
 	private static PowerSetOfSigns combine(ArithmeticOperator operator, PowerSetOfSigns left, PowerSetOfSigns right) {
 
-		Set<Signs> result = new HashSet<>();
+		Set<Signs> result = new HashSet<Signs>();
 
 		for (Signs leftSign : left.getSigns()) {
 			for (Signs rightSign : right.getSigns()) {
@@ -181,20 +181,20 @@ public class Util {
 
     public static Set<Map<Variable, PowerSetOfSigns>>
             atom(Map<Variable, PowerSetOfSigns> signState) {
-        HashMap<Variable, PowerSetOfSigns> clone = new HashMap<>(signState);
+        HashMap<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(signState);
         return atomRecursive(clone);
     }
 
     private static Set<Map<Variable, PowerSetOfSigns>>
             atomRecursive(Map<Variable, PowerSetOfSigns> signState) {
         if (signState.isEmpty()) {
-            Map<Variable, PowerSetOfSigns> empty = new HashMap<>();
-            Set<Map<Variable, PowerSetOfSigns>> singleton = new HashSet<>();
+            Map<Variable, PowerSetOfSigns> empty = new HashMap<Variable, PowerSetOfSigns>();
+            Set<Map<Variable, PowerSetOfSigns>> singleton = new HashSet<Map<Variable, PowerSetOfSigns>>();
             singleton.add(empty);
             return singleton;
         }
 
-        Set<Map<Variable, PowerSetOfSigns>> result = new HashSet<>();
+        Set<Map<Variable, PowerSetOfSigns>> result = new HashSet<Map<Variable, PowerSetOfSigns>>();
 
         Map.Entry<Variable, PowerSetOfSigns> firstEntry = null;
         for (Map.Entry<Variable, PowerSetOfSigns> entry : signState.entrySet()) {
@@ -208,12 +208,12 @@ public class Util {
 
         for (Map<Variable, PowerSetOfSigns> atom : atomsOfTail) {
             if (firstEntry.getKey().getType().equals(VariableType.Array)) {
-                Map<Variable, PowerSetOfSigns> clone = new HashMap<>(atom);
+                Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(atom);
                 clone.put(firstEntry.getKey(), firstEntry.getValue());
                 result.add(clone);
             } else {
                 for (Signs sign : firstSetOfSigns.getSigns()) {
-                    Map<Variable, PowerSetOfSigns> clone = new HashMap<>(atom);
+                    Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(atom);
                     clone.put(firstEntry.getKey(), new PowerSetOfSigns(sign));
                     result.add(clone);
                 }
@@ -258,7 +258,7 @@ public class Util {
     }
 
     private static PowerSetOfBooleans negate(PowerSetOfBooleans bools) {
-        Set<Boolean> result = new HashSet<>();
+        Set<Boolean> result = new HashSet<Boolean>();
 
         for (Boolean bool : bools.getBooleans()) {
             result.add(!bool);
@@ -270,7 +270,7 @@ public class Util {
     private static PowerSetOfBooleans combineBoolean(
             BooleanOperator operator, PowerSetOfBooleans boolsOfLeft, PowerSetOfBooleans boolsOfRight) {
 
-        Set<Boolean> result = new HashSet<>();
+        Set<Boolean> result = new HashSet<Boolean>();
 
         for (Boolean leftBool : boolsOfLeft.getBooleans()) {
             for (Boolean rightBool : boolsOfRight.getBooleans()) {
@@ -293,7 +293,7 @@ public class Util {
     private static PowerSetOfBooleans combineRelational(
             RelationalOperator operator, PowerSetOfSigns signsOfLeft, PowerSetOfSigns signsOfRight) {
 
-        Set<Boolean> result = new HashSet<>();
+        Set<Boolean> result = new HashSet<Boolean>();
 
         for (Signs leftSign : signsOfLeft.getSigns()) {
             for (Signs rightSign : signsOfRight.getSigns()) {
@@ -327,7 +327,7 @@ public class Util {
     }
 
 	public static <T> HashSet<T> Union(Set<T> a, Set<T> b) {
-		HashSet<T> result = new HashSet<>();
+		HashSet<T> result = new HashSet<T>();
 		result.addAll(a);
 		result.addAll(b);
 		return result;

@@ -15,7 +15,7 @@ public class FIFOWorklist implements IWorklist {
     int extractions = 0;
 
     public FIFOWorklist() {
-        queue = new LinkedList<>();
+        queue = new LinkedList<Integer>();
     }
 
     @Override

@@ -27,7 +27,7 @@ public class ArrayReadTransferFunction extends DSTransferFunction {
         if (signsOfIndex.isEmpty() || signsOfIndex.equals(Util.NEGATIVE_ONLY)) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
+            Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
             clone.put(array, Util.ALL);
             return new DSLatticeValue(clone);
         }

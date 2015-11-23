@@ -31,7 +31,7 @@ public abstract class TransferFunction implements IConstraint {
 
     @Override
     public Set<Integer> getFreeVariables() {
-        Set<Integer> freeVariables = new HashSet<>();
+        Set<Integer> freeVariables = new HashSet<Integer>();
         freeVariables.add(inputIndex);
         return freeVariables;
     }

@@ -19,7 +19,7 @@ public class DeclarationTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
+        Map<Variable, PowerSetOfSigns> clone = new HashMap<Variable, PowerSetOfSigns>(inputValue.getSignState());
         clone.put(variable, Util.ZERO_ONLY);
         return new DSLatticeValue(clone);
     }
