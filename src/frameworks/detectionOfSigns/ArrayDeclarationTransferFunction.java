@@ -6,9 +6,6 @@ import graph.Variable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by PatrickKasting on 20/11/15.
- */
 public class ArrayDeclarationTransferFunction extends DSTransferFunction {
 
     private Variable array;
@@ -22,12 +19,12 @@ public class ArrayDeclarationTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        PowerSetOfSigns signsOfSize =
+        SetOfSigns signsOfSize =
                 Util.evalDSArithmeticExpression(size, inputValue.getSignState());
         if (signsOfSize.equals(Util.NEGATIVE_ONLY) || signsOfSize.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
+            Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(inputValue.getSignState());
             clone.put(array, Util.ZERO_ONLY);
             return new DSLatticeValue(clone);
         }

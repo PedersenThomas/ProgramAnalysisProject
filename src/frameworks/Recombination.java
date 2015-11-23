@@ -15,7 +15,7 @@ public class Recombination implements IConstraint {
 	}
 	
     public Recombination(int singletonFreeVariable) {
-        Set<Integer> singletonSet = new HashSet<>();
+        Set<Integer> singletonSet = new HashSet<Integer>();
         singletonSet.add(singletonFreeVariable);
         this.freeVariables = singletonSet;
     }

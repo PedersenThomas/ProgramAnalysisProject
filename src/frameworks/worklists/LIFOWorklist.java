@@ -4,9 +4,6 @@ import frameworks.IWorklist;
 
 import java.util.Stack;
 
-/**
- * Created by PatrickKasting on 21/11/15.
- */
 public class LIFOWorklist implements IWorklist {
 
     Stack<Integer> stack;
@@ -15,7 +12,7 @@ public class LIFOWorklist implements IWorklist {
     int extractions = 0;
 
     public LIFOWorklist() {
-        this.stack = new Stack<>();
+        this.stack = new Stack<Integer>();
     }
 
     @Override

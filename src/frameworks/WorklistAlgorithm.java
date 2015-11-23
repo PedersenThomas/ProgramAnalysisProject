@@ -38,7 +38,6 @@ public class WorklistAlgorithm {
 	public List<ILatticeValue> run() {
 
 		while (!worklist.isEmpty()) {
-			System.out.println(worklist);
 			int index = worklist.extract();
             IConstraint constraint = constraints.get(index);
 			ILatticeValue newValue = constraint.eval(analysis);

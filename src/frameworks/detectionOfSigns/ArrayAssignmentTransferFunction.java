@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 20/11/15.
- */
 public class ArrayAssignmentTransferFunction extends DSTransferFunction {
 
     Variable array;
@@ -29,17 +26,17 @@ public class ArrayAssignmentTransferFunction extends DSTransferFunction {
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
 
-        PowerSetOfSigns signsOfIndex = Util.evalDSArithmeticExpression(this.index, inputValue.getSignState());
-        PowerSetOfSigns signsOfRight = Util.evalDSArithmeticExpression(this.right, inputValue.getSignState());
+        SetOfSigns signsOfIndex = Util.evalDSArithmeticExpression(this.index, inputValue.getSignState());
+        SetOfSigns signsOfRight = Util.evalDSArithmeticExpression(this.right, inputValue.getSignState());
 
         if (signsOfIndex.isEmpty() || signsOfIndex.equals(Util.NEGATIVE_ONLY)
                 || signsOfRight.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
-            Set<Signs> newSigns = new HashSet<>(inputValue.lookUp(array).getSigns());
+            Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(inputValue.getSignState());
+            Set<Signs> newSigns = new HashSet<Signs>(inputValue.lookUp(array).getSigns());
             newSigns.addAll(signsOfRight.getSigns());
-            clone.put(array, new PowerSetOfSigns(newSigns));
+            clone.put(array, new SetOfSigns(newSigns));
             return new DSLatticeValue(clone);
         }
     }

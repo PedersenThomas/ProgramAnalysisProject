@@ -1,6 +1,8 @@
 (* Test program for 02242 by group 6 *)
 (* Test if the program can handle a If stament within a while*)
 program
+int i;
+int x;
 int y;
 int z;
 

@@ -117,7 +117,7 @@ public class Main {
 
         } catch (Throwable e) {
             System.out.println("The following error occurred:");
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());;
         }
 
 	}
@@ -150,9 +150,9 @@ public class Main {
         ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
         System.out.println(expression);
 
-        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
-        signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
-        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
+        HashMap<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
+        signState.put(new Variable("A", VariableType.Array), new SetOfSigns(Signs.zero));
+        signState.put(new Variable("a", VariableType.Variable), new SetOfSigns(Signs.negative));
 
         System.out.println(Util.evalDSArithmeticExpression(expression, signState));
     }
@@ -163,10 +163,10 @@ public class Main {
         System.out.println("The expression:");
         System.out.println(expression);
 
-        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
-        signState.put(new Variable("A", VariableType.Array), new PowerSetOfSigns(Signs.zero));
-        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(Signs.negative));
-        signState.put(new Variable("b", VariableType.Variable), new PowerSetOfSigns(Signs.positive));
+        HashMap<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
+        signState.put(new Variable("A", VariableType.Array), new SetOfSigns(Signs.zero));
+        signState.put(new Variable("a", VariableType.Variable), new SetOfSigns(Signs.negative));
+        signState.put(new Variable("b", VariableType.Variable), new SetOfSigns(Signs.positive));
 
         System.out.println(Util.evalDSBooleanExpression(expression, signState));
     }
@@ -215,20 +215,20 @@ public class Main {
         signs1.add(Signs.negative);
         signs1.add(Signs.zero);
 
-        Set<Signs> signs2 = new HashSet<>();
+        Set<Signs> signs2 = new HashSet<Signs>();
         signs2.add(Signs.positive);
 
-        Set<Signs> signs3 = new HashSet<>();
+        Set<Signs> signs3 = new HashSet<Signs>();
         signs3.add(Signs.negative);
         signs3.add(Signs.zero);
         signs3.add(Signs.positive);
 
-        HashMap<Variable, PowerSetOfSigns> signState = new HashMap<>();
-        signState.put(new Variable("a", VariableType.Variable), new PowerSetOfSigns(signs1));
-        signState.put(new Variable("b", VariableType.Array), new PowerSetOfSigns(signs3));
-        signState.put(new Variable("c", VariableType.Variable), new PowerSetOfSigns(signs3));
+        HashMap<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
+        signState.put(new Variable("a", VariableType.Variable), new SetOfSigns(signs1));
+        signState.put(new Variable("b", VariableType.Array), new SetOfSigns(signs3));
+        signState.put(new Variable("c", VariableType.Variable), new SetOfSigns(signs3));
 
-        Set<Map<Variable, PowerSetOfSigns>> atoms = Util.atom(signState);
+        Set<Map<Variable, SetOfSigns>> atoms = Util.atom(signState);
 
         System.out.println("TEST OF ATOM:");
         System.out.println(atoms);

@@ -10,9 +10,6 @@ import graph.VariableType;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by PatrickKasting on 09/11/15.
- */
 public class ReachingDefinitions extends MonotoneFramework {
 
 	private List<AssignmentTableEntry> assignmentTable;
@@ -27,8 +24,8 @@ public class ReachingDefinitions extends MonotoneFramework {
 
 	private void constructAssignmentTable() {
 
-		assignmentTable = new ArrayList<>();
-		labelToAssignmentTableMap = new HashMap<>();
+		assignmentTable = new ArrayList<AssignmentTableEntry>();
+		labelToAssignmentTableMap = new HashMap<Integer, Integer>();
 
 		for (Variable variable : getVariables()) {
 			assignmentTable.add(new AssignmentTableEntry(variable.getName(), variable.getType(), -1));
@@ -74,7 +71,7 @@ public class ReachingDefinitions extends MonotoneFramework {
 
 	private void constructKillSets() {
 
-		killSets = new HashMap<>();
+		killSets = new HashMap<Variable, BitSet>();
 		for (Variable variable : getVariables()) {
 			killSets.put(variable, new BitSet());
 		}

@@ -17,12 +17,12 @@ public abstract class MonotoneFramework {
 	public MonotoneFramework(FlowGraph flowGraph) {
 		this.flowGraph = flowGraph;
 		this.numberOfLabels = flowGraph.getLabelMap().size();
-		this.variables = new HashSet<>(flowGraph.getFreeVariables());
+		this.variables = new HashSet<Variable>(flowGraph.getFreeVariables());
 	}
 
 	public final void initialize() {
-		this.outputConstraintsMap = new HashMap<>();
-		this.constraints = new ArrayList<>();
+		this.outputConstraintsMap = new HashMap<Integer, OutputConstraints>();
+		this.constraints = new ArrayList<IConstraint>();
 		constructConstraintMap();
 		constructConstraints();
 	}

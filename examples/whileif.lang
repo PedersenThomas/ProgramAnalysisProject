@@ -12,5 +12,4 @@ if i > 0 then
 else
    write 1;
 fi
-(* Must insert skip here to get Isolated Exit *)
 end

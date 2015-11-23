@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 16/11/15.
- */
 public abstract class BooleanTransferFunction extends DSTransferFunction {
 
     private boolean branch;
@@ -25,12 +22,12 @@ public abstract class BooleanTransferFunction extends DSTransferFunction {
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
 
-        Set<Map<Variable, PowerSetOfSigns>> atoms = Util.atom(inputValue.getSignState());
+        Set<Map<Variable, SetOfSigns>> atoms = Util.atom(inputValue.getSignState());
 
-        Set<DSLatticeValue> relevantAtoms = new HashSet<>();
+        Set<DSLatticeValue> relevantAtoms = new HashSet<DSLatticeValue>();
 
-        for (Map<Variable, PowerSetOfSigns> atom : atoms) {
-            PowerSetOfBooleans bools = Util.evalDSBooleanExpression(expression, atom);
+        for (Map<Variable, SetOfSigns> atom : atoms) {
+            SetOfBooleans bools = Util.evalDSBooleanExpression(expression, atom);
             if (bools.getBooleans().contains(branch)) {
                 relevantAtoms.add(new DSLatticeValue(atom));
             }

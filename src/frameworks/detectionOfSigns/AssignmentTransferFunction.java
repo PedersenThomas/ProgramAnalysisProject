@@ -1,19 +1,11 @@
 package frameworks.detectionOfSigns;
 
-import ast.ArithmeticExpression;
-import ast.VariableAssignment;
-import frameworks.ILatticeValue;
-import frameworks.TransferFunction;
-import frameworks.reachingDefinitions.RDLatticeValue;
-import graph.Variable;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-/**
- * Created by PatrickKasting on 13/11/15.
- */
+import ast.ArithmeticExpression;
+import graph.Variable;
+
 public class AssignmentTransferFunction extends DSTransferFunction {
 
     private Variable left;
@@ -27,12 +19,12 @@ public class AssignmentTransferFunction extends DSTransferFunction {
 
     @Override
     public DSLatticeValue evalOnNonBottom(DSLatticeValue inputValue) {
-        PowerSetOfSigns signsOfRight =
+        SetOfSigns signsOfRight =
                 Util.evalDSArithmeticExpression(right, inputValue.getSignState());
         if (signsOfRight.isEmpty()) {
             return new DSLatticeValue(inputValue.getVariables());
         } else {  // The right hand side is not the empty set of signs.
-            Map<Variable, PowerSetOfSigns> clone = new HashMap<>(inputValue.getSignState());
+            Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(inputValue.getSignState());
             clone.put(left, signsOfRight);
             return new DSLatticeValue(clone);
         }

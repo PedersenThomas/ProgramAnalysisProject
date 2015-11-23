@@ -4,23 +4,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by PatrickKasting on 20/11/15.
- */
-public class PowerSetOfBooleans {
+public class SetOfBooleans {
 
     private final Set<Boolean> booleans;
 
-    public PowerSetOfBooleans() {
-        this.booleans = new HashSet<>();
+    public SetOfBooleans() {
+        this.booleans = new HashSet<Boolean>();
     }
 
-    public PowerSetOfBooleans(Set<Boolean> booleans) {
+    public SetOfBooleans(Set<Boolean> booleans) {
         this.booleans = booleans;
     }
 
-    public PowerSetOfBooleans(boolean bool) {
-        Set<Boolean> singleton = new HashSet<>();
+    public SetOfBooleans(boolean bool) {
+        Set<Boolean> singleton = new HashSet<Boolean>();
         singleton.add(bool);
         this.booleans = singleton;
     }

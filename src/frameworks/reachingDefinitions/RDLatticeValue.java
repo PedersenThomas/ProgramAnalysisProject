@@ -4,9 +4,6 @@ import frameworks.ILatticeValue;
 
 import java.util.BitSet;
 
-/**
- * Created by PatrickKasting on 09/11/15.
- */
 public class RDLatticeValue implements ILatticeValue {
 
     private BitSet bitSet;

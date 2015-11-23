@@ -17,7 +17,7 @@ public class DetectionOfSigns extends MonotoneFramework {
 
     @Override
     protected ILatticeValue getInitialLatticeValue() {
-        Map<Variable, PowerSetOfSigns> initialState = new HashMap<>();
+        Map<Variable, SetOfSigns> initialState = new HashMap<Variable, SetOfSigns>();
         for (Variable variable : getVariables()) {
             initialState.put(variable, Util.ALL);
         }
@@ -92,6 +92,10 @@ public class DetectionOfSigns extends MonotoneFramework {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Sign States:\n");
+        if (numberOfVariables == 0) {
+            stringBuilder.append("No variables\n");
+            return stringBuilder.toString();
+        }
         appendHeader(digitsInNumberOfLabels, numberOfVariables, widthOfTopSet, stringBuilder);
         appendSignStateTable(result, digitsInNumberOfLabels, widthOfTopSet, stringBuilder);
         return stringBuilder.toString();
