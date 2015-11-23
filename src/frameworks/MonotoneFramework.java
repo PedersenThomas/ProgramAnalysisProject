@@ -228,8 +228,8 @@ public abstract class MonotoneFramework {
         constraints.add(exitConstraint);
         int outputConstraintIndex = constraints.size() - 1;
         updateRecombinationConstraints(outEdge, outputConstraintIndex);
-        assert (!outEdge.getType().equals(OutType.None));
-        if (outEdge.getType().equals(OutType.True)) {
+        assert (!outEdge.getType().equals(BranchType.None));
+        if (outEdge.getType().equals(BranchType.True)) {
             outputConstraintsMap.get(outEdge.getLabel1())
                     .setTrueConstraintIndex(outputConstraintIndex);
         } else {

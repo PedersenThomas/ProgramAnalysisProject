@@ -38,6 +38,7 @@ public class WorklistAlgorithm {
 	public List<ILatticeValue> run() {
 
 		while (!worklist.isEmpty()) {
+			System.out.println(worklist);
 			int index = worklist.extract();
             IConstraint constraint = constraints.get(index);
 			ILatticeValue newValue = constraint.eval(analysis);
@@ -63,7 +64,7 @@ public class WorklistAlgorithm {
 			result.append("Result of " + framework + " using a " + worklist.getName() + ":\n");
 			result.append("\n" + framework.labelsTable() + "\n");
 			result.append(framework.formatResult(this.analysis));
-			result.append("\nPerformance:\n");
+			result.append("\nWorklist Statistics:\n");
 			result.append("* Worklist insertions: " + worklist.getNumberOfInsertions() + "\n");
 			result.append("* Worklist extractions: " + worklist.getNumberOfExtractions() + "\n");
 			return result.toString();

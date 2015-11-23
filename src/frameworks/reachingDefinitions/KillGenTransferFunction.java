@@ -2,7 +2,7 @@ package frameworks.reachingDefinitions;
 
 import frameworks.ILatticeValue;
 import frameworks.TransferFunction;
-import graph.OutType;
+import graph.BranchType;
 
 import java.util.BitSet;
 import java.util.HashSet;
@@ -17,18 +17,18 @@ public class KillGenTransferFunction extends TransferFunction {
     private final BitSet killSet;
     private final BitSet genSet;
 
-    private final OutType outType;
+    private final BranchType branchType;
 
     public KillGenTransferFunction(int inputIndex, BitSet killSet, BitSet genSet) {
-        this(inputIndex, killSet, genSet, OutType.None);
+        this(inputIndex, killSet, genSet, BranchType.None);
     }
     
-    public KillGenTransferFunction(int inputIndex, BitSet killSet, BitSet genSet, OutType outType) {
+    public KillGenTransferFunction(int inputIndex, BitSet killSet, BitSet genSet, BranchType branchType) {
         super(inputIndex);
         this.killSet = killSet;
         this.genSet = genSet;
 
-        this.outType = outType;
+        this.branchType = branchType;
     }
 
     public KillGenTransferFunction(int inputIndex, BitSet killSet, int gen) {
@@ -39,7 +39,7 @@ public class KillGenTransferFunction extends TransferFunction {
         genSet.set(gen);
         this.genSet = genSet;
 
-        this.outType = OutType.None;
+        this.branchType = BranchType.None;
     }
 
     @Override
@@ -59,8 +59,8 @@ public class KillGenTransferFunction extends TransferFunction {
     }
 
     @Override
-    public OutType getOutType() {
-        return this.outType;
+    public BranchType getBranchType() {
+        return this.branchType;
     }
 
     @Override

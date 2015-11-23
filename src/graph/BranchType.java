@@ -1,6 +1,6 @@
 package graph;
 
-public enum OutType {
+public enum BranchType {
 	None,
 	True,
 	False

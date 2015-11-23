@@ -5,7 +5,7 @@ import java.util.List;
 
 import frameworks.IConstraint;
 import frameworks.IWorklist;
-import graph.OutType;
+import graph.BranchType;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class SCCWorklist implements IWorklist {
@@ -55,27 +55,31 @@ public class SCCWorklist implements IWorklist {
 		pending = new HashSet<>();
 		current = new LinkedList<>();
 
+		initialize();
+
+	}
+
+	private void initialize() {
+
+		// Find the reverse post order
+		marks = new boolean[numberOfConstraints];
+		order = new int[numberOfConstraints];
+		currentOrder = numberOfConstraints;
+		findReversePostOrder(0);
+
 		findStronglyConnectedComponents();
 
 	}
 
 	private void findStronglyConnectedComponents() {
 
-		// Get finishing times of all constraints
-		marks = new boolean[numberOfConstraints];
-		order = new int[numberOfConstraints];
-		currentOrder = numberOfConstraints;
-		depthFirstSearchOrder(0);
-
 		// Compute the reverse graph
 		computeReverseInfluenceList();
 
-		/*
 		System.out.println("Original influence list:");
 		System.out.println(influenceList);
 		System.out.println("Reversed:");
 		System.out.println(reverseInfluenceList);
-		*/
 
 		// Add all constraints to a list of constraints to be visited
 		List<Integer> constraintsToBeVisited = new ArrayList<>();
@@ -86,43 +90,43 @@ public class SCCWorklist implements IWorklist {
 		// Sort this list in ascending order
 		Collections.sort(constraintsToBeVisited, comparator);
 
-		/*
 		System.out.println("Order of finishing times:");
 		System.out.println(constraintsToBeVisited);
-		*/
 
 		// Find the strongly connected components
 		marks = new boolean[numberOfConstraints];  // Set all marks to false
 		whichStronglyConnectedComponent = new int[numberOfConstraints];
 		stronglyConnectedComponents = new ArrayList<>();
+		depthFirstSearchComponents(constraintsToBeVisited);
+
+		System.out.println("whichStronglyConnectedComponent:");
+		System.out.println(ArrayUtils.toString(whichStronglyConnectedComponent));
+		System.out.println("Strongly connected components");
+		System.out.println(stronglyConnectedComponents);
+	}
+
+	private void depthFirstSearchComponents(List<Integer> constraintsToBeVisited) {
 		int currentComponentIndex = 0;
 		for (int i = 0; i < constraintsToBeVisited.size(); i++) {
 			int constraint = constraintsToBeVisited.get(i);
 			if (!marks[constraint]) {
 				Set<Integer> currentComponent = new HashSet<>();
 				stronglyConnectedComponents.add(currentComponent);
-				depthFirstSearchComponent(constraint, currentComponentIndex, currentComponent);
+				depthFirstSearchVisit(constraint, currentComponentIndex, currentComponent);
 				currentComponentIndex++;
 				assert (currentComponentIndex == stronglyConnectedComponents.size());
 			}
 		}
-
-		/*
-		System.out.println("whichStronglyConnectedComponent:");
-		System.out.println(ArrayUtils.toString(whichStronglyConnectedComponent));
-		System.out.println("Strongly connected components");
-		System.out.println(stronglyConnectedComponents);
-		*/
 	}
 
-	private void depthFirstSearchComponent(
+	private void depthFirstSearchVisit(
 			int constraint, int currentComponentIndex, Set<Integer> currentComponent) {
 		marks[constraint] = true;
 		whichStronglyConnectedComponent[constraint] = currentComponentIndex;
 		currentComponent.add(constraint);
 		for (int incidentTo : reverseInfluenceList.get(constraint)) {
 			if (!marks[incidentTo]) {
-				depthFirstSearchComponent(incidentTo, currentComponentIndex, currentComponent);
+				depthFirstSearchVisit(incidentTo, currentComponentIndex, currentComponent);
 			}
 		}
 	}
@@ -148,11 +152,11 @@ public class SCCWorklist implements IWorklist {
 		Comparator<Integer> outTypeComparator = new Comparator<Integer>() {
 			@Override
 			public int compare(Integer i1, Integer i2) {
-				OutType o1 = constraints.get(i1).getOutType();
-				OutType o2 = constraints.get(i2).getOutType();
+				BranchType o1 = constraints.get(i1).getBranchType();
+				BranchType o2 = constraints.get(i2).getBranchType();
 				if (o1.equals(o2)) {
 					return 0;
-				} else if (o1.equals(OutType.False) || o2.equals(OutType.True)) {
+				} else if (o1.equals(BranchType.False) || o2.equals(BranchType.True)) {
 					return -1;
 				} else {
 					return 1;
@@ -162,14 +166,14 @@ public class SCCWorklist implements IWorklist {
 		Collections.sort(constraintIndices, outTypeComparator);
 	}
 
-	private void depthFirstSearchOrder(int constraint) {
+	private void findReversePostOrder(int constraint) {
 		marks[constraint] = true;
 		List<Integer> incidentTos = new ArrayList<>(influenceList.get(constraint));
 		sortConstraintsBasedOnOutTypes(incidentTos);
 		for (int i = 0; i < incidentTos.size(); i++) {
 			int incidentTo = incidentTos.get(i);
 			if (!marks[incidentTo]) {
-				depthFirstSearchOrder(incidentTo);
+				findReversePostOrder(incidentTo);
 			}
 		}
 		currentOrder--;
@@ -186,7 +190,7 @@ public class SCCWorklist implements IWorklist {
 
 	@Override
 	public int extract() {
-		assert (!current.isEmpty() || !pending.isEmpty());
+		assert (!isEmpty());
 		numberOfExtractions += 1;
 		if(current.isEmpty()) {
 			int minPending = Collections.min(pending, comparator);
@@ -207,7 +211,7 @@ public class SCCWorklist implements IWorklist {
 
 	@Override
 	public String getName() {
-		return "Reverse Postorder Worklist";
+		return "Strongly Connected Components Worklist";
 	}
 
 	@Override

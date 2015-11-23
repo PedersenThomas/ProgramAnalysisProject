@@ -1,1 +1,0 @@
-java -jar "%~dp0antlr-3.4-complete.jar" .\src\thelang\TheLang.g

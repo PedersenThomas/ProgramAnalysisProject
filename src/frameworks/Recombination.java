@@ -1,6 +1,6 @@
 package frameworks;
 
-import graph.OutType;
+import graph.BranchType;
 
 import java.util.HashSet;
 import java.util.List;
@@ -57,8 +57,8 @@ public class Recombination implements IConstraint {
 	}
 
 	@Override
-	public OutType getOutType() {
-		return OutType.None;
+	public BranchType getBranchType() {
+		return BranchType.None;
 	}
 
 	@Override

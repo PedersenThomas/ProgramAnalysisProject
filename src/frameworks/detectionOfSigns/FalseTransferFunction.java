@@ -1,7 +1,7 @@
 package frameworks.detectionOfSigns;
 
 import ast.BooleanExpression;
-import graph.OutType;
+import graph.BranchType;
 
 /**
  * Created by PatrickKasting on 20/11/15.
@@ -13,8 +13,8 @@ public class FalseTransferFunction extends BooleanTransferFunction {
     }
 
     @Override
-    public OutType getOutType() {
-        return OutType.False;
+    public BranchType getBranchType() {
+        return BranchType.False;
     }
 
     @Override

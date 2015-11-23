@@ -3,7 +3,7 @@ package frameworks.reachingDefinitions;
 import ast.*;
 import frameworks.*;
 import graph.FlowGraph;
-import graph.OutType;
+import graph.BranchType;
 import graph.Variable;
 import graph.VariableType;
 
@@ -144,12 +144,12 @@ public class ReachingDefinitions extends MonotoneFramework {
 	@Override
 	protected TransferFunction getFalseTransferFunction(
 			int inputIndex, BooleanExpression condition) {
-		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet(), OutType.False);
+		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet(), BranchType.False);
 	}
 
 	@Override
 	protected TransferFunction getTrueTransferFunction(int inputIndex, BooleanExpression condition) {
-		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet(), OutType.True);
+		return new KillGenTransferFunction(inputIndex, new BitSet(), new BitSet(), BranchType.True);
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public class ReachingDefinitions extends MonotoneFramework {
 	}
 
 	private void appendExits(List<ILatticeValue> result, StringBuilder stringBuilder, String formatString) {
-		stringBuilder.append("\nReaching Definitions at Exits:\n");
+		stringBuilder.append("\nReaching Definitions at exits:\n");
 		for (int i = 0; i < getNumberOfLabels(); i++) {
 			OutputConstraints outputConstraints = getOutputConstraintsMap().get(i + FlowGraph.StartLabel);
 			int outputConstraint;
@@ -201,7 +201,7 @@ public class ReachingDefinitions extends MonotoneFramework {
 	}
 
 	private void appendEntries(List<ILatticeValue> result, StringBuilder stringBuilder, String formatString) {
-		stringBuilder.append("Reaching Definitions at Entries:\n");
+		stringBuilder.append("Reaching Definitions at entries:\n");
 		for (int i = 0; i < getNumberOfLabels(); i++) {
 			appendLine(result, stringBuilder, formatString, i + FlowGraph.StartLabel, i);
 		}

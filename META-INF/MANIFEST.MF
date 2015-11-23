@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: commons-lang3-3.4/commons-lang3-3.4.jar antlr-3.4/antlr-3.
+ 4-complete.jar
+Main-Class: thelang.Main
+
