@@ -40,13 +40,7 @@ public class SCCWorklist implements IWorklist {
 			public int compare(Integer c1, Integer c2) {
 				int o1 = order[c1];
 				int o2 = order[c2];
-				if (o1 < o2) {
-					return -1;
-				} else if (o1 == o2) {
-					return 0;
-				} else {
-					return 1;
-				}
+				return Integer.compare(o1, o2);
 			}
 		};
 
