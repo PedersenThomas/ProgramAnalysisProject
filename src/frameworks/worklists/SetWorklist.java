@@ -20,20 +20,11 @@ public class SetWorklist implements IWorklist {
 
 	@Override
 	public int extract() {
-
 		numberOfExtracts += 1;
 
 		// Finds an element in the set.
-		Integer item = null;
-		for (int t : set) {
-			item = t;
-			break;
-		}
-
-		//If the collection is not empty.
-		if (item != null) {
-			set.remove(item);
-		}
+		Integer item = set.iterator().next();
+		set.remove(item);
 
 		return item;
 
