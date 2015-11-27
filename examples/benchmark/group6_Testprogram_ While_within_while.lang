@@ -10,7 +10,7 @@ z:=6;
 while y < z do
 	while y > 7 do
 	y:=y-1;
-	od
+od
 z:=z+1;
 read z;
 od

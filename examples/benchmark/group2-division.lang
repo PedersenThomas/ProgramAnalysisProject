@@ -5,8 +5,8 @@ int A[i + 1];
 i := 10;
 n = 10;
 while (i >= 0) do
-A[i] := n / i;
-write A[i];
-i := i - 1;
+	A[i] := n / i;
+	write A[i];
+	i := i - 1;
 od
 end

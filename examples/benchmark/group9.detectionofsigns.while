@@ -3,17 +3,15 @@ int x;
 int y;
 int A[20];
 int z;
-if x<6
-then
-A[-1]:= x;
-z= x-1;
+if x<6 then
+	A[-1]:= x;
+	z= x-1;
 else
-write z;
+	write z;
 fi
-while y<20 
-do
-x:= 0;
-y := y/x;
+while y<20 do
+	x:= 0;
+	y := y/x;
 od
 write x;
 write y;
