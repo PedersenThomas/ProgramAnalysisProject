@@ -3,7 +3,7 @@ package tests;
 import frameworks.ILatticeValue;
 import frameworks.detectionOfSigns.DSLatticeValue;
 import frameworks.detectionOfSigns.SetOfSigns;
-import frameworks.detectionOfSigns.Signs;
+import frameworks.detectionOfSigns.Sign;
 import graph.Variable;
 import graph.VariableType;
 import org.junit.Test;
@@ -38,19 +38,19 @@ public class DSLatticeValueTests {
     @Test
     public void equals() {
 
-        Set<Signs> signs1 = new HashSet<Signs>();
-        signs1.add(Signs.positive);
+        Set<Sign> signs1 = new HashSet<Sign>();
+        signs1.add(Sign.positive);
 
-        Set<Signs> signs2 = new HashSet<Signs>();
-        signs2.add(Signs.negative);
-        signs2.add(Signs.zero);
+        Set<Sign> signs2 = new HashSet<Sign>();
+        signs2.add(Sign.negative);
+        signs2.add(Sign.zero);
 
-        Set<Signs> signs3 = new HashSet<Signs>();
-        signs3.add(Signs.positive);
+        Set<Sign> signs3 = new HashSet<Sign>();
+        signs3.add(Sign.positive);
 
-        Set<Signs> signs4 = new HashSet<Signs>();
-        signs4.add(Signs.negative);
-        signs4.add(Signs.zero);
+        Set<Sign> signs4 = new HashSet<Sign>();
+        signs4.add(Sign.negative);
+        signs4.add(Sign.zero);
 
         HashMap<Variable, SetOfSigns> signState1 = new HashMap<Variable, SetOfSigns>();
         signState1.put(new Variable("a", VariableType.Variable), new SetOfSigns(signs1));
@@ -85,19 +85,19 @@ public class DSLatticeValueTests {
         assertTrue(bottom1.isSubset(bottom2));
         assertTrue(bottom2.isSubset(bottom1));
 
-        Set<Signs> signs1 = new HashSet<Signs>();
-        signs1.add(Signs.negative);
+        Set<Sign> signs1 = new HashSet<Sign>();
+        signs1.add(Sign.negative);
 
-        Set<Signs> signs2 = new HashSet<Signs>();
-        signs2.add(Signs.negative);
-        signs2.add(Signs.zero);
+        Set<Sign> signs2 = new HashSet<Sign>();
+        signs2.add(Sign.negative);
+        signs2.add(Sign.zero);
 
-        Set<Signs> signs3 = new HashSet<Signs>();
-        signs3.add(Signs.negative);
+        Set<Sign> signs3 = new HashSet<Sign>();
+        signs3.add(Sign.negative);
 
-        Set<Signs> signs4 = new HashSet<Signs>();
-        signs4.add(Signs.negative);
-        signs4.add(Signs.zero);
+        Set<Sign> signs4 = new HashSet<Sign>();
+        signs4.add(Sign.negative);
+        signs4.add(Sign.zero);
 
         HashMap<Variable, SetOfSigns> signState1 =
                 new HashMap<Variable, SetOfSigns>();
@@ -148,15 +148,15 @@ public class DSLatticeValueTests {
         variables.add(new Variable("c", VariableType.Variable));
         DSLatticeValue bottom1 = new DSLatticeValue(variables);
 
-        Set<Signs> signs1 = new HashSet<Signs>();
-        signs1.add(Signs.negative);
+        Set<Sign> signs1 = new HashSet<Sign>();
+        signs1.add(Sign.negative);
 
-        Set<Signs> signs2 = new HashSet<Signs>();
-        signs2.add(Signs.negative);
-        signs2.add(Signs.zero);
+        Set<Sign> signs2 = new HashSet<Sign>();
+        signs2.add(Sign.negative);
+        signs2.add(Sign.zero);
 
-        Set<Signs> signs3 = new HashSet<Signs>();
-        signs3.add(Signs.positive);
+        Set<Sign> signs3 = new HashSet<Sign>();
+        signs3.add(Sign.positive);
 
         HashMap<Variable, SetOfSigns> signState1 =
                 new HashMap<Variable, SetOfSigns>();
@@ -184,9 +184,9 @@ public class DSLatticeValueTests {
 
         HashMap<Variable, SetOfSigns> resultSignState =
                 new HashMap<Variable, SetOfSigns>();
-        HashSet<Signs> posNeg = new HashSet<Signs>();
-        posNeg.add(Signs.positive);
-        posNeg.add(Signs.negative);
+        HashSet<Sign> posNeg = new HashSet<Sign>();
+        posNeg.add(Sign.positive);
+        posNeg.add(Sign.negative);
         resultSignState.put(new Variable("a", VariableType.Variable), new SetOfSigns(posNeg));
         resultSignState.put(new Variable("b", VariableType.Variable), new SetOfSigns(signs2));
         resultSignState.put(new Variable("c", VariableType.Variable), new SetOfSigns(signs3));
@@ -208,15 +208,15 @@ public class DSLatticeValueTests {
 
         assertTrue(bottom1.isBottom());
 
-        Set<Signs> signs1 = new HashSet<Signs>();
-        signs1.add(Signs.negative);
+        Set<Sign> signs1 = new HashSet<Sign>();
+        signs1.add(Sign.negative);
 
-        Set<Signs> signs2 = new HashSet<Signs>();
-        signs2.add(Signs.negative);
-        signs2.add(Signs.zero);
+        Set<Sign> signs2 = new HashSet<Sign>();
+        signs2.add(Sign.negative);
+        signs2.add(Sign.zero);
 
-        Set<Signs> signs3 = new HashSet<Signs>();
-        signs3.add(Signs.positive);
+        Set<Sign> signs3 = new HashSet<Sign>();
+        signs3.add(Sign.positive);
 
         HashMap<Variable, SetOfSigns> signState1 =
                 new HashMap<Variable, SetOfSigns>();

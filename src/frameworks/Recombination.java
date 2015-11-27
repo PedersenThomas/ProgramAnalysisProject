@@ -30,6 +30,10 @@ public class Recombination implements IConstraint {
 	public Recombination(Set<Integer> freeVariables) {
 		this.freeVariables = freeVariables;
 	}
+	
+	public void insertFreeVariable(int label) {
+		this.freeVariables.add(label);
+	}
 
 	@Override
 	public ILatticeValue eval(List<ILatticeValue> analysisList) {
@@ -45,10 +49,6 @@ public class Recombination implements IConstraint {
             current = current.join(analysisList.get(i));
         }
 		return current;
-	}
-	
-	public void insertFreeVariable(int label) {
-		this.freeVariables.add(label);
 	}
 
 	@Override
