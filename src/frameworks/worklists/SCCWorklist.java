@@ -26,6 +26,7 @@ public class SCCWorklist implements IWorklist {
 
 	private Set<Integer> pending;
 	private List<Integer> current;
+	private Set<Integer> currentSCC;
 	
 	private int numberOfInsertions = 0;
 	private int numberOfExtractions = 0;
@@ -48,12 +49,20 @@ public class SCCWorklist implements IWorklist {
 
 		pending = new HashSet<Integer>();
 		current = new LinkedList<Integer>();
+		currentSCC = new HashSet<Integer>();
 
 		initialize();
 
 	}
 
 	private void initialize() {
+
+		/*
+		System.out.println("Constraints (" + constraints.size() + "):");
+		for (int i = 0; i < constraints.size(); i++) {
+			System.out.println("" + i + ": " + constraints.get(i));
+		}
+		*/
 
 		// Find the reverse post order
 		marks = new boolean[numberOfConstraints];
@@ -142,7 +151,7 @@ public class SCCWorklist implements IWorklist {
 
 	}
 
-	private void sortConstraintsBasedOnOutTypes(List<Integer> constraintIndices) {
+	private void sortConstraintsBasedOnBranchTypes(List<Integer> constraintIndices) {
 		Comparator<Integer> outTypeComparator = new Comparator<Integer>() {
 			@Override
 			public int compare(Integer i1, Integer i2) {
@@ -163,7 +172,7 @@ public class SCCWorklist implements IWorklist {
 	private void findReversePostOrder(int constraint) {
 		marks[constraint] = true;
 		List<Integer> incidentTos = new ArrayList<Integer>(influenceList.get(constraint));
-		sortConstraintsBasedOnOutTypes(incidentTos);
+		sortConstraintsBasedOnBranchTypes(incidentTos);
 		for (int i = 0; i < incidentTos.size(); i++) {
 			int incidentTo = incidentTos.get(i);
 			if (!marks[incidentTo]) {
@@ -177,7 +186,9 @@ public class SCCWorklist implements IWorklist {
 	@Override
 	public void insert(int index) {
 		numberOfInsertions += 1;
-		if (current.isEmpty() || current.get(0) != index) {
+		// If we have considered all constraints in the current SCC
+		// or if the current SCC does not contain the node to be inserted.
+		if (!currentSCC.contains(index) || current.isEmpty()) {
 			pending.add(index);
 		}
 	}
@@ -189,11 +200,10 @@ public class SCCWorklist implements IWorklist {
 		if(current.isEmpty()) {
 			int minPending = Collections.min(pending, comparator);
 			int SCCIndexOfMinPending = whichStronglyConnectedComponent[minPending];
-			Set<Integer> SCCOfMinPending =
-					stronglyConnectedComponents.get(SCCIndexOfMinPending);
-			current.addAll(SCCOfMinPending);
+			currentSCC = stronglyConnectedComponents.get(SCCIndexOfMinPending);
+			current.addAll(currentSCC);
 			Collections.sort(current, comparator);
-			pending.removeAll(SCCOfMinPending);
+			pending.removeAll(currentSCC);
 		}
 		return current.remove(0);
 	}

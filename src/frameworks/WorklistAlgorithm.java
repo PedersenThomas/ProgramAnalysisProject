@@ -38,9 +38,12 @@ public class WorklistAlgorithm {
 	public List<ILatticeValue> run() {
 
 		while (!worklist.isEmpty()) {
+			//System.out.println(worklist);
 			int index = worklist.extract();
             IConstraint constraint = constraints.get(index);
 			ILatticeValue newValue = constraint.eval(analysis);
+			//System.out.println("Old: " + analysis.get(index));
+			//System.out.println("New: " + newValue);
 			if (!newValue.isSubset(analysis.get(index))) {
                 analysis.set(index, analysis.get(index).join(newValue));
 				for (int indexPrime : influenceList.get(index)) {
@@ -60,7 +63,7 @@ public class WorklistAlgorithm {
 			return "This Worklist Algorithm has not been run.";
 		} else {
 			StringBuilder result = new StringBuilder();
-			result.append("Result of " + framework + " using a " + worklist.getName() + ":\n");
+			result.append("The results of " + framework + " using a " + worklist.getName() + ":\n");
 			result.append("\n" + framework.labelsTable() + "\n");
 			result.append(framework.formatResult(this.analysis));
 			result.append("\nWorklist Statistics:\n");
