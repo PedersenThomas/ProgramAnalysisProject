@@ -139,8 +139,10 @@ public class FlowGraph {
 //			}
 			AddFlowNode(l.label, conditionLabel, l.type);
 		}
-
-		return conditionPrevious;
+		
+		List<FlowGraphBranchType> conditionFalsePrevious = new ArrayList<FlowGraphBranchType>();
+		conditionFalsePrevious.add(new FlowGraphBranchType(conditionLabel, BranchType.False));
+		return conditionFalsePrevious;
 	}
 
 	private List<FlowGraphBranchType> convertIfStatement(List<FlowGraphBranchType> previous, IfStatement statement) {
@@ -154,7 +156,7 @@ public class FlowGraph {
 		
 		//False Branch
 		List<FlowGraphBranchType> conditionFalsePrevious = new ArrayList<FlowGraphBranchType>();
-		conditionFalsePrevious.add(new FlowGraphBranchType(conditionLabel, BranchType.True));
+		conditionFalsePrevious.add(new FlowGraphBranchType(conditionLabel, BranchType.False));
 		List<FlowGraphBranchType> falseLabels = convertStatements(conditionFalsePrevious, statement.getFalseBody());
 
 		// Join the two ends together to one set.
