@@ -42,13 +42,14 @@ public class SCCWorklistTest {
         getAllPrograms(programsDirectory, allPrograms);
 
         for (File program : allPrograms) {
+            System.out.println(program);
 
             TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(program.getAbsolutePath()));
             CommonTokenStream tokens = new CommonTokenStream(lex);
             TheLangParser parser = new TheLangParser(tokens);
 
             TheLangParser.program_return parserResult = parser.program();
-            CommonTree tree = (CommonTree) parserResult.getTree();
+            CommonTree tree = parserResult.tree;
             Program theProgram = AstBuilder.build(tree);
             FlowGraph flowGraph = new FlowGraph(theProgram);
 

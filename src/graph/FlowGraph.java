@@ -17,7 +17,7 @@ import ast.WhileStatement;
 
 public class FlowGraph {
 	public static final int StartLabel = 1;
-	private static int labelcount = StartLabel;
+	private int labelcount = StartLabel;
 	private HashMap<Integer, ILabelable> labelMapping = new HashMap<Integer, ILabelable>();
 
 	private Map<Integer, List<FlowGraphEdge>> flowForward  = new HashMap<Integer, List<FlowGraphEdge>>();
@@ -197,4 +197,15 @@ public class FlowGraph {
 			this.freeVariables.add(new Variable(((ArrayDeclaration) declaration).getName(), VariableType.Array));
 		}
 	}
+
+	@Override
+	public String toString() {
+		return  "FlowGraph{" +
+				"freeVariables=" + freeVariables + "\n" +
+				"          labelMapping=" + labelMapping + "\n" +
+				"          flowForward=" + flowForward + "\n" +
+				"		  flowBackward=" + flowBackward + "\n" +
+				'}';
+	}
+
 }

@@ -33,6 +33,6 @@ public class IfStatement extends Statement {
 	}
 	
 	public String toString() {
-		return "if " + condition + " then\n" + trueBody + "else\n" + falseBody + "fi";
+		return "if " + condition + " then " + trueBody + " else " + falseBody + " fi";
 	}
 }
