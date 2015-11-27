@@ -62,13 +62,13 @@ public class FlowGraph {
 		// program.statements.add(new SkipStatement(null));
 		// }
 
-		List<Integer> previous = new ArrayList<Integer>();
+		List<FlowGraphBranchType> previous = new ArrayList<FlowGraphBranchType>();
 		if (lastLabel != null) {
-			previous.add(lastLabel);
+			previous.add(new FlowGraphBranchType(lastLabel, BranchType.None) );
 		}
 
 		// Statements
-		convertStatements(previous, program.statements, BranchType.None);
+		convertStatements(previous, program.statements);
 	}
 
 	public List<FlowGraphEdge> getNodeOutNodes(int label) {
@@ -87,81 +87,86 @@ public class FlowGraph {
 		}
 	}
 
-	private List<Integer> convertStatement(List<Integer> previous, Statement statement, BranchType type) {
+	private List<FlowGraphBranchType> convertStatement(List<FlowGraphBranchType> previous, Statement statement) {
 		// Dispatching the statements
 		if (statement instanceof WhileStatement) {
-			return convertWhileStatement(previous, (WhileStatement) statement, type);
+			return convertWhileStatement(previous, (WhileStatement) statement);
 
 		} else if (statement instanceof IfStatement) {
-			return convertIfStatement(previous, (IfStatement) statement, type);
+			return convertIfStatement(previous, (IfStatement) statement);
 		}
 
 		// Base case where there are no special control flow
 		int label = labelProgramPoint(statement);
-		AddAllFlowNode(previous, label, type);
-		List<Integer> lastLabels = new ArrayList<Integer>();
-		lastLabels.add(label);
+		AddAllFlowNode(previous, label);
+		List<FlowGraphBranchType> lastLabels = new ArrayList<FlowGraphBranchType>();
+		lastLabels.add(new FlowGraphBranchType(label, BranchType.None));
 		return lastLabels;
 	}
 
-	private List<Integer> convertStatements(List<Integer> previous, List<Statement> statements, BranchType type) {
-		List<Integer> prev = new ArrayList<Integer>();
+	private List<FlowGraphBranchType> convertStatements(List<FlowGraphBranchType> previous, List<Statement> statements) {
+		List<FlowGraphBranchType> prev = new ArrayList<FlowGraphBranchType>();
 		if (!statements.isEmpty()) {
 			prev = previous;
 		}
 		
-		prev = convertStatement(prev, statements.get(0), type);
+		prev = convertStatement(prev, statements.get(0));
 		
 		for (int i = 1; i < statements.size(); i++) {
-			BranchType branchType = BranchType.None;
-			if(statements.get(i-1) instanceof WhileStatement) {
-				branchType = BranchType.False;
-			}
+//			BranchType branchType = BranchType.None;
+//			if(statements.get(i-1) instanceof WhileStatement) {
+//				branchType = BranchType.False;
+//			}
 			Statement statement = statements.get(i);
-			prev = convertStatement(prev, statement, branchType);
+			prev = convertStatement(prev, statement);
 		}
 		return prev;
 	}
 
-	private List<Integer> convertWhileStatement(List<Integer> previous, WhileStatement statement, BranchType previousType) {
+	private List<FlowGraphBranchType> convertWhileStatement(List<FlowGraphBranchType> previous, WhileStatement statement) {
 		int conditionLabel = labelProgramPoint(statement);
-		AddAllFlowNode(previous, conditionLabel, previousType);
+		AddAllFlowNode(previous, conditionLabel);
 
-		List<Integer> conditionPrevious = new ArrayList<Integer>();
-		conditionPrevious.add(conditionLabel);
-		List<Integer> prev = convertStatements(conditionPrevious, statement.getBody(), BranchType.True);
+		List<FlowGraphBranchType> conditionPrevious = new ArrayList<FlowGraphBranchType>();
+		conditionPrevious.add(new FlowGraphBranchType(conditionLabel, BranchType.True));
+		List<FlowGraphBranchType> prev = convertStatements(conditionPrevious, statement.getBody());
 
 		// Loopback from while body to condition
-		for (Integer l : prev) {
-			BranchType type = BranchType.None;
-			if (labelMapping.get(l) instanceof WhileStatement) {
-				type = BranchType.False;
-			}
-			AddFlowNode(l, conditionLabel, type);
+		for (FlowGraphBranchType l : prev) {
+//			BranchType type = BranchType.None;
+//			if (labelMapping.get(l) instanceof WhileStatement) {
+//				type = BranchType.False;
+//			}
+			AddFlowNode(l.label, conditionLabel, l.type);
 		}
 
 		return conditionPrevious;
 	}
 
-	private List<Integer> convertIfStatement(List<Integer> previous, IfStatement statement, BranchType previousType) {
+	private List<FlowGraphBranchType> convertIfStatement(List<FlowGraphBranchType> previous, IfStatement statement) {
 		int conditionLabel = labelProgramPoint(statement);
-		AddAllFlowNode(previous, conditionLabel, previousType);
+		AddAllFlowNode(previous, conditionLabel);
 
-		List<Integer> conditionPrevious = new ArrayList<Integer>();
-		conditionPrevious.add(conditionLabel);
-		List<Integer> trueLabels = convertStatements(conditionPrevious, statement.getTrueBody(), BranchType.True);
-		List<Integer> falseLabels = convertStatements(conditionPrevious, statement.getFalseBody(), BranchType.False);
+		//True branch
+		List<FlowGraphBranchType> conditionTruePrevious = new ArrayList<FlowGraphBranchType>();
+		conditionTruePrevious.add(new FlowGraphBranchType(conditionLabel, BranchType.True));
+		List<FlowGraphBranchType> trueLabels = convertStatements(conditionTruePrevious, statement.getTrueBody());
+		
+		//False Branch
+		List<FlowGraphBranchType> conditionFalsePrevious = new ArrayList<FlowGraphBranchType>();
+		conditionFalsePrevious.add(new FlowGraphBranchType(conditionLabel, BranchType.True));
+		List<FlowGraphBranchType> falseLabels = convertStatements(conditionFalsePrevious, statement.getFalseBody());
 
 		// Join the two ends together to one set.
-		List<Integer> lastLabels = new ArrayList<Integer>();
+		List<FlowGraphBranchType> lastLabels = new ArrayList<FlowGraphBranchType>();
 		lastLabels.addAll(trueLabels);
 		lastLabels.addAll(falseLabels);
 		return lastLabels;
 	}
 
-	private void AddAllFlowNode(List<Integer> labels, Integer label, BranchType type) {
-		for (Integer l : labels) {
-			AddFlowNode(l, label, type);
+	private void AddAllFlowNode(List<FlowGraphBranchType> fromLabels, Integer toLabel) {
+		for (FlowGraphBranchType l : fromLabels) {
+			AddFlowNode(l.label, toLabel, l.type);
 		}
 	}
 
@@ -198,7 +203,7 @@ public class FlowGraph {
 			this.freeVariables.add(new Variable(((ArrayDeclaration) declaration).getName(), VariableType.Array));
 		}
 	}
-
+	
 	@Override
 	public String toString() {
 		return  "FlowGraph{" +
@@ -208,5 +213,13 @@ public class FlowGraph {
 				"		  flowBackward=" + flowBackward + "\n" +
 				'}';
 	}
-
+	
+	class FlowGraphBranchType {
+		int label;
+		BranchType type;
+		FlowGraphBranchType(int label, BranchType type) {
+			this.label = label;
+			this.type = type;
+		}
+	}
 }
