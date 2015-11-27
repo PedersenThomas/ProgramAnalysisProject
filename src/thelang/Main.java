@@ -1,17 +1,12 @@
 package thelang;
 
 import java.io.File;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-
 import ast.*;
 import frameworks.IWorklist;
 import frameworks.MonotoneFramework;
 import frameworks.detectionOfSigns.*;
 import frameworks.reachingDefinitions.ReachingDefinitions;
 
-import graph.Variable;
-import graph.VariableType;
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.tree.*;
@@ -121,118 +116,4 @@ public class Main {
         }
 
 	}
-
-    private static void runDetectionOfSigns(FlowGraph flowGraph) {
-        DetectionOfSigns DS = new DetectionOfSigns(flowGraph);
-        DS.initialize();
-        IWorklist worklist = new SCCWorklist(DS.getConstraints(), DS.getInfluenceList());
-        WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, DS);
-        worklistAlgorithm.run();
-        System.out.println(worklistAlgorithm);
-        /*
-        int[] order = worklist.getOrder();
-        System.out.println(ArrayUtils.toString(order));
-        List<IConstraint> constraints = DS.getConstraints();
-        for (int i = 0; i < order.length; i++) {
-            int j;
-            for (j = 0; j < order.length; j++) {
-                if (i == order[j]) {
-                    break;
-                }
-            }
-            System.out.println("" + j + " " + constraints.get(j));
-        }
-        */
-    }
-
-    public static void testArithmeticExpressions(Program theProgram) {
-        System.out.println("!#€%&/()=?` TEST OF ARITHMETIC EXPRESSIONS! !#€%&/()=?`");
-        ArithmeticExpression expression = ((WriteStatement) theProgram.statements.get(0)).getExpression();
-        System.out.println(expression);
-
-        HashMap<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
-        signState.put(new Variable("A", VariableType.Array), new SetOfSigns(Signs.zero));
-        signState.put(new Variable("a", VariableType.Variable), new SetOfSigns(Signs.negative));
-
-        System.out.println(Util.evalDSArithmeticExpression(expression, signState));
-    }
-
-    public static void testBooleanExpressions(Program theProgram) {
-        System.out.println("!#€%&/()=?` TEST OF BOOLEAN EXPRESSIONS! !#€%&/()=?`");
-        BooleanExpression expression = ((IfStatement) theProgram.statements.get(0)).getCondition();
-        System.out.println("The expression:");
-        System.out.println(expression);
-
-        HashMap<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
-        signState.put(new Variable("A", VariableType.Array), new SetOfSigns(Signs.zero));
-        signState.put(new Variable("a", VariableType.Variable), new SetOfSigns(Signs.negative));
-        signState.put(new Variable("b", VariableType.Variable), new SetOfSigns(Signs.positive));
-
-        System.out.println(Util.evalDSBooleanExpression(expression, signState));
-    }
-
-    public static void RunReachingDefinitions(FlowGraph flowGraph) {
-        ReachingDefinitions RD = new ReachingDefinitions(flowGraph);
-        RD.initialize();
-        IWorklist worklist = new LIFOWorklist();
-        WorklistAlgorithm worklistAlgorithm = new WorklistAlgorithm(worklist, RD);
-        worklistAlgorithm.run();
-        System.out.println(worklistAlgorithm);
-
-        /*
-        System.out.println("Worklist Stats. Inserts: " + workList.getNumberOfInsertions() + " Extracts: " + workList.getNumberOfExtractions());
-		System.out.println("Final values:");
-	    for (int i = 0; i < result.size(); i++) {
-	    	StringBuilder buffer = new StringBuilder();
-	    	buffer.append("Variable " + i + ": {");
-	    	BitSet value = ((RDLatticeValue) result.get(i)).getBitSet();
-	    	for (int bitIndex = value.nextSetBit(0); bitIndex != -1; bitIndex = value.nextSetBit(bitIndex + 1)) {
-	    	    buffer.append("(" + RD.constructAssignmentTable().get(bitIndex).toString() + "), ");
-	    	}
-	    	buffer.append("}");
-	    	//System.out.println(buffer);
-	    	
-	    }
-	    
-	    for (int label = -1; label <= flowgraph.getLabelMap().size(); label++) {
-			//List<Integer> constraints = RD.LabelMapToConstraints(label);
-			String tokenText = "" + flowgraph.getLabelMap().get(label);
-			ILabelable astObj = flowgraph.getLabelMap().get(label);
-			if (astObj != null && astObj instanceof WhileStatement) {
-				WhileStatement ast = (WhileStatement)astObj;
-				tokenText = "While " + ast.getCondition() + " do";
-			} else if (astObj != null && astObj instanceof IfStatement) {
-				IfStatement ast = (IfStatement)astObj;
-				tokenText = "If " + ast.getCondition() + " then";
-			}
-			//System.out.println("Label: " + label + " Constraints: " + constraints + " Token: " + tokenText);
-		}
-		*/
-	}
-
-    public static void testAtom() {
-        Set<Signs> signs1 = new HashSet<Signs>();
-        signs1.add(Signs.negative);
-        signs1.add(Signs.zero);
-
-        Set<Signs> signs2 = new HashSet<Signs>();
-        signs2.add(Signs.positive);
-
-        Set<Signs> signs3 = new HashSet<Signs>();
-        signs3.add(Signs.negative);
-        signs3.add(Signs.zero);
-        signs3.add(Signs.positive);
-
-        HashMap<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
-        signState.put(new Variable("a", VariableType.Variable), new SetOfSigns(signs1));
-        signState.put(new Variable("b", VariableType.Array), new SetOfSigns(signs3));
-        signState.put(new Variable("c", VariableType.Variable), new SetOfSigns(signs3));
-
-        Set<Map<Variable, SetOfSigns>> atoms = Util.atom(signState);
-
-        System.out.println("TEST OF ATOM:");
-        System.out.println(atoms);
-        System.out.println(atoms.size());
-    }
-
 }
