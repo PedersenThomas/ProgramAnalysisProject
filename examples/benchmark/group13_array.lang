@@ -1,5 +1,6 @@
 program
 int a;
+int b;
 int A[10];
 int x;
 int z;
@@ -9,7 +10,7 @@ skip;
 read a;
 read A[a];
 x := a+b;
-while (a < 15) (* Comment here *) do
+while (a < 15) do
 	a := a+1;
 	A[a] := a;
 od

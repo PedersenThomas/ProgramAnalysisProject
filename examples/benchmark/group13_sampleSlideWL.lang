@@ -1,9 +1,19 @@
 program
-if(b1 = 0) then
+int b1;
+int b2;
+int b3;
+int x;
+int y;
+int a1;
+int a2;
+int a3;
+if (b1 = 0) then
 	while (b2 > 1) do
 		x := a1;
 		if(b1 = 0) then
 			y := a1;
+		else
+			skip;
 		fi
 	od
 else

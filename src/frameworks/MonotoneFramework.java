@@ -185,6 +185,7 @@ public abstract class MonotoneFramework {
                     exitConstraint = getFalseTransferFunction(inputIndex, condition);
                     break;
                 default:
+                    System.out.println("From " + edge.getLabel1() + " to " + edge.getLabel2() + " with type " + edge.getType());
                     throw new IllegalArgumentException("Unexpected type of edge.");
             }
             addBooleanExitConstraint(edge, exitConstraint);
