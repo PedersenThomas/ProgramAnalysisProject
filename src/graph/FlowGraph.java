@@ -57,7 +57,7 @@ public class FlowGraph {
 
 		// // To make sure there are Isolated Exit
 		// if (program.statements.get(program.statements.size() - 1) instanceof
-		// IfStatement) {
+		// WhileStatement) {
 		// program.statements.add(new SkipStatement(null));
 		// }
 
@@ -165,8 +165,6 @@ public class FlowGraph {
 	}
 
 	private void AddFlowNode(Integer label1, Integer label2, BranchType type) {
-		System.out.println("Flow: (" + label1 + ","+label2+"){"+type+"}");
-		
 		if (!flowForward.containsKey(label1)) {
 			flowForward.put(label1, new ArrayList<FlowGraphEdge>());
 		}
