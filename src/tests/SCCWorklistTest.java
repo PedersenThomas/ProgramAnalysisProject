@@ -53,8 +53,6 @@ public class SCCWorklistTest {
             Program theProgram = AstBuilder.build(tree);
             FlowGraph flowGraph = new FlowGraph(theProgram);
 
-            System.out.println(flowGraph);
-
             MonotoneFramework reachingDefinitions = new ReachingDefinitions(flowGraph);
             reachingDefinitions.initialize();
             MonotoneFramework detectionOfSigns = new DetectionOfSigns(flowGraph);

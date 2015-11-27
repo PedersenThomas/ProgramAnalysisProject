@@ -1,7 +1,7 @@
 program
 int a[30];
 int i;
-low int x;
+int x;
 x:=2;
 a[1]:=-2;
 read a[5];

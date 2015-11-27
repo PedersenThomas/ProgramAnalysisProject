@@ -6,7 +6,6 @@ import java.util.List;
 import frameworks.IConstraint;
 import frameworks.IWorklist;
 import graph.BranchType;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class SCCWorklist implements IWorklist {
 
@@ -25,8 +24,8 @@ public class SCCWorklist implements IWorklist {
 	List<Set<Integer>> stronglyConnectedComponents;
 
 	private Set<Integer> pending;
-	private List<Integer> current;
-	private Set<Integer> currentSCC;
+	private List<Integer> currentAsList;
+	private Set<Integer> currentAsSet;
 	
 	private int numberOfInsertions = 0;
 	private int numberOfExtractions = 0;
@@ -48,8 +47,8 @@ public class SCCWorklist implements IWorklist {
 		numberOfConstraints = influenceList.size();
 
 		pending = new HashSet<Integer>();
-		current = new LinkedList<Integer>();
-		currentSCC = new HashSet<Integer>();
+		currentAsList = new LinkedList<Integer>();
+		currentAsSet = new HashSet<Integer>();
 
 		initialize();
 
@@ -193,9 +192,9 @@ public class SCCWorklist implements IWorklist {
 	@Override
 	public void insert(int index) {
 		numberOfInsertions += 1;
-		// If we have considered all constraints in the current SCC
-		// or if the current SCC does not contain the node to be inserted.
-		if (!currentSCC.contains(index) || current.isEmpty()) {
+		// If we have considered all constraints in the currentAsList SCC
+		// or if the currentAsList SCC does not contain the node to be inserted.
+		if (!currentAsSet.contains(index)) {
 			pending.add(index);
 		}
 	}
@@ -204,20 +203,22 @@ public class SCCWorklist implements IWorklist {
 	public int extract() {
 		assert (!isEmpty());
 		numberOfExtractions += 1;
-		if(current.isEmpty()) {
+		if(currentAsList.isEmpty()) {
 			int minPending = Collections.min(pending, comparator);
 			int SCCIndexOfMinPending = whichStronglyConnectedComponent[minPending];
-			currentSCC = stronglyConnectedComponents.get(SCCIndexOfMinPending);
-			current.addAll(currentSCC);
-			Collections.sort(current, comparator);
-			pending.removeAll(currentSCC);
+			currentAsSet = new HashSet<>(stronglyConnectedComponents.get(SCCIndexOfMinPending));
+			currentAsList.addAll(currentAsSet);
+			Collections.sort(currentAsList, comparator);
+			pending.removeAll(currentAsSet);
 		}
-		return current.remove(0);
+		int removed = currentAsList.remove(0);
+		currentAsSet.remove(removed);
+		return removed;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return current.isEmpty() && pending.isEmpty();
+		return currentAsList.isEmpty() && pending.isEmpty();
 	}
 
 	@Override
@@ -237,7 +238,7 @@ public class SCCWorklist implements IWorklist {
 
 	@Override
 	public String toString() {
-		return "current=" + current + ", pending=" + pending + ", size=" + (current.size() + pending.size());
+		return "current=" + currentAsList + ", pending=" + pending + ", size=" + (currentAsList.size() + pending.size());
 	}
 
 	public int[] getOrder() {

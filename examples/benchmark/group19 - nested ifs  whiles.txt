@@ -13,15 +13,15 @@ while a <= 20 do
 			x := -2;
 		else
 			while x < 15 do
-				x :=  x + 1;
+				x := x + 1;
 			od
 		fi
-	else 
-		x :=4;
+	else
+		x := 4;
 		while a > x do
-			x := x -1;
+			x := x - 1;
+		od
 	fi
-	z := x/a;
-	y := x * x;
-	a := a + 1;
 od
+
+end

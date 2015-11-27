@@ -7,9 +7,11 @@ x := a +1;
 
 while a <= 20 do
 	a := a + 1;
-	x = x * x;
+	x := x * x;
 	if x > a then
 		read x;
+	else
+		skip;
 	fi
 od
 
