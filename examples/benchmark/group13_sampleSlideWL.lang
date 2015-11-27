@@ -1,15 +1,15 @@
 program
 if(b1 = 0) then
-while (b2 > 1) do
-x := a1;
-if(b1 = 0) then
-y := a1;
-fi
-od
+	while (b2 > 1) do
+		x := a1;
+		if(b1 = 0) then
+			y := a1;
+		fi
+	od
 else
-while (b3 > 2) do
-x := a2;
-od
+	while (b3 > 2) do
+		x := a2;
+	od
 fi
 x := a3;
 end

@@ -10,8 +10,8 @@ read a;
 read A[a];
 x := a+b;
 while (a < 15) (* Comment here *) do
-a := a+1;
-A[a] := a;
+	a := a+1;
+	A[a] := a;
 od
 write(a);
 end

@@ -1,11 +1,10 @@
 program
-low int x;
-high int A[20];
+int x;
+int A[20];
 int y;
 x:=5;
 y:=1;
-if x>1
-then
+if x>1 then
     y:=x*y;
     x:=x-1;
 else

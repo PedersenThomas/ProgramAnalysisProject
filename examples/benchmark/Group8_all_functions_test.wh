@@ -10,10 +10,10 @@ A[i+1]:=A[i-1]+A[i]; i:=i+1; skip;
 od;
 i:=5;
 if (false | !false | true) then
-i:=-3 + 4;
+	i:=-3 + 4;
 else
-write i;
-read i;
-read A[i];
+	write i;
+	read i;
+	read A[i];
 fi;
 end

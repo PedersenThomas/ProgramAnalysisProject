@@ -1,6 +1,7 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ public class FlowGraph {
 	private Map<Integer, List<FlowGraphEdge>> flowBackward = new HashMap<Integer, List<FlowGraphEdge>>();
 	private ArrayList<Variable> freeVariables = new ArrayList<Variable>();
 
-	public HashMap<Integer, ILabelable> getLabelMap() {
-		return labelMapping;
+	public Map<Integer, ILabelable> getLabelMap() {
+		return Collections.unmodifiableMap(labelMapping);
 	}
 
 	public ArrayList<Variable> getFreeVariables() {

@@ -5,8 +5,7 @@ low int x;
 x:=2;
 a[1]:=-2;
 read a[5];
-if x>1
-then
+if x>1 then
     x:=x-1;
 else
    	write x;
