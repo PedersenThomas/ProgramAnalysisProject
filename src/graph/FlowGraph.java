@@ -204,6 +204,16 @@ public class FlowGraph {
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return  "FlowGraph{" +
+				"freeVariables=" + freeVariables + "\n" +
+				"          labelMapping=" + labelMapping + "\n" +
+				"          flowForward=" + flowForward + "\n" +
+				"		  flowBackward=" + flowBackward + "\n" +
+				'}';
+	}
+	
 	class FlowGraphBranchType {
 		int label;
 		BranchType type;

@@ -28,6 +28,6 @@ public class WhileStatement extends Statement {
 	
 	@Override
 	public String toString() {
-		return "While " + condition + " do\n" + body;
+		return "while " + condition + " do " + body + " od";
 	}
 }

@@ -3021,7 +3021,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class program_return extends ParserRuleReturnScope {
-        CommonTree tree;
+        public CommonTree tree;
         public Object getTree() { return tree; }
     };
 
