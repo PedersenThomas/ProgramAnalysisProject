@@ -79,10 +79,12 @@ public class SCCWorklist implements IWorklist {
 		// Compute the reverse graph
 		computeReverseInfluenceList();
 
+		/*
 		System.out.println("Original influence list:");
 		System.out.println(influenceList);
 		System.out.println("Reversed:");
 		System.out.println(reverseInfluenceList);
+		*/
 
 		// Add all constraints to a list of constraints to be visited
 		List<Integer> constraintsToBeVisited = new ArrayList<Integer>();
@@ -93,8 +95,10 @@ public class SCCWorklist implements IWorklist {
 		// Sort this list in ascending order
 		Collections.sort(constraintsToBeVisited, comparator);
 
+		/*
 		System.out.println("Order of finishing times:");
 		System.out.println(constraintsToBeVisited);
+		*/
 
 		// Find the strongly connected components
 		marks = new boolean[numberOfConstraints];  // Set all marks to false
@@ -102,10 +106,13 @@ public class SCCWorklist implements IWorklist {
 		stronglyConnectedComponents = new ArrayList<>();
 		depthFirstSearchComponents(constraintsToBeVisited);
 
+		/*
 		System.out.println("whichStronglyConnectedComponent:");
 		System.out.println(ArrayUtils.toString(whichStronglyConnectedComponent));
 		System.out.println("Strongly connected components");
 		System.out.println(stronglyConnectedComponents);
+		*/
+
 	}
 
 	private void depthFirstSearchComponents(List<Integer> constraintsToBeVisited) {
