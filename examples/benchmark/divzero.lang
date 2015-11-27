@@ -1,5 +1,7 @@
 program
-int A[10]; int i; int x;
+int A[10]; 
+int i; 
+int x;
 read i; A[i] := i;
 if A[i] >= 0 then
     x := A[i] * A[i] + 1; i := 5;

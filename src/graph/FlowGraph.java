@@ -1,6 +1,7 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,15 +18,15 @@ import ast.WhileStatement;
 
 public class FlowGraph {
 	public static final int StartLabel = 1;
-	private static int labelcount = StartLabel;
+	private int labelcount = StartLabel;
 	private HashMap<Integer, ILabelable> labelMapping = new HashMap<Integer, ILabelable>();
 
 	private Map<Integer, List<FlowGraphEdge>> flowForward  = new HashMap<Integer, List<FlowGraphEdge>>();
 	private Map<Integer, List<FlowGraphEdge>> flowBackward = new HashMap<Integer, List<FlowGraphEdge>>();
 	private ArrayList<Variable> freeVariables = new ArrayList<Variable>();
 
-	public HashMap<Integer, ILabelable> getLabelMap() {
-		return labelMapping;
+	public Map<Integer, ILabelable> getLabelMap() {
+		return Collections.unmodifiableMap(labelMapping);
 	}
 
 	public ArrayList<Variable> getFreeVariables() {

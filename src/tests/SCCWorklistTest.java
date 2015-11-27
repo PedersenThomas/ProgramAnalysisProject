@@ -42,8 +42,8 @@ public class SCCWorklistTest {
         getAllPrograms(programsDirectory, allPrograms);
 
         for (File program : allPrograms) {
-
-            TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(program.getAbsolutePath()));
+        	String filePath = program.getAbsolutePath();
+            TheLangLexer lex = new TheLangLexer(new ANTLRFileStream(filePath));
             CommonTokenStream tokens = new CommonTokenStream(lex);
             TheLangParser parser = new TheLangParser(tokens);
 
