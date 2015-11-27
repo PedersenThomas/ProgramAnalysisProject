@@ -3,7 +3,7 @@ int x;
 int a;
 
 a := 1;
-x := a +1;
+x := a + 1;
 
 while a <= 20 do
 	a := a + 1;
@@ -16,3 +16,5 @@ while a <= 20 do
 od
 
 a := 2;
+
+end

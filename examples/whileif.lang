@@ -1,4 +1,5 @@
 program
+int i;
 (* Must insert skip here to get Isolated Entry *)
 while i < 10 do
    if i/2*2 = i then

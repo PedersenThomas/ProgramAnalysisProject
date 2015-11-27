@@ -3,6 +3,7 @@ program
 int a;
 int x;
 int y;
+int z;
 
 a := -1;
 x := 10;
@@ -17,3 +18,5 @@ while a <= 20 do
 	y := x * x;
 	a := a + 1;
 od
+
+end

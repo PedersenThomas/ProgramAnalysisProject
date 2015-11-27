@@ -5,7 +5,7 @@ int A[20];
 int z;
 if x<6 then
 	A[-1]:= x;
-	z= x-1;
+	z := x-1;
 else
 	write z;
 fi

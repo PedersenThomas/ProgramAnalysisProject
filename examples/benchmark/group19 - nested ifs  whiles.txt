@@ -3,6 +3,7 @@ program
 int a;
 int x;
 int y;
+int z;
 
 a := -1;
 x := 10;
