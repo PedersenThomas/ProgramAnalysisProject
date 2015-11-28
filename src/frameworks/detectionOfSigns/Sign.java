@@ -1,6 +1,6 @@
 package frameworks.detectionOfSigns;
 
-public enum Signs {
+public enum Sign {
     negative,
 	zero,
 	positive;

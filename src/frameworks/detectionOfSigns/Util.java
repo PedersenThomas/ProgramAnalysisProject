@@ -9,9 +9,9 @@ import java.util.*;
 public class Util {
 
 	public static final SetOfSigns EMPTY_SET = new SetOfSigns();
-	public static final SetOfSigns NEGATIVE_ONLY = new SetOfSigns(Signs.negative);
-	public static final SetOfSigns ZERO_ONLY = new SetOfSigns(Signs.zero);
-	public static final SetOfSigns POSITIVE_ONLY = new SetOfSigns(Signs.positive);
+	public static final SetOfSigns NEGATIVE_ONLY = new SetOfSigns(Sign.negative);
+	public static final SetOfSigns ZERO_ONLY = new SetOfSigns(Sign.zero);
+	public static final SetOfSigns POSITIVE_ONLY = new SetOfSigns(Sign.positive);
 	public static final SetOfSigns ALL;
 	private static final SetOfSigns[][] ADDITION_TABLE;
 	private static final SetOfSigns[][] SUBTRACTION_TABLE;
@@ -29,10 +29,10 @@ public class Util {
 
 	static {
 
-		Set<Signs> all = new HashSet<Signs>();
-		all.add(Signs.negative);
-		all.add(Signs.zero);
-		all.add(Signs.positive);
+		Set<Sign> all = new HashSet<Sign>();
+		all.add(Sign.negative);
+		all.add(Sign.zero);
+		all.add(Sign.positive);
 		ALL = new SetOfSigns(all);
 
 		SetOfSigns[][] additionTable = { { NEGATIVE_ONLY, NEGATIVE_ONLY, ALL },
@@ -105,11 +105,11 @@ public class Util {
 			Constant con = (Constant) expression;
 			int value = con.getNumber();
 			if (value < 0) {
-				return new SetOfSigns(Signs.negative);
+				return new SetOfSigns(Sign.negative);
 			} else if (value == 0) {
-				return new SetOfSigns(Signs.zero);
+				return new SetOfSigns(Sign.zero);
 			} else { // Positive
-				return new SetOfSigns(Signs.positive);
+				return new SetOfSigns(Sign.positive);
 			}
 		} else if (expression instanceof ArithmeticArray) {
 			ArithmeticArray aArray = (ArithmeticArray) expression;
@@ -139,10 +139,10 @@ public class Util {
 
 	private static SetOfSigns combine(ArithmeticOperator operator, SetOfSigns left, SetOfSigns right) {
 
-		Set<Signs> result = new HashSet<Signs>();
+		Set<Sign> result = new HashSet<Sign>();
 
-		for (Signs leftSign : left.getSigns()) {
-			for (Signs rightSign : right.getSigns()) {
+		for (Sign leftSign : left.getSigns()) {
+			for (Sign rightSign : right.getSigns()) {
 				switch (operator) {
 				case Plus:
 					result.addAll(ADDITION_TABLE[toIndex(leftSign)][toIndex(rightSign)].getSigns());
@@ -166,7 +166,7 @@ public class Util {
 
 	}
 
-	private static int toIndex(Signs sign) {
+	private static int toIndex(Sign sign) {
 		switch (sign) {
 		case zero:
 			return 1;
@@ -212,7 +212,7 @@ public class Util {
                 clone.put(firstEntry.getKey(), firstEntry.getValue());
                 result.add(clone);
             } else {
-                for (Signs sign : firstSetOfSigns.getSigns()) {
+                for (Sign sign : firstSetOfSigns.getSigns()) {
                     Map<Variable, SetOfSigns> clone = new HashMap<Variable, SetOfSigns>(atom);
                     clone.put(firstEntry.getKey(), new SetOfSigns(sign));
                     result.add(clone);
@@ -295,8 +295,8 @@ public class Util {
 
         Set<Boolean> result = new HashSet<Boolean>();
 
-        for (Signs leftSign : signsOfLeft.getSigns()) {
-            for (Signs rightSign : signsOfRight.getSigns()) {
+        for (Sign leftSign : signsOfLeft.getSigns()) {
+            for (Sign rightSign : signsOfRight.getSigns()) {
                 switch (operator) {
                     case LessThan:
                         result.addAll(LESS_THAN_TABLE[toIndex(leftSign)][toIndex(rightSign)].getBooleans());

@@ -17,8 +17,7 @@ public class DSLatticeValue implements ILatticeValue {
      **/
 
     public DSLatticeValue(Set<Variable> variables) {
-        Map<Variable, SetOfSigns> signState =
-                new HashMap<Variable, SetOfSigns>();
+        Map<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
         for(Variable variable : variables) {
             signState.put(variable, new SetOfSigns());
         }

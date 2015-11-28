@@ -6,23 +6,23 @@ import java.util.Set;
 
 public class SetOfSigns {
 
-	private final Set<Signs> signs;
+	private final Set<Sign> signs;
 
 	public SetOfSigns() {
-		this.signs = new HashSet<Signs>();
+		this.signs = new HashSet<Sign>();
 	}
 
-	public SetOfSigns(Set<Signs> signs) {
+	public SetOfSigns(Set<Sign> signs) {
 		this.signs = signs;
 	}
 
-	public SetOfSigns(Signs sign) {
-		Set<Signs> value = new HashSet<Signs>();
+	public SetOfSigns(Sign sign) {
+		Set<Sign> value = new HashSet<Sign>();
 		value.add(sign);
 		this.signs = value;
 	}
 
-    public Set<Signs> getSigns() {
+    public Set<Sign> getSigns() {
         return Collections.unmodifiableSet(signs);
     }
 
@@ -32,7 +32,7 @@ public class SetOfSigns {
 
     public boolean isSubset(SetOfSigns other) {
 		// Checks if all elements of "this" is in others.
-		for (Signs sign : this.signs) {
+		for (Sign sign : this.signs) {
 			if (!other.signs.contains(sign)) {
 				return false;
 			}
