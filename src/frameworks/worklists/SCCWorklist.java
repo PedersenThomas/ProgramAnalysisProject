@@ -56,13 +56,6 @@ public class SCCWorklist implements IWorklist {
 
 	private void initialize() {
 
-		/*
-		System.out.println("Constraints (" + constraints.size() + "):");
-		for (int i = 0; i < constraints.size(); i++) {
-			System.out.println("" + i + ": " + constraints.get(i));
-		}
-		*/
-
 		// Find the reverse post order
 		marks = new boolean[numberOfConstraints];
 		order = new int[numberOfConstraints];
@@ -78,13 +71,6 @@ public class SCCWorklist implements IWorklist {
 		// Compute the reverse graph
 		computeReverseInfluenceList();
 
-		/*
-		System.out.println("Original influence list:");
-		System.out.println(influenceList);
-		System.out.println("Reversed:");
-		System.out.println(reverseInfluenceList);
-		*/
-
 		// Add all constraints to a list of constraints to be visited
 		List<Integer> constraintsToBeVisited = new ArrayList<Integer>();
 		for (int i = 0; i < numberOfConstraints; i++) {
@@ -94,23 +80,11 @@ public class SCCWorklist implements IWorklist {
 		// Sort this list in ascending order
 		Collections.sort(constraintsToBeVisited, comparator);
 
-		/*
-		System.out.println("Order of finishing times:");
-		System.out.println(constraintsToBeVisited);
-		*/
-
 		// Find the strongly connected components
 		marks = new boolean[numberOfConstraints];  // Set all marks to false
 		whichStronglyConnectedComponent = new int[numberOfConstraints];
 		stronglyConnectedComponents = new ArrayList<>();
 		depthFirstSearchComponents(constraintsToBeVisited);
-
-		/*
-		System.out.println("whichStronglyConnectedComponent:");
-		System.out.println(ArrayUtils.toString(whichStronglyConnectedComponent));
-		System.out.println("Strongly connected components");
-		System.out.println(stronglyConnectedComponents);
-		*/
 
 	}
 
@@ -192,8 +166,6 @@ public class SCCWorklist implements IWorklist {
 	@Override
 	public void insert(int index) {
 		numberOfInsertions += 1;
-		// If we have considered all constraints in the currentAsList SCC
-		// or if the currentAsList SCC does not contain the node to be inserted.
 		if (!currentAsSet.contains(index)) {
 			pending.add(index);
 		}

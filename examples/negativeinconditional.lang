@@ -1,0 +1,15 @@
+program
+
+int A[10];
+int b;
+
+read A[0];
+b := 3;
+
+if A[b-4] = 0 then
+    write A[1];
+else
+    write A[2];
+fi
+
+end

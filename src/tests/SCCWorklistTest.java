@@ -7,6 +7,8 @@ import frameworks.MonotoneFramework;
 import frameworks.WorklistAlgorithm;
 import frameworks.detectionOfSigns.DetectionOfSigns;
 import frameworks.reachingDefinitions.ReachingDefinitions;
+import frameworks.worklists.FIFOWorklist;
+import frameworks.worklists.LIFOWorklist;
 import frameworks.worklists.SCCWorklist;
 import frameworks.worklists.SetWorklist;
 import graph.FlowGraph;
@@ -60,6 +62,10 @@ public class SCCWorklistTest {
 
             SetWorklist RDSetWorklist = new SetWorklist();
             SetWorklist DSSetWorklist = new SetWorklist();
+            FIFOWorklist RDFIFOWorklist = new FIFOWorklist();
+            FIFOWorklist DSFIFOWorklist = new FIFOWorklist();
+            LIFOWorklist RDLIFOWorklist = new LIFOWorklist();
+            LIFOWorklist DSLIFOWorkList = new LIFOWorklist();
             SCCWorklist RDSCCWorklist =
                     new SCCWorklist(reachingDefinitions.getConstraints(),
                             reachingDefinitions.getInfluenceList());
@@ -69,14 +75,26 @@ public class SCCWorklistTest {
 
             WorklistAlgorithm RDSetAlgorithm = new WorklistAlgorithm(RDSetWorklist, reachingDefinitions);
             WorklistAlgorithm DSSetAlgorithm = new WorklistAlgorithm(DSSetWorklist, detectionOfSigns);
+            WorklistAlgorithm RDFIFOAlgorithm = new WorklistAlgorithm(RDFIFOWorklist, reachingDefinitions);
+            WorklistAlgorithm DSFIFOAlgorithm = new WorklistAlgorithm(DSFIFOWorklist, detectionOfSigns);
+            WorklistAlgorithm RDLIFOAlgorithm = new WorklistAlgorithm(RDLIFOWorklist, reachingDefinitions);
+            WorklistAlgorithm DSLIFOAlgorithm = new WorklistAlgorithm(DSLIFOWorkList, detectionOfSigns);
             WorklistAlgorithm RDSCCAlgorithm = new WorklistAlgorithm(RDSCCWorklist, reachingDefinitions);
             WorklistAlgorithm DSSCCAlgorithm = new WorklistAlgorithm(DSSCCWorklist, detectionOfSigns);
 
             List<ILatticeValue> RDSetResult = RDSetAlgorithm.run();
             List<ILatticeValue> DSSetResult = DSSetAlgorithm.run();
+            List<ILatticeValue> RDFIFOResult = RDFIFOAlgorithm.run();
+            List<ILatticeValue> DSFIFOResult = DSFIFOAlgorithm.run();
+            List<ILatticeValue> RDLIFOResult = RDLIFOAlgorithm.run();
+            List<ILatticeValue> DSLIFOResult = DSLIFOAlgorithm.run();
             List<ILatticeValue> RDSCCResult = RDSCCAlgorithm.run();
             List<ILatticeValue> DSSCCResult = DSSCCAlgorithm.run();
 
+            assertEquals(RDSetResult, RDFIFOResult);
+            assertEquals(DSSetResult, DSFIFOResult);
+            assertEquals(RDSetResult, RDLIFOResult);
+            assertEquals(DSSetResult, DSLIFOResult);
             assertEquals(RDSetResult, RDSCCResult);
             assertEquals(DSSetResult, DSSCCResult);
 
