@@ -6,17 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class InitialConstraint implements IConstraint {
+public class ExtremalConstraint implements IConstraint {
 
-    private ILatticeValue initialValue;
+    private ILatticeValue extremalValue;
 	
-	public InitialConstraint(ILatticeValue initialValue) {
-		this.initialValue = initialValue;
+	public ExtremalConstraint(ILatticeValue extremalValue) {
+		this.extremalValue = extremalValue;
 	}
 	
 	@Override
 	public ILatticeValue eval(List<ILatticeValue> analysisList) {
-		return initialValue;
+		return extremalValue;
 	}
 
 	@Override
@@ -31,6 +31,6 @@ public class InitialConstraint implements IConstraint {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + ": " + initialValue;
+		return this.getClass().getSimpleName() + ": " + extremalValue;
 	}
 }

@@ -53,16 +53,16 @@ public abstract class MonotoneFramework {
     }
 
 	private void constructConstraints() {
-        createInitialConstraint();
+        createExtremalConstraint();
         createRecombinations();
         createTransferFunctions();
     }
 
-	private void createInitialConstraint() {
-        constraints.add(new InitialConstraint(getInitialLatticeValue()));
+	private void createExtremalConstraint() {
+        constraints.add(new ExtremalConstraint(getExtremalValue()));
     }
 
-	protected abstract ILatticeValue getInitialLatticeValue();
+	protected abstract ILatticeValue getExtremalValue();
 
 	private void createRecombinations() {
         for (int i = FlowGraph.StartLabel + 1; i < numberOfLabels + FlowGraph.StartLabel; i++) {
@@ -185,7 +185,6 @@ public abstract class MonotoneFramework {
                     exitConstraint = getFalseTransferFunction(inputIndex, condition);
                     break;
                 default:
-                    System.out.println("From " + edge.getLabel1() + " to " + edge.getLabel2() + " with type " + edge.getType());
                     throw new IllegalArgumentException("Unexpected type of edge.");
             }
             addBooleanExitConstraint(edge, exitConstraint);

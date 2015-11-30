@@ -84,7 +84,7 @@ public class ReachingDefinitions extends MonotoneFramework {
 	}
 
 	@Override
-	protected ILatticeValue getInitialLatticeValue() {
+	protected ILatticeValue getExtremalValue() {
 		BitSet initial = new BitSet();
 		for (int i = 0; i < getVariables().size(); i++) {
 			initial.set(i);
