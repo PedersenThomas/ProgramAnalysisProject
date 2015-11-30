@@ -12,10 +12,6 @@ public class DSLatticeValue implements ILatticeValue {
 
     private Map<Variable, SetOfSigns> signState;
 
-    /** Do not make an empty constructor!
-     *  We need to know all the variables.
-     **/
-
     public DSLatticeValue(Set<Variable> variables) {
         Map<Variable, SetOfSigns> signState = new HashMap<Variable, SetOfSigns>();
         for(Variable variable : variables) {
@@ -52,7 +48,7 @@ public class DSLatticeValue implements ILatticeValue {
     }
 
     @Override
-    public boolean isSubset(ILatticeValue other) {
+    public boolean lessThanOrEqualTo(ILatticeValue other) {
         DSLatticeValue otherDSLatticeValue = (DSLatticeValue) other;
 
         for (Map.Entry<Variable, SetOfSigns> entry

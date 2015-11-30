@@ -27,7 +27,7 @@ public class RDLatticeValue implements ILatticeValue {
     }
 
     @Override
-    public boolean isSubset(ILatticeValue other) {
+    public boolean lessThanOrEqualTo(ILatticeValue other) {
         BitSet cloneOfThisBitSet = (BitSet) this.bitSet.clone();
         RDLatticeValue otherRDLatticeValue = (RDLatticeValue) other;
         cloneOfThisBitSet.andNot(otherRDLatticeValue.bitSet);

@@ -27,4 +27,5 @@ public class FlowGraphEdge {
 	public String toString() {
 		return "(" + label1 + ", " + label2 + "){Type:" + type + "}";
 	}
+
 }

@@ -41,7 +41,7 @@ public class WorklistAlgorithm {
 			int index = worklist.extract();
             IConstraint constraint = constraints.get(index);
 			ILatticeValue newValue = constraint.eval(analysis);
-			if (!newValue.isSubset(analysis.get(index))) {
+			if (!newValue.lessThanOrEqualTo(analysis.get(index))) {
                 analysis.set(index, analysis.get(index).join(newValue));
 				for (int indexPrime : influenceList.get(index)) {
 					worklist.insert(indexPrime);

@@ -1,6 +1,6 @@
 package frameworks;
 
 public interface ILatticeValue {
-	public boolean isSubset(ILatticeValue other);
+	public boolean lessThanOrEqualTo(ILatticeValue other);
 	public ILatticeValue join(ILatticeValue other);
 }

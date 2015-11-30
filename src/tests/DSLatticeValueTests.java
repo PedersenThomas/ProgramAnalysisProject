@@ -82,8 +82,8 @@ public class DSLatticeValueTests {
         DSLatticeValue bottom1 = new DSLatticeValue(variables);
         DSLatticeValue bottom2 = new DSLatticeValue(variables);
 
-        assertTrue(bottom1.isSubset(bottom2));
-        assertTrue(bottom2.isSubset(bottom1));
+        assertTrue(bottom1.lessThanOrEqualTo(bottom2));
+        assertTrue(bottom2.lessThanOrEqualTo(bottom1));
 
         Set<Sign> signs1 = new HashSet<Sign>();
         signs1.add(Sign.negative);
@@ -107,9 +107,9 @@ public class DSLatticeValueTests {
 
         DSLatticeValue latticeValue1 = new DSLatticeValue(signState1);
 
-        assertTrue(latticeValue1.isSubset(latticeValue1));
-        assertTrue(bottom1.isSubset(latticeValue1));
-        assertFalse(latticeValue1.isSubset(bottom1));
+        assertTrue(latticeValue1.lessThanOrEqualTo(latticeValue1));
+        assertTrue(bottom1.lessThanOrEqualTo(latticeValue1));
+        assertFalse(latticeValue1.lessThanOrEqualTo(bottom1));
 
         HashMap<Variable, SetOfSigns> signState2 =
                 new HashMap<Variable, SetOfSigns>();
@@ -119,14 +119,14 @@ public class DSLatticeValueTests {
 
         DSLatticeValue latticeValue2 = new DSLatticeValue(signState2);
 
-        assertTrue(latticeValue1.isSubset(latticeValue2));
-        assertFalse(latticeValue2.isSubset(latticeValue1));
+        assertTrue(latticeValue1.lessThanOrEqualTo(latticeValue2));
+        assertFalse(latticeValue2.lessThanOrEqualTo(latticeValue1));
 
         signState1.put(new Variable("a", VariableType.Variable), new SetOfSigns(signs2));
         latticeValue1 = new DSLatticeValue(signState1);
 
-        assertTrue(latticeValue1.isSubset(latticeValue2));
-        assertTrue(latticeValue2.isSubset(latticeValue1));
+        assertTrue(latticeValue1.lessThanOrEqualTo(latticeValue2));
+        assertTrue(latticeValue2.lessThanOrEqualTo(latticeValue1));
 
         signState1.put(new Variable("a", VariableType.Variable), new SetOfSigns(signs1));
         signState2.put(new Variable("c", VariableType.Variable), new SetOfSigns(signs3));
@@ -134,8 +134,8 @@ public class DSLatticeValueTests {
         latticeValue1 = new DSLatticeValue(signState1);
         latticeValue2 = new DSLatticeValue(signState2);
 
-        assertTrue(latticeValue1.isSubset(latticeValue2));
-        assertFalse(latticeValue2.isSubset(latticeValue1));
+        assertTrue(latticeValue1.lessThanOrEqualTo(latticeValue2));
+        assertFalse(latticeValue2.lessThanOrEqualTo(latticeValue1));
 
     }
 
