@@ -28,9 +28,6 @@ import java.util.ListIterator;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by PatrickKasting on 27/11/15.
- */
 public class SCCWorklistTest {
 
     @Test
